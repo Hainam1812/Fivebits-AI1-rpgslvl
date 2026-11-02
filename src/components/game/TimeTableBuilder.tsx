@@ -10,6 +10,7 @@ import {
   addCourse,
   removeCourse,
   saveToStorage,
+  findConflictingCourses,
 } from '../../domain/timetable.js';
 import { saveStateToStorageImmediate } from '../../store/persistence.js';
 import { Card } from '../ui/Card.js';
@@ -63,14 +64,8 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
   const [courseToDelete, setCourseToDelete] = useState<CourseSlot | null>(null);
   const [isClearAllOpen, setIsClearAllOpen] = useState(false);
 
-  // Quick Conflict Check
-  const conflictingSlots = timetable.filter(
-    c =>
-      c.day === day &&
-      ((startPeriod >= c.startPeriod && startPeriod <= c.endPeriod) ||
-        (endPeriod >= c.startPeriod && endPeriod <= c.endPeriod) ||
-        (startPeriod <= c.startPeriod && endPeriod >= c.endPeriod))
-  );
+  // Conflict Check (detect any overlapping periods on the selected day)
+  const conflictingSlots = findConflictingCourses(timetable, day, startPeriod, endPeriod);
 
   const handleAddCourse = (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,6 +90,18 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
       return;
     }
 
+    // Do not allow overlapping schedules: show explicit reminder
+    if (conflictingSlots.length > 0) {
+      const dayLabel = DAYS_OF_WEEK.find(d => d.id === day)?.label || day;
+      const conflictNames = conflictingSlots
+        .map(c => `"${c.name}" (${c.code}, Tiết ${c.startPeriod}-${c.endPeriod})`)
+        .join(', ');
+      setFormError(
+        `Lịch học bị trùng! Đã có môn ${conflictNames} trên ${dayLabel}. Thời khóa biểu không cho phép trùng lịch (overlap). Vui lòng chọn tiết khác hoặc xóa môn học cũ.`
+      );
+      return;
+    }
+
     const newSlot: Omit<CourseSlot, 'id'> = {
       name: name.trim(),
       code: code.trim().toUpperCase(),
@@ -109,7 +116,7 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
     dispatch({ type: 'ADD_COURSE', payload: { course: newSlot } });
 
     // 2. Immediate persist
-    const nextList = addCourse(timetable, newSlot);
+    const nextList = addCourse(timetable, newSlot, { preventOverlap: true });
     saveStateToStorageImmediate({
       ...state,
       timetable: nextList,
@@ -144,7 +151,7 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
   const handleLoadSample = () => {
     let nextList = [...timetable];
     for (const sample of SAMPLE_COURSES) {
-      nextList = addCourse(nextList, sample);
+      nextList = addCourse(nextList, sample, { preventOverlap: true });
     }
     dispatch({ type: 'SET_TIMETABLE', payload: { courses: nextList } });
     saveStateToStorageImmediate({
@@ -388,16 +395,26 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
               </div>
             </div>
 
-            {/* Conflict Warning notice */}
+            {/* Overlap Conflict Reminder notice */}
             {conflictingSlots.length > 0 && (
-              <div className="p-3 rounded-xl bg-amber-950/40 border border-amber-500/50 flex items-start gap-2.5 text-xs text-amber-200">
-                <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <div>
-                  <strong>Chú ý trùng slot:</strong> Đã có môn{' '}
-                  <strong className="text-amber-100">
-                    {conflictingSlots.map(c => `${c.name} (${c.code}, Tiết ${c.startPeriod}-${c.endPeriod})`).join(', ')}
-                  </strong>{' '}
-                  trong khoảng thời gian này. Hệ thống vẫn cho phép lưu để hỗ trợ học ghép/thay đổi lịch.
+              <div className="p-3.5 rounded-xl bg-rose-950/70 border border-rose-500/80 flex items-start gap-2.5 text-xs text-rose-200 shadow-lg">
+                <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <div className="font-bold text-rose-300 flex items-center gap-1.5 text-sm">
+                    <span>Lịch học bị trùng! Không thể lưu</span>
+                  </div>
+                  <div>
+                    Đã có môn{' '}
+                    <strong className="text-white font-semibold">
+                      {conflictingSlots
+                        .map(c => `"${c.name}" (${c.code}, Tiết ${c.startPeriod}-${c.endPeriod})`)
+                        .join(', ')}
+                    </strong>{' '}
+                    vào thời gian này trên {DAYS_OF_WEEK.find(d => d.id === day)?.label}.
+                  </div>
+                  <div className="text-[11px] text-rose-300/80">
+                    Thời khóa biểu không cho phép trùng tiết (overlap). Vui lòng chọn tiết khác hoặc xóa môn học cũ trước.
+                  </div>
                 </div>
               </div>
             )}
@@ -417,8 +434,13 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
               >
                 Hủy
               </Button>
-              <Button variant="primary" size="sm" type="submit">
-                Lưu Môn Học Vào Thời Khóa Biểu
+              <Button
+                variant={conflictingSlots.length > 0 ? "secondary" : "primary"}
+                size="sm"
+                type="submit"
+                className={conflictingSlots.length > 0 ? "border-rose-700/60 text-rose-300 hover:bg-rose-950/30" : ""}
+              >
+                {conflictingSlots.length > 0 ? 'Lịch Bị Trùng - Nhắc Nhở & Không Thể Lưu' : 'Lưu Môn Học Vào Thời Khóa Biểu'}
               </Button>
             </div>
           </form>
@@ -472,14 +494,22 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
         /* Full Week 2D Grid with Period Spans & Lunch Break */
         <div className="rounded-2xl bg-[#0D112B] border border-slate-800 shadow-2xl overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[840px]">
+            <table className="w-full text-left border-collapse table-fixed min-w-[880px]">
+              {/* Fixed column definitions so every day column stays strictly identical in width */}
+              <colgroup>
+                <col style={{ width: '105px' }} />
+                {DAYS_OF_WEEK.map(d => (
+                  <col key={d.id} style={{ width: 'calc((100% - 105px) / 7)' }} />
+                ))}
+              </colgroup>
+
               {/* Header: Days of the week */}
               <thead>
                 <tr className="bg-[#14193D] border-b border-slate-700/80 text-xs text-slate-300 font-heading">
-                  <th className="py-3 px-3 text-center w-28 shrink-0 border-r border-slate-800 font-bold text-slate-400">
-                    <div className="flex items-center justify-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-cyan-400" />
-                      <span>Tiết / Giờ</span>
+                  <th className="py-3 px-2 text-center w-[105px] min-w-[105px] max-w-[105px] shrink-0 border-r border-slate-800 font-bold text-slate-400">
+                    <div className="flex items-center justify-center gap-1 truncate">
+                      <Clock className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                      <span className="truncate">Tiết / Giờ</span>
                     </div>
                   </th>
                   {DAYS_OF_WEEK.map(d => {
@@ -487,13 +517,14 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
                     return (
                       <th
                         key={d.id}
-                        className={`py-3 px-3 text-center border-r border-slate-800 last:border-r-0 ${
+                        style={{ width: 'calc((100% - 105px) / 7)' }}
+                        className={`py-3 px-2 text-center border-r border-slate-800 last:border-r-0 w-[calc((100%-105px)/7)] min-w-[110px] ${
                           isToday ? 'bg-cyan-950/40 text-cyan-200' : ''
                         }`}
                       >
-                        <div className="font-black text-sm">{d.label}</div>
+                        <div className="font-black text-sm truncate">{d.label}</div>
                         {isToday && (
-                          <span className="inline-block mt-0.5 px-2 py-0.2 rounded-full bg-cyan-500/20 text-cyan-300 text-[9px] font-pixel">
+                          <span className="inline-block mt-0.5 px-2 py-0.2 rounded-full bg-cyan-500/20 text-cyan-300 text-[9px] font-pixel truncate">
                             HÔM NAY
                           </span>
                         )}
@@ -527,11 +558,11 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
 
                       <tr className="hover:bg-slate-800/20 transition-colors">
                         {/* Period & Time Column */}
-                        <td className="py-2 px-2.5 text-center bg-[#101538] border-r border-slate-800 font-pixel text-slate-300 shrink-0">
+                        <td className="py-2 px-2 text-center bg-[#101538] border-r border-slate-800 font-pixel text-slate-300 w-[105px] min-w-[105px] max-w-[105px] shrink-0">
                           <div className="font-bold text-xs text-cyan-300">
                             Tiết {row.period}
                           </div>
-                          <div className="text-[10px] text-slate-500 font-sans mt-0.5">
+                          <div className="text-[10px] text-slate-500 font-sans mt-0.5 whitespace-nowrap">
                             {row.time}
                           </div>
                         </td>
@@ -555,35 +586,36 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
                               <td
                                 key={d.id}
                                 rowSpan={rowSpan}
-                                className={`p-2 align-top border-r border-slate-800 last:border-r-0 transition-all ${
+                                style={{ width: 'calc((100% - 105px) / 7)' }}
+                                className={`p-1.5 sm:p-2 align-top border-r border-slate-800 last:border-r-0 transition-all w-[calc((100%-105px)/7)] min-w-[110px] max-w-0 overflow-hidden ${
                                   isToday ? 'bg-cyan-950/20' : ''
                                 }`}
                               >
                                 <div
-                                  className={`rounded-xl p-2.5 border shadow-lg flex flex-col justify-between h-full transition-transform hover:scale-[1.01] ${color.bg} ${color.border} ${color.text}`}
+                                  className={`rounded-xl p-2 sm:p-2.5 border shadow-lg flex flex-col justify-between h-full transition-transform hover:scale-[1.01] w-full overflow-hidden ${color.bg} ${color.border} ${color.text}`}
                                   style={{ minHeight: `${rowSpan * 58 - 10}px` }}
                                 >
-                                  <div>
+                                  <div className="w-full overflow-hidden">
                                     <div className="flex items-start justify-between gap-1">
-                                      <span className={`text-[10px] font-bold font-pixel px-1.5 py-0.5 rounded-md ${color.tag}`}>
+                                      <span className={`text-[10px] font-bold font-pixel px-1.5 py-0.5 rounded-md truncate max-w-[70px] ${color.tag}`}>
                                         {course.code}
                                       </span>
                                       <button
                                         type="button"
                                         onClick={() => setCourseToDelete(course)}
-                                        className="text-slate-400 hover:text-rose-400 p-1 hover:bg-black/20 rounded transition-colors"
+                                        className="text-slate-400 hover:text-rose-400 p-1 hover:bg-black/20 rounded transition-colors shrink-0 cursor-pointer"
                                         title={`Xóa môn ${course.name}`}
                                       >
                                         <Trash2 className="w-3.5 h-3.5" />
                                       </button>
                                     </div>
 
-                                    <div className="font-bold text-xs sm:text-sm text-slate-100 font-heading mt-1 leading-snug">
+                                    <div className="font-bold text-xs sm:text-sm text-slate-100 font-heading mt-1 leading-snug break-words line-clamp-2">
                                       {course.name}
                                     </div>
                                   </div>
 
-                                  <div className="mt-2 pt-2 border-t border-white/10 space-y-1 text-[11px] text-slate-300">
+                                  <div className="mt-2 pt-2 border-t border-white/10 space-y-1 text-[11px] text-slate-300 w-full overflow-hidden">
                                     <div className="flex items-center gap-1 truncate" title={`Phòng: ${course.room}`}>
                                       <MapPin className="w-3 h-3 text-cyan-400 shrink-0" />
                                       <span className="truncate">{course.room}</span>
@@ -592,7 +624,7 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
                                       <User className="w-3 h-3 text-violet-300 shrink-0" />
                                       <span className="truncate">{course.lecturer}</span>
                                     </div>
-                                    <div className="text-[10px] font-pixel text-amber-300 font-bold">
+                                    <div className="text-[10px] font-pixel text-amber-300 font-bold truncate">
                                       Tiết {course.startPeriod} - {course.endPeriod}
                                     </div>
                                   </div>
@@ -605,7 +637,8 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
                           return (
                             <td
                               key={d.id}
-                              className={`p-2 text-center border-r border-slate-800 last:border-r-0 ${
+                              style={{ width: 'calc((100% - 105px) / 7)' }}
+                              className={`p-1.5 sm:p-2 text-center border-r border-slate-800 last:border-r-0 w-[calc((100%-105px)/7)] min-w-[110px] max-w-0 overflow-hidden ${
                                 isToday ? 'bg-cyan-950/10' : ''
                               }`}
                             >
@@ -616,7 +649,15 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
                                   onClick={() => {
                                     setDay(d.id);
                                     setStartPeriod(row.period);
-                                    setEndPeriod(Math.min(12, row.period + 1));
+                                    // Default safely without overlapping next course on this day
+                                    const nextCourse = timetable
+                                      .filter(c => c.day === d.id && c.startPeriod > row.period)
+                                      .sort((a, b) => a.startPeriod - b.startPeriod)[0];
+                                    const safeEnd = nextCourse
+                                      ? Math.min(row.period + 1, nextCourse.startPeriod - 1)
+                                      : Math.min(12, row.period + 1);
+                                    setEndPeriod(Math.max(row.period, safeEnd));
+                                    setFormError(null);
                                     setIsFormOpen(true);
                                   }}
                                   className="hidden group-hover:flex items-center justify-center w-full h-full text-cyan-400 font-bold text-xs cursor-pointer"

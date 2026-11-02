@@ -1,0 +1,155 @@
+# NHIỆM VỤ
+Cập nhật NỘI DUNG TEXT của 6 quest package: Gym Rat, Touch Grass, Nerd Mode, AI HCMUS-ER, Deadline Survivor, Main Character ARC. Mỗi package hiển thị theo cùng một mẫu (như trang chi tiết "AI HCMUS-ER" hiện tại):
+- Thẻ ngoài ở danh sách quest packages: "Mô tả ngoài"
+- Trang chi tiết: tiêu đề, mô tả trong gói, "Gói Này Dành Cho Ai?", "Bạn Sẽ Đạt Được Gì?", "Lộ Trình Các Nhiệm Vụ Trong Gói" (mỗi nhiệm vụ gồm: tên, độ khó, nhãn Thử miễn phí / Boss Dungeon, mô tả, "Điều kiện:", XP), và "Cảm Nhận Từ Sinh Viên (Review Mẫu)".
+
+# NGUYÊN TẮC BẮT BUỘC
+1. CHỈ sửa nội dung dữ liệu (text, danh sách nhiệm vụ, review). KHÔNG đổi giao diện, layout, màu sắc, logic mở khóa/thanh toán/XP/thử miễn phí, routing hay bất kỳ tính năng nào khác.
+2. Giữ nguyên văn phong của tôi: giọng trẻ trung, gen Z, ví von game (farm, clear dungeon, NPC, boss...). Không viết lại, không "làm mượt", không thêm bớt ý. Chép đúng nội dung tôi cung cấp.
+3. Với phần tôi KHÔNG đề cập, giữ nguyên hiện trạng (tên nhiệm vụ, độ khó, XP, tag, tên người review...).
+4. Quy ước về chữ "ok":
+   - "ok" / "ok, ngon" / "ok ngon AI khôn" / "pass" đứng ở một trường = GIỮ NGUYÊN nội dung hiện tại của trường đó, không sửa.
+   - "#N ok" hoặc "N ok" ở đầu nhiệm vụ (kể cả mô tả và điều kiện đều ok) = giữ nguyên cả nhiệm vụ đó.
+   - Riêng Deadline Survivor nhiệm vụ 3 có ghi "ok ko ok": giữ nguyên, và liệt kê vào báo cáo cuối để tôi xác nhận lại.
+   - Tuyệt đối KHÔNG hiển thị chữ "ok", "pass", "ngon" lên giao diện.
+5. Chỉ sửa lỗi gõ tắt trong phần mô tả/điều kiện (ví dụ: "tgian" → "thời gian", "bn" → "bạn", "ng" → "người", "mxh" → "mạng xã hội", "p" → "phút", "ko" → "không"). Phần review của sinh viên giữ nguyên slang, chỉ mở rộng chữ viết tắt "ng" thành "người" khi cần cho dễ đọc. Không sửa gì khác.
+6. Gán nhiệm vụ theo SỐ THỨ TỰ (#1...#7), khớp với thứ tự nhiệm vụ hiện có trong từng gói. Nếu tên nhiệm vụ hiện tại khác tôi nêu thì giữ tên hiện tại, trừ trường hợp tôi cung cấp tên mới (chỉ Gym Rat và 2 nhiệm vụ mới của Touch Grass).
+7. Sau khi sửa, nếu "số nhiệm vụ" và "tổng XP tiềm năng" đang được tính tự động từ dữ liệu thì để nguyên cách tính; nếu đang hard-code ở đâu thì cập nhật cho khớp dữ liệu mới (chỉ con số, không động vào phần khác).
+
+# NỘI DUNG CẦN CẬP NHẬT
+
+## 1. GYM RAT (thay toàn bộ nội dung gói)
+- Mô tả ngoài: Không cần six-pack, không cần PR. Chỉ cần đứng dậy khỏi ghế và bắt đầu cày level cho cơ thể!
+- Mô tả trong gói: Bạn không cần phải "sống dở chết dở" với những thử thách vận động quá sức. Hãy bắt đầu hành trình biến thói quen "ngồi lì" thành lối sống năng động một cách tự nhiên nhất: khởi động đúng, tập luyện hợp lý, uống đủ nước và ngủ đủ giấc. Cuối con đường, một bài kiểm tra "trùm cuối" sẽ giúp bạn khẳng định sự kiên trì và kỷ luật của bản thân.
+- Gói dành cho ai:
+  - Sinh viên ngồi một chỗ cả ngày, đứng dậy là nghe xương kêu răng rắc và cảm thấy người uể oải.
+  - Sinh viên muốn bắt đầu tập thể dục nhưng sợ chấn thương, sợ ngại phòng gym hoặc không biết bắt đầu từ đâu.
+  - Sinh viên từng tập hăng được 3 ngày rồi bỏ, giờ muốn tìm nhịp vận động nhẹ nhàng mà bền.
+- Bạn sẽ đạt được gì?
+  - Biết cách khởi động đúng chuẩn để tránh chấn thương khớp.
+  - Duy trì tối thiểu 3 buổi vận động nhẹ nhàng mỗi tuần.
+  - Cải thiện thói quen uống nước và giấc ngủ hồi phục.
+  - Có thêm năng lượng và tinh thần tỉnh táo cho việc học.
+- Nhiệm vụ (6 nhiệm vụ, ghi đè hoàn toàn danh sách cũ):
+  1. First Move — Easy — 10 XP — nhãn "Thử miễn phí"
+     - Mô tả: Mọi hành trình đều bắt đầu từ bước đầu tiên. Chọn một hoạt động bạn thấy "dễ thở" nhất như đi bộ, đạp xe, nhảy dây hay hít đất, rồi bấm Start thôi!
+     - Điều kiện: Bắt đầu phiên vận động đầu tiên tối thiểu 10 phút và vận động nhẹ nhàng vừa sức mình.
+  2. Warm-Up Protocol — Easy — 10 XP
+     - Mô tả: Không khởi động mà nhảy vào tập là kiểu chơi game không bấm tutorial, dễ "toang" lắm. Xoay cổ tay, cổ chân, vai và gối từ 5-7 phút để cơ thể vào mode sẵn sàng.
+     - Điều kiện: Khởi động đầy đủ các khớp trước buổi vận động theo đúng hướng dẫn an toàn, từ trên xuống dưới cho dễ nhớ bạn nhé: cổ -> vai -> khuỷu tay -> cổ tay -> hông -> háng -> đầu gối -> cổ chân.
+  3. Move Your Body — Normal — 25 XP
+     - Mô tả: Đến lúc farm mồ hôi rồi! Một buổi tập trọn vẹn, vừa sức, đủ để tim đập nhanh hơn và đầu óc nhẹ hơn.
+     - Điều kiện: Vận động thể lực vừa phải và liên tục trong 20 phút, có đổ mồ hôi nhẹ.
+  4. Hydration Check — Easy — 10 XP
+     - Mô tả: Cơ thể bạn cũng có thanh "nước" như thanh máu. Nhớ nạp từng ngụm nhỏ trước, trong và sau buổi tập để không bị cạn năng lượng giữa chừng.
+     - Điều kiện: Uống đủ nước bù điện giải và nước lọc trong cả ngày tập.
+  5. Recovery Mode — Normal — 25 XP
+     - Mô tả: Cơ bắp không lớn lên lúc tập mà lớn lên lúc nghỉ. Giãn cơ nhẹ nhàng rồi đi ngủ sớm để cơ thể hồi đầy máu cho ngày mai.
+     - Điều kiện: Thực hiện 5 phút giãn cơ tĩnh và đi ngủ trước 23h, ngủ đủ giấc ít nhất 7 tiếng.
+  6. Consistency Unlocked — Boss Dungeon — 100 XP
+     - Mô tả: Không cần tập điên cuồng, chỉ cần đều đặn. Vượt qua 7 ngày với ít nhất 3 buổi vận động chất lượng là bạn clear dungeon.
+     - Điều kiện: Hoàn thành ít nhất 3 buổi vận động trong vòng 7 ngày, mỗi buổi tối thiểu 20 phút.
+- Review: không có thay đổi → giữ nguyên review hiện tại.
+
+## 2. TOUCH GRASS
+- Mô tả ngoài: GIỮ NGUYÊN.
+- Mô tả trong gói (cập nhật): Tạm gác điện thoại, máy tính và thế giới trực tuyến sang một bên. Đã đến lúc bước ra ngoài, hít thở không khí trong lành, khám phá thiên nhiên và kết nối với những người xung quanh. Hãy dành thời gian cho thế giới thực và tận hưởng những điều giản dị mà đôi khi bạn đã vô tình bỏ lỡ.
+- Gói này dành cho ai? (thay danh sách):
+  - Người thường xuyên sử dụng điện thoại, máy tính và Internet.
+  - Người dành phần lớn thời gian trong nhà hoặc trước màn hình.
+  - Người muốn vận động, thư giãn và khám phá thiên nhiên.
+  - Người muốn cải thiện khả năng giao tiếp và kết nối xã hội.
+- Bạn sẽ đạt được (thay danh sách):
+  - Tạo thói quen dành thời gian cho các hoạt động ngoài trời.
+  - Có thêm cơ hội vận động và thư giãn tinh thần.
+  - Quan sát, khám phá và trải nghiệm môi trường xung quanh.
+  - Tăng cường sự kết nối và giao tiếp trực tiếp với mọi người.
+  - Hình thành thói quen sử dụng thiết bị điện tử có kiểm soát hơn.
+- Lộ trình nhiệm vụ: GIỮ NGUYÊN toàn bộ nhiệm vụ hiện có, THÊM 2 nhiệm vụ mới vào cuối danh sách (trước nhiệm vụ Boss nếu gói hiện có Boss Dungeon; nếu không có thì thêm vào cuối):
+  - Nhiệm vụ mới 1: Green Companion
+    - Mô tả: Chăm sóc cây xanh hoặc tham gia một hoạt động nhỏ giúp không gian sống trở nên xanh và sạch hơn.
+    - Điều kiện: Hoàn thành một hoạt động cụ thể như trồng cây, chăm sóc cây hoặc thu gom rác tại khu vực phù hợp.
+  - Nhiệm vụ mới 2: Nature Getaway
+    - Mô tả: Dành một buổi để đi chơi hoặc khám phá một không gian thiên nhiên cùng bạn bè hay người thân.
+    - Điều kiện: Tham gia một chuyến đi ngoài trời kéo dài ít nhất 2 giờ, có ít nhất một người đồng hành.
+  - Độ khó và XP của 2 nhiệm vụ mới: tôi chưa chỉ định → mặc định "Normal" và 25 XP, giống các nhiệm vụ Normal khác; ghi vào báo cáo cuối.
+- Review: giữ nguyên.
+
+## 3. NERD MODE
+- Mô tả ngoài: Học chủ động, nhớ sâu, ghi chép thông minh — biến kiến thức thành sức mạnh của riêng bạn!
+- Gói Này Dành Cho Ai?:
+  - Sinh viên muốn tối ưu thời gian học nhưng vẫn đạt hiệu quả cao.
+  - Sinh viên muốn từ bỏ phương pháp học vẹt, học thuộc lòng máy móc bằng Mind Map và Active Recall.
+  - (Bullet thứ 3 tôi để trống → KHÔNG hiển thị bullet trống; nếu gói hiện đã có bullet thứ 3 thì giữ nguyên bullet đó.)
+- Bạn Sẽ Đạt Được Gì?:
+  - Nắm vững phương pháp ghi nhớ chủ động (Active Recall)
+  - Học cách tóm tắt chương sách bằng mindmap cô đọng
+  - Ứng dụng kỹ thuật Feynman để hiểu bản chất định lý
+  - Phát triển tư duy phân tích, tổng hợp và liên kết kiến thức giữa các chủ đề.
+- Nhiệm vụ:
+  - #1 — Mô tả: Hãy tạm gác điện thoại, tìm một không gian yên tĩnh và dành trọn 40 phút để chinh phục mục tiêu học tập. Bạn có thể duy trì sự tập trung đến phút cuối không? | Điều kiện: giữ nguyên.
+  - #2 — Mô tả: Chọn một chương học và biến những khái niệm rời rạc thành một sơ đồ tư duy có hệ thống. Hãy thử tìm ra mối liên kết giữa những kiến thức tưởng chừng không liên quan. | Điều kiện: giữ nguyên.
+  - #3 — Mô tả: giữ nguyên | Điều kiện: Hoàn thành một bản ghi chú gồm nội dung chính, hệ thống câu hỏi và phần tóm tắt bằng lời văn của bản thân.
+  - #4 — Mô tả: Kiểm tra xem bạn thực sự nhớ được bao nhiêu! Đóng toàn bộ tài liệu, không nhìn slide và thử tái hiện những kiến thức vừa học. | Điều kiện: Dành ít nhất 10 phút viết lại những kiến thức có thể nhớ mà không xem tài liệu.
+  - #5 — Mô tả: Hãy chọn một định lý hoặc khái niệm và thử giải thích nó như thể đang giảng bài cho một người chưa từng biết đến chủ đề này. | Điều kiện: Tự trình bày hoặc ghi âm phần giải thích một định lý hay khái niệm bằng ngôn ngữ đơn giản, dễ hiểu.
+  - #6 — Mô tả: Chọn một câu hỏi khiến bạn tò mò, tìm kiếm thông tin và khám phá những góc nhìn mới liên quan đến môn học. | Điều kiện: giữ nguyên.
+  - #7 (Boss) — Mô tả: Đây là cơ hội để bạn kiểm tra toàn bộ kiến thức đã tích lũy trong tuần. Hãy tổng hợp nội dung, chuẩn bị tinh thần và chinh phục một đề thi hoàn chỉnh trong điều kiện thời gian thực tế. | Điều kiện: giữ nguyên.
+- Review (2 review, thay phần trích dẫn theo thứ tự, giữ nguyên tên/lớp/số sao hiện có):
+  1. "Nhờ Active Recall, mình biết cách tự kiểm tra kiến thức thay vì chỉ đọc đi đọc lại. Việc ôn tập cũng trở nên tập trung và hiệu quả hơn."
+  2. "Mình thử giải thích lại bài học bằng lời của mình và nhận ra cách này giúp mình hiểu sâu, nhớ lâu hơn hẳn."
+
+## 4. AI HCMUS-ER
+- Mô tả ngoài: Khám phá nền tảng Toán – Tin, phát triển tư duy lập trình và từng bước tiếp cận thế giới Trí tuệ nhân tạo với những gợi ý tự học hữu ích!
+- Gói này dành cho ai:
+  - Sinh viên ngành Toán – Tin, Công nghệ thông tin.
+  - Người muốn rèn luyện tư duy logic và lập trình.
+  - Người muốn xây dựng nền tảng để theo đuổi lĩnh vực AI.
+- Bạn sẽ đạt được gì?: GIỮ NGUYÊN.
+- Nhiệm vụ:
+  - #1 — Mô tả: Ôn tập một chủ đề vi tích phân quan trọng (đạo hàm riêng, gradient hoặc tích phân từng phần). Vận dụng kiến thức để giải quyết các bài tập thực tế và củng cố tư duy toán học. | Điều kiện: giữ nguyên.
+  - #2 — Mô tả: Thử thách tư duy logic với các bài tập về logic mệnh đề, bảng chân trị và quan hệ tương đương trong Toán rời rạc. | Điều kiện: giữ nguyên.
+  - #3 — Mô tả: Tự tay viết chương trình thuật toán lập trình cơ bản (tìm kiếm nhị phân, nhân ma trận hoặc xử lý dữ liệu...). Kiểm tra kết quả và rèn luyện kỹ năng phát hiện lỗi. | Điều kiện: giữ nguyên.
+  - #4 — giữ nguyên hoàn toàn.
+  - #5 — Mô tả: Dành thời gian hệ thống lại ghi chú, xác định những phần còn chưa hiểu để chủ động bổ sung kiến thức. | Điều kiện: giữ nguyên.
+  - #6 — Mô tả: giữ nguyên | Điều kiện: Giải đáp được ít nhất 1 thắc mắc học thuật thông qua việc trao đổi và hỗ trợ cùng bạn học.
+  - #7 — giữ nguyên hoàn toàn.
+- Review: giữ nguyên (hiện tại mẫu chưa có nội dung mới).
+
+## 5. DEADLINE SURVIVOR
+- Mô tả ngoài: giữ nguyên. Mô tả trong gói: giữ nguyên.
+- Nhiệm vụ #1, #2, #3, #4, #5, #7: giữ nguyên.
+- Nhiệm vụ #6 — nội dung: Chặn, tắt thông báo các tab mạng xã hội (TikTok, Instagram,...) trong 60 phút làm việc liên tục hoặc để điện thoại khuất tầm mắt, xa nơi làm việc.
+  - Áp dụng vào trường "Điều kiện" của nhiệm vụ #6; giữ nguyên tên, mô tả, độ khó và XP hiện tại.
+- Review (3 review, tổng cộng; nếu hiện có ít hơn 3 thì thêm cho đủ):
+  1. "Cảm ơn Time Block, Eisenhower đã biến tôi thành một người kỷ luật hơn" — 5 sao
+  2. "Tôi thích deadline, hãy cho tôi thật nhiều deadline!!" — 5 sao
+  3. "Tào lao. Thà chs rô lóc còn hơn làm Time Block" — 2.5 sao — tên: "Loser", lớp: "K25 CNTT (Mẫu)"
+  - Tên/lớp cho review 1 và 2: giữ nguyên tên hiện có nếu đã có, nếu chưa có thì dùng tên mẫu ngắn kiểu các review hiện tại (ví dụ "Bảo V. / K22 ... (Mẫu)") và ghi vào báo cáo.
+  - Review 3 có 2.5 sao: đảm bảo component sao hiển thị được nửa sao. Nếu chưa hỗ trợ, thêm hỗ trợ nửa sao với thay đổi nhỏ nhất, không ảnh hưởng nơi khác.
+
+## 6. MAIN CHARACTER ARC
+- Mô tả ngoài: Trở thành nhân vật chính của cuộc đời bạn
+- Mô tả trong gói: Bước ra khỏi vùng an toàn, khẳng định cá tính và làm những điều mới mẻ. Đừng để nỗi sợ, sự chần chừ cướp mất cơ hội được sống theo cách riêng của bạn.
+- Gói dành cho ai:
+  - Sinh viên cảm thấy cuộc đời mình như một NPC, hay rụt rè và nhạt nhẽo.
+  - Sinh viên chán ngấy việc xem cuộc sống người khác qua màn hình điện thoại và muốn tự mình trải nghiệm.
+- Nhiệm vụ:
+  - #1, #2, #4, #7: giữ nguyên.
+  - #3 — Điều kiện: Thử một món ăn mới, đi một cung đường mới, làm quen bạn mới rồi quay vlog một ngày của chính bạn.
+  - #5 — Điều kiện: Chủ động đề xuất ý tưởng bài tập nhóm, tự lên một kế hoạch đi chơi hoặc tự làm project nhỏ trong lĩnh vực mình hứng thú.
+  - #6 — Điều kiện: Học cách từ chối người khác và dành thời gian cho bản thân.
+  - (Với #3, #5, #6: nội dung trên áp dụng vào trường "Điều kiện"; giữ nguyên tên, mô tả, độ khó, XP.)
+- Review:
+  1. "Nhờ gói quest này mà mình đã học được cách kệ m* người khác và sống, hạnh phúc hơn hẳn." — 5 sao
+  2. "Cảm thấy cuộc đời mình thú vị hơn cả TikTok, thank you sô mếch Solo leveling." — 4.5 sao
+  - Giữ nguyên chữ "m*" (đã che sẵn). Đảm bảo hiển thị được nửa sao 4.5. Tên/lớp: giữ nguyên nếu có, nếu chưa có thì dùng tên mẫu và ghi vào báo cáo.
+
+# CÁCH LÀM VIỆC
+1. Trước khi sửa, tìm nơi lưu dữ liệu quest packages (file data/JSON/DB seed/constants) và cho tôi biết file nào sẽ bị sửa.
+2. Sửa theo từng gói; sau đó chạy build/lint để chắc chắn không lỗi.
+3. Không refactor, không đổi tên biến/field, không đụng file ngoài phạm vi dữ liệu nội dung (trừ hỗ trợ nửa sao nếu thật sự cần).
+4. Nếu dữ liệu đã nằm trong database (đã seed), cho tôi biết cách cập nhật (migration hoặc seed lại) và KHÔNG tự xóa dữ liệu người dùng (tiến độ, XP đã nhận, lịch sử mua gói).
+5. Cuối cùng báo cáo ngắn gọn:
+   - Những gì đã đổi cho từng gói.
+   - Các giá trị tôi chưa chỉ định mà bạn đã tự đặt (độ khó/XP của 2 nhiệm vụ Touch Grass mới, tên người review mới...).
+   - Các điểm mơ hồ cần tôi xác nhận (Deadline Survivor #3 "ok ko ok", bullet trống ở Nerd Mode, số lượng review hiện có của từng gói...).

@@ -8,7 +8,7 @@ import { SlidersHorizontal } from 'lucide-react';
 
 interface CharacterStageProps {
   characterId?: string;
-  size?: 'mini' | 'sm' | 'md' | 'lg';
+  size?: 'mini' | 'xs' | 'sm' | 'md' | 'lg';
   className?: string;
   previewCosmetics?: Partial<Record<string, string>>;
   showNameplate?: boolean;
@@ -47,6 +47,7 @@ export const CharacterStage: React.FC<CharacterStageProps> = ({
 
   const sizeContainerStyles = {
     mini: 'w-10 h-10 rounded-full',
+    xs: 'w-12 h-12 rounded-xl',
     sm: 'w-24 h-24 rounded-xl',
     md: 'w-48 h-48 sm:w-56 sm:h-56 rounded-2xl',
     lg: 'w-64 h-64 sm:w-80 sm:h-80 rounded-3xl',
@@ -106,12 +107,12 @@ export const CharacterStage: React.FC<CharacterStageProps> = ({
         )}
 
         {/* Layer 3: Character Sprite with Gear */}
-        <div className="relative z-10 w-full h-full flex items-center justify-center p-3">
+        <div className="relative z-10 w-full h-full flex items-center justify-center p-1 sm:p-2">
           <CharacterSprite
             key={activeCharId} // Keeps key stable across cosmetic changes!
             characterId={activeCharId}
             isCelebrating={isCelebrating}
-            scale={(size === 'lg' ? 1.1 : size === 'sm' ? 0.75 : 0.95) * characterScaleMultiplier}
+            scale={(size === 'lg' ? 1.1 : size === 'sm' ? 0.75 : size === 'xs' ? 0.52 : 0.95) * characterScaleMultiplier}
           />
         </div>
 
@@ -131,7 +132,7 @@ export const CharacterStage: React.FC<CharacterStageProps> = ({
         )}
 
         {/* Layer 5: Companion Pet */}
-        {companionCos && (
+        {companionCos && size !== 'xs' && (
           <div className="absolute bottom-2 right-2 z-30 pointer-events-none animate-bounce">
             <div className="w-8 h-8 rounded-full bg-indigo-950/90 border border-violet-400/60 flex items-center justify-center text-xs shadow-md">
               {companionCos.id === 'cp-cat-dorm'
@@ -159,7 +160,7 @@ export const CharacterStage: React.FC<CharacterStageProps> = ({
           </div>
         )}
         {/* Layer 7: Adjust Controls Button if enabled */}
-        {canAdjust && !isMini && (
+        {canAdjust && !isMini && size !== 'xs' && (
           <button
             type="button"
             onClick={e => {

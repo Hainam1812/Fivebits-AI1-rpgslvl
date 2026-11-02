@@ -52,16 +52,56 @@ export function getCourseColor(code: string, name: string): typeof COURSE_COLORS
 }
 
 /**
+ * Check if a given time slot [startPeriod, endPeriod] overlaps with any existing course on that day.
+ * Two intervals [s1, e1] and [s2, e2] overlap if and only if s1 <= e2 && e1 >= s2.
+ */
+export function findConflictingCourses(
+  courses: CourseSlot[],
+  day: DayOfWeek,
+  startPeriod: number,
+  endPeriod: number,
+  excludeCourseId?: string
+): CourseSlot[] {
+  const s = Math.min(startPeriod, endPeriod);
+  const e = Math.max(startPeriod, endPeriod);
+  return courses.filter(c => {
+    if (excludeCourseId && c.id === excludeCourseId) return false;
+    if (c.day !== day) return false;
+    return s <= c.endPeriod && e >= c.startPeriod;
+  });
+}
+
+export function isSlotOverlapping(
+  courses: CourseSlot[],
+  day: DayOfWeek,
+  startPeriod: number,
+  endPeriod: number,
+  excludeCourseId?: string
+): boolean {
+  return findConflictingCourses(courses, day, startPeriod, endPeriod, excludeCourseId).length > 0;
+}
+
+/**
  * Add a course slot into the timetable array.
  * Supports multiple records/slots for the same course (e.g. multiple sessions across days/times).
+ * If options.preventOverlap is true, returns unchanged array if time slot conflicts with an existing course.
  */
 export function addCourse(
   courses: CourseSlot[],
-  newCourse: Omit<CourseSlot, 'id'> | CourseSlot
+  newCourse: Omit<CourseSlot, 'id'> | CourseSlot,
+  options?: { preventOverlap?: boolean }
 ): CourseSlot[] {
   const id = 'id' in newCourse && newCourse.id ? newCourse.id : `course-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
   const startPeriod = Math.min(Math.max(1, Math.floor(newCourse.startPeriod)), 12);
   const endPeriod = Math.min(Math.max(startPeriod, Math.floor(newCourse.endPeriod)), 12);
+
+  if (options?.preventOverlap) {
+    const conflicts = findConflictingCourses(courses, newCourse.day, startPeriod, endPeriod);
+    if (conflicts.length > 0) {
+      console.warn('[TimeTable] Overlap detected: cannot add course slot', conflicts);
+      return courses;
+    }
+  }
 
   const formatted: CourseSlot = {
     id,

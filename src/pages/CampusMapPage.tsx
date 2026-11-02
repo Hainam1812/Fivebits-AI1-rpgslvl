@@ -77,9 +77,9 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
   const pinchStartDistRef = useRef<number | null>(null);
   const pinchStartZoomRef = useRef<number>(1);
 
-  const MIN_ZOOM = 1;
+  const MIN_ZOOM = 0.45;
   const MAX_ZOOM = 2.8;
-  const ZOOM_STEP = 0.35;
+  const ZOOM_STEP = 0.25;
 
   const clampPan = (newX: number, newY: number, currentZoom: number): { x: number; y: number } => {
     if (!mapContainerRef.current) return { x: newX, y: newY };
@@ -87,9 +87,9 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
     const width = rect.width;
     const height = rect.height;
 
-    // Content bounds around center
-    const maxPanX = Math.max(0, (width * (currentZoom - 1)) / 2) + 35;
-    const maxPanY = Math.max(0, (height * (currentZoom - 1)) / 2) + 35;
+    // Content bounds around center (handles both zoomed-in and zoomed-out states)
+    const maxPanX = Math.max(35, Math.abs(width * (currentZoom - 1)) / 2 + 35);
+    const maxPanY = Math.max(35, Math.abs(height * (currentZoom - 1)) / 2 + 35);
 
     const clampedX = Math.min(Math.max(newX, -maxPanX), maxPanX);
     const clampedY = Math.min(Math.max(newY, -maxPanY), maxPanY);
@@ -123,7 +123,7 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
 
   const handleZoomIn = () => {
     setZoom(prev => {
-      const next = Math.min(MAX_ZOOM, Math.round((prev + ZOOM_STEP) * 10) / 10);
+      const next = Math.min(MAX_ZOOM, Math.round((prev + ZOOM_STEP) * 100) / 100);
       setPan(currentPan => clampPan(currentPan.x, currentPan.y, next));
       return next;
     });
@@ -131,7 +131,7 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
 
   const handleZoomOut = () => {
     setZoom(prev => {
-      const next = Math.max(MIN_ZOOM, Math.round((prev - ZOOM_STEP) * 10) / 10);
+      const next = Math.max(MIN_ZOOM, Math.round((prev - ZOOM_STEP) * 100) / 100);
       setPan(currentPan => clampPan(currentPan.x, currentPan.y, next));
       return next;
     });
@@ -572,12 +572,11 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
             </button>
           </div>
 
-          {/* Bottom Hint */}
-          <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 z-30 pointer-events-none">
+          {/* Bottom Hint (Desktop only; deleted on mobile) */}
+          <div className="hidden sm:block absolute bottom-4 left-4 z-30 pointer-events-none">
             <div className="px-3 py-1.5 rounded-xl bg-[#0F132E]/85 backdrop-blur-md border border-slate-700/60 text-[11px] font-medium text-slate-400 flex items-center gap-1.5 shadow-lg">
               <Compass className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="hidden sm:inline">Kéo chuột để di chuyển • Cuộn để thu phóng</span>
-              <span className="sm:hidden">Chạm & kéo để di chuyển • Chụm 2 ngón tay thu phóng</span>
+              <span>Kéo chuột để di chuyển • Cuộn để thu phóng</span>
             </div>
           </div>
 
@@ -742,21 +741,7 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
                   </g>
                 );
               })}
-              {/* Target cell marker ring - solid glowing landing ring without dashed outline at target */}
-              <g
-                className="pointer-events-none"
-                transform={`translate(${selectedLocation.x}, ${selectedLocation.y})`}
-              >
-                <circle
-                  cx="0"
-                  cy="0"
-                  r="28"
-                  fill="rgba(6, 182, 212, 0.12)"
-                  stroke="#06B6D4"
-                  strokeWidth="2"
-                  className="opacity-90"
-                />
-              </g>
+
 
               {/* Character Sprite & ground shadow in SVG coordinate space */}
               <g

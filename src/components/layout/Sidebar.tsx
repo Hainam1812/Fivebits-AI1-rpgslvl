@@ -131,18 +131,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggleC
       </nav>
 
       {/* Mini Player Profile Card at Bottom */}
-      <div className="p-3.5 border-t border-slate-800 bg-[#0A0E27]/60">
+      <div className="p-3 border-t border-slate-800 bg-[#0A0E27]/60">
         <Link
           to="/play/profile"
-          className="flex items-center gap-3 p-2.5 rounded-xl bg-[#161B40]/70 border border-slate-700/60 hover:border-violet-500/50 transition-all group"
+          className="flex items-center gap-2.5 p-2 rounded-xl bg-[#161B40]/70 border border-slate-700/60 hover:border-violet-500/50 transition-all group overflow-hidden"
         >
-          <CharacterStage size="sm" className="w-14 h-14" />
+          <div className="shrink-0 flex items-center justify-center">
+            <CharacterStage size="xs" />
+          </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between gap-1">
               <span className="text-xs font-bold text-slate-100 truncate group-hover:text-violet-300 transition-colors">
                 {state.profile.nickname || 'Tân Binh'}
               </span>
-              <span className="text-[10px] font-bold text-violet-400 font-pixel">
+              <span className="text-[10px] font-bold text-violet-400 font-pixel shrink-0">
                 LV.{levelProg.level}
               </span>
             </div>
@@ -156,8 +158,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggleC
             </div>
 
             <div className="flex items-center justify-between text-[10px] text-slate-400 mt-1 font-pixel">
-              <span>{levelProg.xpInCurrentLevel}/{levelProg.xpRequiredForNextLevel} XP</span>
-              <span className="flex items-center text-amber-400">
+              <span className="truncate">{levelProg.xpInCurrentLevel}/{levelProg.xpRequiredForNextLevel} XP</span>
+              <span className="flex items-center text-amber-400 shrink-0 ml-1">
                 <Flame className="w-2.5 h-2.5 mr-0.5 fill-amber-400" />
                 {streak.currentStreak}d
               </span>

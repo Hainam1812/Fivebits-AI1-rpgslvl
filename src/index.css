@@ -130,79 +130,76 @@
   animation: sparkleSpin 3s linear infinite;
 }
 
-/* Physics-based jump with reduced speed, gravity, hang time, falling acceleration, and landing impact */
+/* Continuous physics jump with zero ground dwell time (instant rebound, gravity, hang time, falling acceleration) */
 @keyframes characterPhysicsJump {
   0% {
-    transform: translateY(0) scale(1, 1);
+    /* Instant ground contact & immediate elastic launch */
+    transform: translateY(0px) scale(1.08, 0.92);
   }
-  7% {
-    /* Compression before takeoff */
-    transform: translateY(2px) scale(1.06, 0.94);
+  5% {
+    /* Immediately airborne with high upward velocity */
+    transform: translateY(-6px) scale(0.95, 1.05);
   }
   16% {
-    /* Explosive upward launch */
-    transform: translateY(-14px) scale(0.96, 1.05);
+    /* Fast upward travel */
+    transform: translateY(-17px) scale(0.97, 1.03);
   }
   32% {
     /* Decelerating against gravity */
-    transform: translateY(-26px) scale(0.98, 1.02);
+    transform: translateY(-27px) scale(0.99, 1.01);
   }
-  44% {
-    /* Peak apex / hang time */
+  46% {
+    /* Peak apex */
     transform: translateY(-30px) scale(1, 1);
   }
   54% {
-    /* Peak apex float tipping point */
-    transform: translateY(-29px) scale(1, 1);
+    /* Hang time tipping point */
+    transform: translateY(-29.5px) scale(1, 1);
   }
   68% {
-    /* Gravitational acceleration: beginning to fall */
-    transform: translateY(-20px) scale(0.97, 1.03);
+    /* Gravitational falling acceleration */
+    transform: translateY(-22px) scale(0.98, 1.02);
   }
-  80% {
+  84% {
     /* Fast downward plunge under gravity */
-    transform: translateY(-6px) scale(0.95, 1.05);
+    transform: translateY(-11px) scale(0.96, 1.04);
   }
-  85% {
-    /* Ground impact: squash compression */
-    transform: translateY(0) scale(1.08, 0.92);
-  }
-  92% {
-    /* Elastic rebound */
-    transform: translateY(-2px) scale(0.99, 1.01);
+  96% {
+    /* Plunging towards ground with maximum downward speed */
+    transform: translateY(-2px) scale(0.95, 1.05);
   }
   100% {
-    /* Rest at ground */
-    transform: translateY(0) scale(1, 1);
+    /* Instant ground touch-down, rebounding immediately into next cycle with 0ms delay */
+    transform: translateY(0px) scale(1.08, 0.92);
   }
 }
 
 @keyframes physicsShadow {
   0% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  7% {
-    transform: scale(1.06);
+    transform: scale(1.08);
     opacity: 0.65;
   }
-  44%, 54% {
-    /* High above ground: shadow is smaller and lighter */
-    transform: scale(0.65);
-    opacity: 0.3;
-  }
-  80% {
+  5% {
     transform: scale(0.95);
     opacity: 0.55;
   }
-  85% {
-    /* Ground impact: shadow expands momentarily */
-    transform: scale(1.1);
-    opacity: 0.7;
+  46%, 54% {
+    /* High airborne apex: smaller, lighter shadow */
+    transform: scale(0.65);
+    opacity: 0.3;
   }
-  92%, 100% {
-    transform: scale(1);
+  84% {
+    transform: scale(0.85);
+    opacity: 0.48;
+  }
+  96% {
+    transform: scale(1.0);
     opacity: 0.6;
+  }
+  100% {
+    /* Ground contact instant */
+    transform: scale(1.08);
+    opacity: 0.65;
   }
 }
 

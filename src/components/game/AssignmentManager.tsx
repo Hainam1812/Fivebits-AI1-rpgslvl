@@ -31,6 +31,22 @@ import {
   Flame,
 } from 'lucide-react';
 
+/**
+ * Tách biệt mã môn học (ví dụ CS101, MATH201) và tên môn học để hiển thị chuẩn xác, không bị tràn trên mobile/tablet
+ */
+export function parseSubjectInfo(rawSubject: string): { name: string; code: string | null } {
+  if (!rawSubject) return { name: 'Chung', code: null };
+  const trimmed = rawSubject.trim();
+  const match = trimmed.match(/^(.*?)(?:\s*\(([^)]+)\))$/);
+  if (match && match[1]?.trim()) {
+    return {
+      name: match[1].trim(),
+      code: match[2]?.trim() || null,
+    };
+  }
+  return { name: trimmed, code: null };
+}
+
 interface AssignmentManagerProps {
   onGoToTimetable?: () => void;
   compact?: boolean;
@@ -355,83 +371,86 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
       </div>
 
       {/* Search & Filter Controls */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-1">
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5 pt-1">
         {/* Search input */}
-        <div className="relative flex-1">
+        <div className="relative flex-1 min-w-[200px]">
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            placeholder="Tìm kiếm theo tên bài tập, môn học, nội dung..."
+            placeholder="Tìm theo tên bài tập, môn học, mã môn..."
             className="w-full pl-9 pr-3.5 py-2 rounded-xl bg-[#0F132E] border border-slate-700 text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-cyan-400 transition-colors"
           />
         </div>
 
-        {/* Status filter tabs */}
-        <div className="flex items-center gap-1 bg-[#0F132E] p-1 rounded-xl border border-slate-700/80 overflow-x-auto shrink-0">
-          <button
-            type="button"
-            onClick={() => setStatusFilter('all')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-              statusFilter === 'all'
-                ? 'bg-cyan-600 text-white shadow'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            Tất cả ({totalCount})
-          </button>
-          <button
-            type="button"
-            onClick={() => setStatusFilter('pending')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-              statusFilter === 'pending'
-                ? 'bg-cyan-600 text-white shadow'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            Chưa làm ({pendingCount})
-          </button>
-          <button
-            type="button"
-            onClick={() => setStatusFilter('due_soon')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1 ${
-              statusFilter === 'due_soon'
-                ? 'bg-rose-600 text-white shadow'
-                : 'text-rose-400 hover:text-rose-200'
-            }`}
-          >
-            <Flame className="w-3 h-3" />
-            <span>Gấp ({urgentCount})</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setStatusFilter('completed')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-              statusFilter === 'completed'
-                ? 'bg-emerald-600 text-white shadow'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            Đã xong ({completedCount})
-          </button>
-        </div>
+        {/* Filter buttons & Subject dropdown for mobile & tablet */}
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2">
+          {/* Status filter tabs */}
+          <div className="flex items-center gap-1 bg-[#0F132E] p-1 rounded-xl border border-slate-700/80 overflow-x-auto w-full sm:w-auto shrink-0">
+            <button
+              type="button"
+              onClick={() => setStatusFilter('all')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                statusFilter === 'all'
+                  ? 'bg-cyan-600 text-white shadow'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              Tất cả ({totalCount})
+            </button>
+            <button
+              type="button"
+              onClick={() => setStatusFilter('pending')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                statusFilter === 'pending'
+                  ? 'bg-cyan-600 text-white shadow'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              Chưa làm ({pendingCount})
+            </button>
+            <button
+              type="button"
+              onClick={() => setStatusFilter('due_soon')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1 ${
+                statusFilter === 'due_soon'
+                  ? 'bg-rose-600 text-white shadow'
+                  : 'text-rose-400 hover:text-rose-200'
+              }`}
+            >
+              <Flame className="w-3 h-3" />
+              <span>Gấp ({urgentCount})</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setStatusFilter('completed')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                statusFilter === 'completed'
+                  ? 'bg-emerald-600 text-white shadow'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              Đã xong ({completedCount})
+            </button>
+          </div>
 
-        {/* Subject dropdown if available */}
-        {availableSubjects.length > 0 && (
-          <select
-            value={selectedSubjectFilter}
-            onChange={e => setSelectedSubjectFilter(e.target.value)}
-            className="px-3 py-2 rounded-xl bg-[#0F132E] border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-400 cursor-pointer shrink-0 max-w-xs"
-          >
-            <option value="all">Tất cả môn học</option>
-            {availableSubjects.map(subj => (
-              <option key={subj} value={subj}>
-                {subj}
-              </option>
-            ))}
-          </select>
-        )}
+          {/* Subject dropdown if available */}
+          {availableSubjects.length > 0 && (
+            <select
+              value={selectedSubjectFilter}
+              onChange={e => setSelectedSubjectFilter(e.target.value)}
+              className="w-full sm:w-auto px-3 py-2 rounded-xl bg-[#0F132E] border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-400 cursor-pointer shrink-0 max-w-full sm:max-w-[200px] truncate"
+            >
+              <option value="all">Tất cả môn học</option>
+              {availableSubjects.map(subj => (
+                <option key={subj} value={subj}>
+                  {subj}
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
       </div>
 
       {/* Assignment List - Sorted by Deadline from Earliest to Latest */}
@@ -467,6 +486,8 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
             {filteredAssignments.map((assignment, index) => {
               const deadlineInfo = formatDeadlineDisplay(assignment.deadline, now);
               const isExpanded = Boolean(expandedIds[assignment.id]);
+              const isUrgent = Boolean(assignment.isUrgent || assignment.priority === 'high');
+              const { name: subjectName, code: subjectCode } = parseSubjectInfo(assignment.subject);
 
               // Status badge styling
               let badgeColor = 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40';
@@ -480,12 +501,10 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                 badgeColor = 'bg-amber-950/80 text-amber-300 border-amber-500/40';
               }
 
-              const isUrgent = Boolean(assignment.isUrgent || assignment.priority === 'high');
-
               return (
                 <div
                   key={assignment.id}
-                  className={`p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col gap-3 ${
+                  className={`p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col gap-2.5 ${
                     assignment.completed
                       ? 'bg-[#0E122B]/80 border-slate-800 opacity-80'
                       : isUrgent
@@ -497,16 +516,16 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                       : 'bg-[#101435] border-slate-700/70 hover:border-cyan-500/50 hover:shadow-lg'
                   }`}
                 >
-                  {/* Top Row: Checkbox, Title, Subject, Deadline Badge, and Action Buttons */}
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-start gap-3 flex-1 min-w-0">
+                  {/* Top Row: Checkbox, Course Code, Subject Name, Urgent Badge, Index, and Actions */}
+                  <div className="flex items-start justify-between gap-2.5">
+                    <div className="flex items-start gap-2.5 sm:gap-3 flex-1 min-w-0">
                       {/* Checkbox button */}
                       <button
                         type="button"
                         onClick={() => handleToggle(assignment.id)}
                         className={`mt-0.5 w-6 h-6 rounded-lg flex items-center justify-center shrink-0 transition-colors cursor-pointer border ${
                           assignment.completed
-                            ? 'bg-emerald-500 border-emerald-400 text-slate-950'
+                            ? 'bg-emerald-500 border-emerald-400 text-slate-950 shadow-sm shadow-emerald-500/30'
                             : 'bg-[#0B0E24] border-slate-600 hover:border-cyan-400 text-transparent hover:text-cyan-400/40'
                         }`}
                         title={assignment.completed ? 'Đánh dấu chưa hoàn thành' : 'Đánh dấu đã hoàn thành'}
@@ -515,101 +534,103 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                         <Check className="w-4 h-4 stroke-[3]" />
                       </button>
 
-                      {/* Title & Subject */}
-                      <div className="min-w-0 flex-1">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="font-pixel text-[10px] font-bold px-2 py-0.5 rounded-md bg-cyan-950/90 text-cyan-300 border border-cyan-500/30 shrink-0">
-                            {assignment.subject}
+                      {/* Badges Flow: Course code badge + Subject badge + Urgent badge + Index */}
+                      <div className="flex flex-wrap items-center gap-1.5 min-w-0 flex-1">
+                        {subjectCode && (
+                          <span className="font-pixel text-[10px] font-bold px-2 py-0.5 rounded-md bg-cyan-900/70 text-cyan-200 border border-cyan-400/50 shrink-0 shadow-xs">
+                            {subjectCode}
                           </span>
-                          {isUrgent && (
-                            <span className="px-2 py-0.5 rounded-md bg-rose-950/90 border border-rose-500/70 text-rose-300 text-[10px] font-bold font-pixel flex items-center gap-1 shadow-sm shrink-0">
-                              <Flame className="w-3 h-3 text-rose-400 fill-rose-500 animate-pulse" />
-                              <span>GẤP</span>
-                            </span>
-                          )}
-                          <span className="text-[10px] font-pixel text-slate-500">
-                            #{index + 1}
+                        )}
+                        <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-md bg-cyan-950/90 text-cyan-300 border border-cyan-500/30 break-words leading-normal max-w-full">
+                          {subjectName}
+                        </span>
+                        {isUrgent && (
+                          <span className="px-2 py-0.5 rounded-md bg-rose-950/90 border border-rose-500/70 text-rose-300 text-[10px] font-bold font-pixel flex items-center gap-1 shadow-sm shrink-0">
+                            <Flame className="w-3 h-3 text-rose-400 fill-rose-500 animate-pulse" />
+                            <span>GẤP</span>
                           </span>
-                        </div>
-
-                        <h3
-                          className={`font-bold font-heading text-sm sm:text-base mt-1 text-slate-100 leading-snug break-words ${
-                            assignment.completed ? 'line-through text-slate-400' : ''
-                          }`}
-                        >
-                          {assignment.title}
-                        </h3>
-                      </div>
-                    </div>
-
-                    {/* Deadline Pill & Actions */}
-                    <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 shrink-0">
-                      {/* Deadline info pill */}
-                      <div
-                        className={`px-2.5 py-1 rounded-xl border text-[11px] font-medium flex items-center gap-1.5 ${badgeColor}`}
-                      >
-                        <Clock className="w-3.5 h-3.5 shrink-0" />
-                        <span className="font-pixel font-bold">{deadlineInfo.relative}</span>
-                        <span className="hidden md:inline text-[10px] opacity-75">
-                          ({deadlineInfo.formatted})
+                        )}
+                        <span className="text-[10px] font-pixel text-slate-500 shrink-0">
+                          #{index + 1}
                         </span>
                       </div>
+                    </div>
 
-                      {/* Action buttons: Edit, Delete */}
-                      <div className="flex items-center gap-1">
-                        <button
-                          type="button"
-                          onClick={() => handleOpenEditModal(assignment)}
-                          className="p-1.5 rounded-lg bg-[#0F132E] hover:bg-cyan-600/30 text-slate-300 hover:text-cyan-200 border border-slate-700/60 transition-colors cursor-pointer"
-                          title="Sửa bài tập"
-                          aria-label="Sửa bài tập"
-                        >
-                          <Edit2 className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setAssignmentToDelete(assignment)}
-                          className="p-1.5 rounded-lg bg-[#0F132E] hover:bg-rose-600/30 text-slate-300 hover:text-rose-300 border border-slate-700/60 transition-colors cursor-pointer"
-                          title="Xóa bài tập"
-                          aria-label="Xóa bài tập"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
+                    {/* Action buttons: Edit, Delete */}
+                    <div className="flex items-center gap-1 shrink-0 ml-1">
+                      <button
+                        type="button"
+                        onClick={() => handleOpenEditModal(assignment)}
+                        className="p-1.5 rounded-lg bg-[#0F132E] hover:bg-cyan-600/30 text-slate-300 hover:text-cyan-200 border border-slate-700/60 transition-colors cursor-pointer"
+                        title="Sửa bài tập"
+                        aria-label="Sửa bài tập"
+                      >
+                        <Edit2 className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setAssignmentToDelete(assignment)}
+                        className="p-1.5 rounded-lg bg-[#0F132E] hover:bg-rose-600/30 text-slate-300 hover:text-rose-300 border border-slate-700/60 transition-colors cursor-pointer"
+                        title="Xóa bài tập"
+                        aria-label="Xóa bài tập"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   </div>
 
-                  {/* Middle / Bottom Row: Deadline detail & Description */}
-                  <div className="pl-9 space-y-1.5">
-                    {/* Mobile formatted date */}
-                    <div className="text-[11px] text-slate-400 flex items-center gap-1.5 font-sans md:hidden">
-                      <Calendar className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                      <span>Hạn nộp: <strong className="text-slate-300">{deadlineInfo.formatted}</strong></span>
+                  {/* Assignment Title: Clean and prominent, full width under badges */}
+                  <div className="pl-8.5 sm:pl-9">
+                    <h3
+                      className={`font-bold font-heading text-sm sm:text-base text-slate-100 leading-snug break-words ${
+                        assignment.completed ? 'line-through text-slate-400' : ''
+                      }`}
+                    >
+                      {assignment.title}
+                    </h3>
+                  </div>
+
+                  {/* Meta Bar: Deadline Pill, Exact Date/Time, and Expandable Toggle */}
+                  <div className="pl-8.5 sm:pl-9 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80">
+                    <div className="flex flex-wrap items-center gap-2">
+                      {/* Deadline relative badge */}
+                      <div className={`px-2.5 py-1 rounded-xl border text-[11px] font-medium flex items-center gap-1.5 ${badgeColor}`}>
+                        <Clock className="w-3.5 h-3.5 shrink-0" />
+                        <span className="font-pixel font-bold">{deadlineInfo.relative}</span>
+                      </div>
+
+                      {/* Formatted full date & time */}
+                      <div className="text-[11px] text-slate-300 flex items-center gap-1.5 bg-[#0B0E24]/70 px-2.5 py-1 rounded-xl border border-slate-700/60 font-sans">
+                        <Calendar className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                        <span>Hạn nộp: <strong className="text-slate-100 font-semibold">{deadlineInfo.formatted}</strong></span>
+                      </div>
                     </div>
 
-                    {/* Description preview */}
-                    {assignment.description && (
-                      <div>
-                        <p
-                          className={`text-xs text-slate-300 leading-relaxed ${
-                            isExpanded ? '' : 'line-clamp-2'
-                          }`}
-                        >
-                          {assignment.description}
-                        </p>
-                        {assignment.description.length > 120 && (
-                          <button
-                            type="button"
-                            onClick={() => toggleExpand(assignment.id)}
-                            className="text-[11px] text-cyan-400 hover:text-cyan-300 font-medium mt-0.5 inline-flex items-center gap-0.5 cursor-pointer"
-                          >
-                            <span>{isExpanded ? 'Thu gọn' : 'Xem toàn bộ mô tả'}</span>
-                            {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-                          </button>
-                        )}
-                      </div>
+                    {/* Toggle description button */}
+                    {assignment.description && assignment.description.length > 70 && (
+                      <button
+                        type="button"
+                        onClick={() => toggleExpand(assignment.id)}
+                        className="text-[11px] text-cyan-400 hover:text-cyan-300 font-medium inline-flex items-center gap-0.5 cursor-pointer ml-auto"
+                      >
+                        <span>{isExpanded ? 'Thu gọn' : 'Xem mô tả'}</span>
+                        {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                      </button>
                     )}
                   </div>
+
+                  {/* Description Preview / Content */}
+                  {assignment.description && (
+                    <div className="pl-8.5 sm:pl-9">
+                      <p
+                        className={`text-xs text-slate-300 leading-relaxed bg-[#0B0E24]/50 p-2.5 rounded-xl border border-slate-800/80 break-words ${
+                          isExpanded || assignment.description.length <= 70 ? '' : 'line-clamp-2'
+                        }`}
+                      >
+                        {assignment.description}
+                      </p>
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -664,13 +685,14 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                         key={subj}
                         type="button"
                         onClick={() => setFormSubject(subj)}
-                        className={`text-[10px] font-pixel px-2 py-0.5 rounded-md border transition-colors cursor-pointer ${
+                        className={`text-xs font-sans font-medium px-2.5 py-1 rounded-lg border transition-colors cursor-pointer max-w-[220px] truncate ${
                           formSubject === subj
-                            ? 'bg-cyan-600 text-white border-cyan-400'
+                            ? 'bg-cyan-600 text-white border-cyan-400 shadow-xs'
                             : 'bg-[#161B40] text-slate-300 border-slate-700 hover:border-cyan-500/50'
                         }`}
+                        title={subj}
                       >
-                        {subj.length > 25 ? `${subj.slice(0, 25)}...` : subj}
+                        {subj}
                       </button>
                     ))}
                   </div>

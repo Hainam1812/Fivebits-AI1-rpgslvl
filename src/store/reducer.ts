@@ -398,7 +398,7 @@ export function gameReducer(
     case 'ADD_COURSE': {
       nextState = {
         ...state,
-        timetable: addCourse(state.timetable || [], action.payload.course),
+        timetable: addCourse(state.timetable || [], action.payload.course, { preventOverlap: true }),
       };
       break;
     }

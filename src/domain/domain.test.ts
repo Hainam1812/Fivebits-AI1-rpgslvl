@@ -10,7 +10,7 @@ import { calculateCart, calculateComboPrice } from './cart.ts';
 import { evaluateAchievements } from './achievements.ts';
 import { gradeExamSession, calculateExamHearts, deleteExamSchedule } from './exams.ts';
 import { validateCharacterName, sanitizeCharacterInput } from './character.ts';
-import { addCourse, removeCourse, generateCourseCells, renderGrid } from './timetable.ts';
+import { addCourse, removeCourse, generateCourseCells, renderGrid, findConflictingCourses, isSlotOverlapping } from './timetable.ts';
 import {
   Assignment,
   addAssignment,
@@ -544,6 +544,83 @@ test('TimeTable builder: addCourse, removeCourse, and multiple slots for same co
   list = removeCourse(list, slot1Id);
   assert.equal(list.length, 1);
   assert.equal(list[0].day, 'wed');
+});
+
+test('TimeTable overlap prevention: findConflictingCourses, isSlotOverlapping, and addCourse with preventOverlap', () => {
+  let list: CourseSlot[] = [];
+
+  // Add initial course: Monday periods 3 to 5
+  list = addCourse(list, {
+    name: 'Giải Tích 1',
+    code: 'MATH101',
+    day: 'mon',
+    startPeriod: 3,
+    endPeriod: 5,
+    room: 'A1-101',
+    lecturer: 'Thầy Hùng',
+  });
+  assert.equal(list.length, 1);
+
+  // 1. Candidate on Monday period 1-2 (before MATH101): NO overlap
+  assert.equal(isSlotOverlapping(list, 'mon', 1, 2), false);
+  assert.equal(findConflictingCourses(list, 'mon', 1, 2).length, 0);
+
+  // 2. Candidate on Monday period 6-8 (after MATH101): NO overlap
+  assert.equal(isSlotOverlapping(list, 'mon', 6, 8), false);
+
+  // 3. Candidate on Tuesday period 3-5 (different day): NO overlap
+  assert.equal(isSlotOverlapping(list, 'tue', 3, 5), false);
+
+  // 4. Overlap cases on Monday:
+  // - Overlaps end of candidate (period 1 to 3)
+  assert.equal(isSlotOverlapping(list, 'mon', 1, 3), true);
+  // - Inside existing slot (period 4 to 4)
+  assert.equal(isSlotOverlapping(list, 'mon', 4, 4), true);
+  // - Enclosing existing slot (period 2 to 6)
+  assert.equal(isSlotOverlapping(list, 'mon', 2, 6), true);
+  // - Exact match (period 3 to 5)
+  assert.equal(isSlotOverlapping(list, 'mon', 3, 5), true);
+  // - Overlaps start of candidate (period 5 to 7)
+  assert.equal(isSlotOverlapping(list, 'mon', 5, 7), true);
+
+  const conflicts = findConflictingCourses(list, 'mon', 2, 4);
+  assert.equal(conflicts.length, 1);
+  assert.equal(conflicts[0].code, 'MATH101');
+
+  // 5. addCourse with preventOverlap: true rejects overlapping addition
+  const listAfterOverlapAttempt = addCourse(
+    list,
+    {
+      name: 'Toán Rời Rạc',
+      code: 'MATH205',
+      day: 'mon',
+      startPeriod: 4,
+      endPeriod: 6,
+      room: 'B2-202',
+      lecturer: 'Cô Lan',
+    },
+    { preventOverlap: true }
+  );
+  // Length should remain 1 (rejected)
+  assert.equal(listAfterOverlapAttempt.length, 1);
+  assert.equal(listAfterOverlapAttempt[0].code, 'MATH101');
+
+  // 6. Non-overlapping course succeeds
+  const listAfterValidAdd = addCourse(
+    list,
+    {
+      name: 'Toán Rời Rạc',
+      code: 'MATH205',
+      day: 'mon',
+      startPeriod: 7,
+      endPeriod: 9,
+      room: 'B2-202',
+      lecturer: 'Cô Lan',
+    },
+    { preventOverlap: true }
+  );
+  assert.equal(listAfterValidAdd.length, 2);
+  assert.equal(listAfterValidAdd[1].code, 'MATH205');
 });
 
 test('TimeTable grid: merges consecutive periods into rowSpan blocks and marks covered cells', () => {

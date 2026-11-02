@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   Lock,
   Star,
+  StarHalf,
   Users,
   Target,
   ArrowLeft,
@@ -245,10 +246,17 @@ export const PackageDetailPage: React.FC = () => {
                   <div className="font-bold text-xs text-slate-200">{rev.author}</div>
                   <div className="text-[11px] text-slate-400">{rev.role}</div>
                 </div>
-                <div className="flex text-amber-400 text-xs">
-                  {Array.from({ length: rev.rating }).map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
-                  ))}
+                <div className="flex text-amber-400 text-xs items-center gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => {
+                    const diff = rev.rating - i;
+                    if (diff >= 1) {
+                      return <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />;
+                    }
+                    if (diff >= 0.5) {
+                      return <StarHalf key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />;
+                    }
+                    return <Star key={i} className="w-3.5 h-3.5 text-slate-600/50" />;
+                  })}
                 </div>
               </div>
               <p className="text-xs text-slate-300 italic leading-relaxed">
