@@ -7,7 +7,9 @@ import { QuestDetailModal } from '../components/game/QuestDetailModal.js';
 import { Button } from '../components/ui/Button.js';
 import { Search, Filter, SlidersHorizontal, CheckCircle2, Compass, Layers, Check, Clock } from 'lucide-react';
 import { canAttemptTask, isTaskCompleted } from '../domain/packages.js';
-import { sortQuestsByCompletionStatus } from '../domain/quests.js';
+import { sortQuestsByCompletionStatus, matchesCategory } from '../domain/quests.js';
+import { QUEST_PACKAGES } from '../data/questPackages.js';
+import { DAILY_QUESTS } from '../data/dailyQuests.js';
 
 export const QuestsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,6 +25,8 @@ export const QuestsPage: React.FC = () => {
 
   const setTab = (tab: string) => {
     searchParams.set('tab', tab);
+    searchParams.delete('cat');
+    searchParams.delete('diff');
     setSearchParams(searchParams);
   };
 
@@ -47,8 +51,8 @@ export const QuestsPage: React.FC = () => {
   const dailyStatus = selectDailyQuestsStatus(state, now);
   const packagesStatus = selectPackagesStatus(state);
 
-  // Compile list of quests according to active tab
-  const displayedQuests = useMemo(() => {
+  // Compile unfiltered list of quests according to active tab
+  const rawQuests = useMemo(() => {
     let list: Array<{
       id: string;
       name: string;
@@ -78,14 +82,14 @@ export const QuestsPage: React.FC = () => {
         difficulty: item.quest.difficulty,
         xp: item.quest.xp,
         locationId: item.quest.locationId,
-        status: item.activeState ? 'in_progress' : item.isCompleted ? 'completed' : 'todo',
+        status: (item.activeState ? 'in_progress' : item.isCompleted ? 'completed' : 'todo') as 'in_progress' | 'completed' | 'todo',
         startedAt: item.activeState?.startedAt,
         dueAt: item.activeState?.dueAt,
         activeTaskState: item.activeState,
-        source: 'daily',
+        source: 'daily' as const,
       }));
     } else if (currentTab === 'active') {
-      // In progress daily quests + in progress package tasks
+      // In progress daily quests
       const activeDailies = dailyStatus.items
         .filter(item => Boolean(item.activeState))
         .map(item => ({
@@ -104,30 +108,29 @@ export const QuestsPage: React.FC = () => {
           source: 'daily' as const,
         }));
 
+      // In progress package tasks - include ANY package task that has an active state in state.activeTasks
       const activePkgTasks: any[] = [];
-      for (const p of packagesStatus) {
-        if (p.isOwned && !p.isAbandoned) {
-          for (const task of p.pkg.tasks) {
-            const activeState = state.activeTasks[task.id];
-            if (activeState) {
-              activePkgTasks.push({
-                id: task.id,
-                name: task.title,
-                description: task.description,
-                condition: task.condition,
-                category: task.category,
-                difficulty: task.difficulty,
-                xp: task.xp,
-                locationId: task.locationId,
-                status: 'in_progress' as const,
-                startedAt: activeState.startedAt,
-                dueAt: activeState.dueAt,
-                activeTaskState: activeState,
-                packageId: p.pkg.id,
-                isBoss: task.isBoss,
-                source: 'package' as const,
-              });
-            }
+      for (const pkg of QUEST_PACKAGES) {
+        for (const task of pkg.tasks) {
+          const activeState = state.activeTasks[task.id];
+          if (activeState) {
+            activePkgTasks.push({
+              id: task.id,
+              name: `${pkg.title}: ${task.title}`,
+              description: task.description,
+              condition: task.condition,
+              category: task.category,
+              difficulty: task.difficulty,
+              xp: task.xp,
+              locationId: task.locationId,
+              status: 'in_progress' as const,
+              startedAt: activeState.startedAt,
+              dueAt: activeState.dueAt,
+              activeTaskState: activeState,
+              packageId: pkg.id,
+              isBoss: task.isBoss,
+              source: 'package' as const,
+            });
           }
         }
       }
@@ -164,25 +167,104 @@ export const QuestsPage: React.FC = () => {
             packageId: p.pkg.id,
             isBoss: task.isBoss,
             lockReason: check.reason,
-            source: 'package',
+            source: 'package' as const,
           });
         }
       }
     } else if (currentTab === 'completed') {
-      // Direct from ledger completions
-      list = state.completions.map(c => ({
-        id: c.key,
-        name: c.questId,
-        description: `Hoàn thành lúc ${new Date(c.completedAt).toLocaleString('vi-VN')}`,
-        condition: 'Đã hoàn thành xác nhận',
-        category: c.category,
-        difficulty: c.difficulty,
-        xp: c.xp,
-        locationId: c.locationId || 'classroom',
-        status: 'completed',
-        source: c.kind === 'daily' ? 'daily' : 'package',
-      }));
+      // Direct from ledger completions with friendly names
+      list = state.completions.map(c => {
+        let displayName = c.questId;
+        let cat = c.category;
+        let diff = c.difficulty;
+
+        if (c.kind === 'daily') {
+          const d = DAILY_QUESTS.find(q => q.id === c.questId);
+          if (d) {
+            displayName = d.name;
+            cat = cat || d.category;
+            diff = diff || d.difficulty;
+          }
+        } else {
+          for (const pkg of QUEST_PACKAGES) {
+            const t = pkg.tasks.find(tk => tk.id === c.questId);
+            if (t) {
+              displayName = `${pkg.title}: ${t.title}`;
+              cat = cat || t.category;
+              diff = diff || t.difficulty;
+              break;
+            }
+          }
+        }
+
+        return {
+          id: c.key,
+          name: displayName,
+          description: `Hoàn thành lúc ${new Date(c.completedAt).toLocaleString('vi-VN')}`,
+          condition: 'Đã hoàn thành xác nhận',
+          category: cat || 'General',
+          difficulty: diff || 'Normal',
+          xp: c.xp,
+          locationId: c.locationId || 'classroom',
+          status: 'completed' as const,
+          source: (c.kind === 'daily' ? 'daily' : 'package') as 'daily' | 'package',
+        };
+      });
     }
+
+    return list;
+  }, [currentTab, dailyStatus, packagesStatus, state]);
+
+  // Dynamically compute unique categories present in the current tab's items
+  const availableCategories = useMemo(() => {
+    const map = new Map<string, number>();
+    rawQuests.forEach(item => {
+      if (item.category) {
+        map.set(item.category, (map.get(item.category) || 0) + 1);
+      }
+    });
+    return Array.from(map.entries())
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => a.name.localeCompare(b.name, 'vi'));
+  }, [rawQuests]);
+
+  // Dynamically compute unique difficulties present in the current tab's items
+  const availableDifficulties = useMemo(() => {
+    const map = new Map<string, number>();
+    rawQuests.forEach(item => {
+      if (item.difficulty) {
+        map.set(item.difficulty, (map.get(item.difficulty) || 0) + 1);
+      }
+    });
+    const order = ['Easy', 'Normal', 'Hard', 'Boss'];
+    return order
+      .filter(diff => map.has(diff))
+      .map(diff => {
+        let label = diff;
+        if (diff === 'Easy') label = 'Easy (10 XP)';
+        else if (diff === 'Normal') label = 'Normal (25 XP)';
+        else if (diff === 'Hard') label = 'Hard (50 XP)';
+        else if (diff === 'Boss') label = 'Boss (100 XP)';
+        return { name: diff, label, count: map.get(diff) || 0 };
+      });
+  }, [rawQuests]);
+
+  // Total active tasks count across daily quests and packages
+  const activeCount = useMemo(() => {
+    let count = dailyStatus.items.filter(item => Boolean(item.activeState)).length;
+    for (const pkg of QUEST_PACKAGES) {
+      for (const task of pkg.tasks) {
+        if (state.activeTasks[task.id]) {
+          count += 1;
+        }
+      }
+    }
+    return count;
+  }, [dailyStatus, state.activeTasks]);
+
+  // Filtered displayed list
+  const displayedQuests = useMemo(() => {
+    let list = [...rawQuests];
 
     // Apply Search Filter
     if (searchQuery.trim()) {
@@ -191,13 +273,14 @@ export const QuestsPage: React.FC = () => {
         item =>
           item.name.toLowerCase().includes(qLower) ||
           item.description.toLowerCase().includes(qLower) ||
-          item.category.toLowerCase().includes(qLower)
+          (item.category && item.category.toLowerCase().includes(qLower)) ||
+          (item.condition && item.condition.toLowerCase().includes(qLower))
       );
     }
 
-    // Apply Category Filter
+    // Apply Category Filter with flexible/smart matching
     if (filterCategory !== 'all') {
-      list = list.filter(item => item.category.toLowerCase() === filterCategory.toLowerCase());
+      list = list.filter(item => matchesCategory(item.category, filterCategory));
     }
 
     // Apply Difficulty Filter
@@ -207,7 +290,7 @@ export const QuestsPage: React.FC = () => {
 
     // Sort quests deterministically: Incomplete on top, Completed at bottom
     return sortQuestsByCompletionStatus(list);
-  }, [currentTab, dailyStatus, packagesStatus, state, searchQuery, filterCategory, filterDifficulty]);
+  }, [rawQuests, searchQuery, filterCategory, filterDifficulty]);
 
   // Derived groups for clean UI sectioning and metrics
   const pendingQuests = useMemo(
@@ -236,21 +319,32 @@ export const QuestsPage: React.FC = () => {
         {/* Tab switchers */}
         <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-[#161B40] border border-slate-700/60 w-full sm:w-auto overflow-x-auto">
           {[
-            { id: 'daily', label: 'Daily' },
-            { id: 'active', label: 'Đang làm' },
+            { id: 'daily', label: 'Daily', count: dailyStatus.totalCount - dailyStatus.completedCount },
+            { id: 'active', label: 'Đang làm', count: activeCount },
             { id: 'packages', label: 'Gói Quest' },
-            { id: 'completed', label: 'Lịch sử' },
+            { id: 'completed', label: 'Lịch sử', count: state.completions.length },
           ].map(t => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer select-none ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
                 currentTab === t.id
                   ? 'bg-violet-600 text-white shadow-md'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
               }`}
             >
-              {t.label}
+              <span>{t.label}</span>
+              {typeof t.count === 'number' && t.count > 0 && (
+                <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-pixel leading-none ${
+                  currentTab === t.id
+                    ? 'bg-white/20 text-white'
+                    : t.id === 'active'
+                    ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 animate-pulse'
+                    : 'bg-slate-700/60 text-slate-300'
+                }`}>
+                  {t.count}
+                </span>
+              )}
             </button>
           ))}
         </div>
@@ -274,15 +368,14 @@ export const QuestsPage: React.FC = () => {
           <select
             value={filterCategory}
             onChange={e => setCategory(e.target.value)}
-            className="px-3 py-2.5 rounded-xl bg-[#161B40] border border-slate-700/60 text-xs text-slate-200 focus:outline-none focus:border-violet-500 cursor-pointer"
+            className="px-3 py-2.5 rounded-xl bg-[#161B40] border border-slate-700/60 text-xs text-slate-200 focus:outline-none focus:border-violet-500 cursor-pointer max-w-[200px]"
           >
-            <option value="all">Tất cả danh mục</option>
-            <option value="academic">Academic</option>
-            <option value="daily life">Daily Life</option>
-            <option value="health">Health & Habits</option>
-            <option value="personal growth">Personal Growth</option>
-            <option value="code & technology">Code & Technology</option>
-            <option value="productivity & planning">Productivity</option>
+            <option value="all">Tất cả danh mục ({rawQuests.length})</option>
+            {availableCategories.map(c => (
+              <option key={c.name} value={c.name}>
+                {c.name} ({c.count})
+              </option>
+            ))}
           </select>
 
           <select
@@ -291,10 +384,20 @@ export const QuestsPage: React.FC = () => {
             className="px-3 py-2.5 rounded-xl bg-[#161B40] border border-slate-700/60 text-xs text-slate-200 focus:outline-none focus:border-violet-500 cursor-pointer"
           >
             <option value="all">Tất cả độ khó</option>
-            <option value="Easy">Easy (10 XP)</option>
-            <option value="Normal">Normal (25 XP)</option>
-            <option value="Hard">Hard (50 XP)</option>
-            <option value="Boss">Boss (100 XP)</option>
+            {availableDifficulties.length > 0 ? (
+              availableDifficulties.map(d => (
+                <option key={d.name} value={d.name}>
+                  {d.label} ({d.count})
+                </option>
+              ))
+            ) : (
+              <>
+                <option value="Easy">Easy (10 XP)</option>
+                <option value="Normal">Normal (25 XP)</option>
+                <option value="Hard">Hard (50 XP)</option>
+                <option value="Boss">Boss (100 XP)</option>
+              </>
+            )}
           </select>
         </div>
 
@@ -535,13 +638,12 @@ export const QuestsPage: React.FC = () => {
                 onChange={e => setCategory(e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl bg-[#0F132E] border border-slate-700 text-xs text-slate-200"
               >
-                <option value="all">Tất cả danh mục</option>
-                <option value="academic">Academic</option>
-                <option value="daily life">Daily Life</option>
-                <option value="health">Health & Habits</option>
-                <option value="personal growth">Personal Growth</option>
-                <option value="code & technology">Code & Technology</option>
-                <option value="productivity & planning">Productivity</option>
+                <option value="all">Tất cả danh mục ({rawQuests.length})</option>
+                {availableCategories.map(c => (
+                  <option key={c.name} value={c.name}>
+                    {c.name} ({c.count})
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -553,10 +655,20 @@ export const QuestsPage: React.FC = () => {
                 className="w-full px-3 py-2.5 rounded-xl bg-[#0F132E] border border-slate-700 text-xs text-slate-200"
               >
                 <option value="all">Tất cả độ khó</option>
-                <option value="Easy">Easy (10 XP)</option>
-                <option value="Normal">Normal (25 XP)</option>
-                <option value="Hard">Hard (50 XP)</option>
-                <option value="Boss">Boss (100 XP)</option>
+                {availableDifficulties.length > 0 ? (
+                  availableDifficulties.map(d => (
+                    <option key={d.name} value={d.name}>
+                      {d.label} ({d.count})
+                    </option>
+                  ))
+                ) : (
+                  <>
+                    <option value="Easy">Easy (10 XP)</option>
+                    <option value="Normal">Normal (25 XP)</option>
+                    <option value="Hard">Hard (50 XP)</option>
+                    <option value="Boss">Boss (100 XP)</option>
+                  </>
+                )}
               </select>
             </div>
 

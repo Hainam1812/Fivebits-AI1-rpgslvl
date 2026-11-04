@@ -148,3 +148,51 @@ export function sortQuestsByCompletionStatus<T extends SortableQuestItem>(quests
     return a.name.localeCompare(b.name, 'vi');
   });
 }
+
+/**
+ * Flexible matching for quest categories.
+ * Handles exact matches, case-insensitivity, substring matches,
+ * and semantic aliases between Daily quests (e.g. 'Academic', 'Health', 'Daily Life')
+ * and Package tasks (e.g. 'Learning & Knowledge', 'Health & Habits', 'Lifestyle & Balance').
+ */
+export function matchesCategory(itemCategory: string | undefined, filterCategory: string): boolean {
+  if (!filterCategory || filterCategory.toLowerCase() === 'all') return true;
+  if (!itemCategory) return false;
+
+  const item = itemCategory.trim().toLowerCase();
+  const filter = filterCategory.trim().toLowerCase();
+
+  // 1. Exact match
+  if (item === filter) return true;
+
+  // 2. Substring match in either direction
+  if (item.includes(filter) || filter.includes(item)) return true;
+
+  // 3. Normalized slug matching (e.g. "code & technology" vs "code & technology", "productivity & planning" vs "productivity")
+  const normalize = (str: string) => str.replace(/&/g, 'and').replace(/[^a-z0-9]/g, '');
+  if (normalize(item).includes(normalize(filter)) || normalize(filter).includes(normalize(item))) {
+    return true;
+  }
+
+  // 4. Semantic group synonyms:
+  // Academic / Study / University / Learning
+  const academicTerms = ['academic', 'learning', 'knowledge', 'university', 'học tập', 'kiến thức'];
+  if (academicTerms.some(t => item.includes(t)) && academicTerms.some(t => filter.includes(t))) {
+    return true;
+  }
+
+  // Daily Life / Lifestyle / Balance
+  const lifeTerms = ['daily life', 'lifestyle', 'balance', 'đời sống', 'sinh hoạt'];
+  if (lifeTerms.some(t => item.includes(t)) && lifeTerms.some(t => filter.includes(t))) {
+    return true;
+  }
+
+  // Health / Habits
+  const healthTerms = ['health', 'habits', 'sức khỏe', 'thói quen'];
+  if (healthTerms.some(t => item.includes(t)) && healthTerms.some(t => filter.includes(t))) {
+    return true;
+  }
+
+  return false;
+}
+

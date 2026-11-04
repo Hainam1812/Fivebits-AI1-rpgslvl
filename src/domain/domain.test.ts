@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { getDateKey, getYesterdayKey, getDaysDifference } from './dates.ts';
 import { calculateLevelFromXp, getLevelProgress } from './progression.ts';
 import { calculateStreak } from './streak.ts';
-import { completeDailyQuest, getDailyQuestDedupKey, sortQuestsByCompletionStatus } from './quests.ts';
+import { completeDailyQuest, getDailyQuestDedupKey, sortQuestsByCompletionStatus, matchesCategory } from './quests.ts';
 import { completePackageTask, canAttemptTask, isTaskCompleted } from './packages.ts';
 import { calculateCart, calculateComboPrice } from './cart.ts';
 import { evaluateAchievements } from './achievements.ts';
@@ -1038,6 +1038,55 @@ test('Assignments: isUrgent flag is optional, persists on create and update', ()
   });
   const updatedItem = list.find(a => a.id === 'asg-urgent-1');
   assert.equal(updatedItem?.isUrgent, false);
+});
+
+test('matchesCategory: handles exact, substrings, and semantic aliases between daily quests and packages', () => {
+  // All category matches everything
+  assert.equal(matchesCategory('Academic', 'all'), true);
+  assert.equal(matchesCategory('Health & Habits', 'all'), true);
+
+  // Exact & case-insensitive
+  assert.equal(matchesCategory('Academic', 'academic'), true);
+  assert.equal(matchesCategory('Code & Technology', 'Code & Technology'), true);
+  assert.equal(matchesCategory('code & technology', 'CODE & TECHNOLOGY'), true);
+
+  // Health and Health & Habits mutual matching
+  assert.equal(matchesCategory('Health & Habits', 'health'), true);
+  assert.equal(matchesCategory('Health', 'Health & Habits'), true);
+
+  // Academic and Learning & Knowledge / University & AI
+  assert.equal(matchesCategory('Learning & Knowledge', 'academic'), true);
+  assert.equal(matchesCategory('University & AI', 'academic'), true);
+  assert.equal(matchesCategory('Academic', 'Learning & Knowledge'), true);
+
+  // Daily Life and Lifestyle & Balance
+  assert.equal(matchesCategory('Lifestyle & Balance', 'daily life'), true);
+  assert.equal(matchesCategory('Daily Life', 'lifestyle'), true);
+
+  // Productivity
+  assert.equal(matchesCategory('Productivity & Planning', 'productivity'), true);
+
+  // Negative checks: unrelated categories should not match
+  assert.equal(matchesCategory('Code & Technology', 'health'), false);
+  assert.equal(matchesCategory('Health', 'code & technology'), false);
+  assert.equal(matchesCategory('Personal Growth', 'academic'), false);
+});
+
+test('Package task: START_TASK puts task into activeTasks and is accessible as in-progress', () => {
+  const initialState = createMockState({
+    activeTasks: {},
+    unlockedPackages: [], // Not yet unlocked
+  });
+
+  // Start trial task from Python package (py-01)
+  const resultState = gameReducer(initialState, {
+    type: 'START_TASK',
+    payload: { questId: 'py-01' },
+  }).state;
+
+  assert.ok(resultState.activeTasks['py-01']);
+  assert.equal(resultState.activeTasks['py-01'].isPaused, false);
+  assert.equal(resultState.activeTasks['py-01'].elapsedSeconds, 0);
 });
 
 
