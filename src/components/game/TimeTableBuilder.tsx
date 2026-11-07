@@ -550,7 +550,7 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
                           >
                             <div className="flex items-center justify-center gap-2">
                               <Coffee className="w-4 h-4 text-amber-400 animate-bounce" />
-                              <span>🍱 KHOẢNG NGHỈ TRƯA (LUNCH BREAK • 12:05 - 12:35) • TIẾT 1-6 CA SÁNG / TIẾT 7-12 CA CHIỀU</span>
+                              <span>🍱 KHOẢNG NGHỈ TRƯA (LUNCH BREAK • 12:10 - 12:50) • TIẾT 1-6 CA SÁNG / TIẾT 7-12 CA CHIỀU</span>
                             </div>
                           </td>
                         </tr>
@@ -714,7 +714,7 @@ export const TimeTableBuilder: React.FC<TimeTableBuilderProps> = ({
                   {isLunch && (
                     <div className="py-2 px-3 rounded-xl bg-amber-950/40 border border-amber-500/30 text-amber-300 font-pixel text-xs text-center flex items-center justify-center gap-2">
                       <Coffee className="w-4 h-4 text-amber-400" />
-                      <span>🍱 GIỜ NGHỈ TRƯA (12:05 - 12:35)</span>
+                      <span>🍱 GIỜ NGHỈ TRƯA (12:10 - 12:50)</span>
                     </div>
                   )}
 

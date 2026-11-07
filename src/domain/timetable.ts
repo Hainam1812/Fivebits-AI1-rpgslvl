@@ -11,19 +11,19 @@ export const DAYS_OF_WEEK: { id: DayOfWeek; label: string; shortLabel: string }[
 ];
 
 export const PERIODS = [
-  { period: 1, time: '07:00 - 07:45', session: 'morning' as const },
-  { period: 2, time: '07:50 - 08:35', session: 'morning' as const },
-  { period: 3, time: '08:45 - 09:30', session: 'morning' as const },
-  { period: 4, time: '09:35 - 10:20', session: 'morning' as const },
-  { period: 5, time: '10:30 - 11:15', session: 'morning' as const },
-  { period: 6, time: '11:20 - 12:05', session: 'morning' as const },
+  { period: 1, time: '07:00 - 07:50', session: 'morning' as const },
+  { period: 2, time: '07:50 - 08:40', session: 'morning' as const },
+  { period: 3, time: '08:40 - 09:30', session: 'morning' as const },
+  { period: 4, time: '09:40 - 10:30', session: 'morning' as const },
+  { period: 5, time: '10:30 - 11:20', session: 'morning' as const },
+  { period: 6, time: '11:20 - 12:10', session: 'morning' as const },
   // Khoảng nghỉ trưa (Lunch Break)
-  { period: 7, time: '12:35 - 13:20', session: 'afternoon' as const },
-  { period: 8, time: '13:25 - 14:10', session: 'afternoon' as const },
-  { period: 9, time: '14:20 - 15:05', session: 'afternoon' as const },
-  { period: 10, time: '15:10 - 15:55', session: 'afternoon' as const },
-  { period: 11, time: '16:05 - 16:50', session: 'afternoon' as const },
-  { period: 12, time: '16:55 - 17:40', session: 'afternoon' as const },
+  { period: 7, time: '12:50 - 13:40', session: 'afternoon' as const },
+  { period: 8, time: '13:40 - 14:30', session: 'afternoon' as const },
+  { period: 9, time: '14:30 - 15:20', session: 'afternoon' as const },
+  { period: 10, time: '15:30 - 16:20', session: 'afternoon' as const },
+  { period: 11, time: '16:20 - 17:10', session: 'afternoon' as const },
+  { period: 12, time: '17:10 - 18:00', session: 'afternoon' as const },
 ];
 
 export const TIMETABLE_STORAGE_KEY = 'solo_levelling_timetable_v1';

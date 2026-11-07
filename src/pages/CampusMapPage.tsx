@@ -717,9 +717,9 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
 
                     {/* Label underneath */}
                     <rect
-                      x="-55"
+                      x="-60"
                       y="32"
-                      width="110"
+                      width="120"
                       height="20"
                       rx="6"
                       fill="#0F132E"
@@ -736,7 +736,7 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
                       fontWeight="600"
                       className="pointer-events-none select-none"
                     >
-                      {loc.name.split(' ')[0]}
+                      {loc.shortName || loc.name}
                     </text>
                   </g>
                 );

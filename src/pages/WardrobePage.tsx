@@ -1197,7 +1197,7 @@ export const WardrobePage: React.FC = () => {
                       step="0.05"
                       value={scale}
                       onChange={e => setScale(parseFloat(e.target.value))}
-                      className="w-full accent-cyan-400 cursor-pointer"
+                      className="w-full accent-indigo-500 cursor-pointer"
                     />
                   </div>
 
@@ -1231,7 +1231,7 @@ export const WardrobePage: React.FC = () => {
                       max="60"
                       value={offsetX}
                       onChange={e => setOffsetX(parseInt(e.target.value, 10))}
-                      className="w-full accent-cyan-400 cursor-pointer"
+                      className="w-full accent-indigo-500 cursor-pointer"
                     />
                   </div>
 
@@ -1265,7 +1265,7 @@ export const WardrobePage: React.FC = () => {
                       max="60"
                       value={offsetY}
                       onChange={e => setOffsetY(parseInt(e.target.value, 10))}
-                      className="w-full accent-cyan-400 cursor-pointer"
+                      className="w-full accent-indigo-500 cursor-pointer"
                     />
                   </div>
 
