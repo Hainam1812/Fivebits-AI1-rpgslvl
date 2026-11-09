@@ -2,6 +2,7 @@ export interface LocationDef {
   id: string;
   name: string;
   shortName?: string;
+  avatarFile: string;
   lore: string;
   category: string;
   x: number; // SVG map coordinate
@@ -16,6 +17,7 @@ export const CAMPUS_LOCATIONS: LocationDef[] = [
     id: 'classroom',
     name: 'Giảng Đường Trung Tâm',
     shortName: 'Giảng đường',
+    avatarFile: 'classroom_3a0c11c8.png',
     lore: 'Nơi diễn ra các buổi học lý thuyết, giải tích, toán rời rạc và các màn hỏi đáp căng não cùng giảng viên.',
     category: 'Academic',
     x: 400,
@@ -28,6 +30,7 @@ export const CAMPUS_LOCATIONS: LocationDef[] = [
     id: 'library',
     name: 'Thư Viện Tri Thức',
     shortName: 'Thư viện',
+    avatarFile: 'library_e66662d2.png',
     lore: 'Kho tàng tài liệu, điều hòa mát rượi và không gian yên tĩnh tuyệt đối cho các buổi học sâu và active recall.',
     category: 'Learning & Knowledge',
     x: 230,
@@ -40,6 +43,7 @@ export const CAMPUS_LOCATIONS: LocationDef[] = [
     id: 'computer-lab',
     name: 'Phòng Máy Thực Hành',
     shortName: 'Phòng máy',
+    avatarFile: 'computer_cdfab4ff.png',
     lore: 'Âm thanh bàn phím lách cách và những màn hình sáng đèn gõ Python, thuật toán thâu đêm.',
     category: 'Code & Technology',
     x: 580,
@@ -52,6 +56,7 @@ export const CAMPUS_LOCATIONS: LocationDef[] = [
     id: 'gym',
     name: 'Phòng Thể Thao & Gym',
     shortName: 'Phòng gym',
+    avatarFile: 'gym_2624342e.png',
     lore: 'Khu phức hợp thể chất giúp xua tan cảm giác mỏi lưng, giãn cơ và phục hồi thể lực sau giờ học.',
     category: 'Health & Habits',
     x: 650,
@@ -64,6 +69,7 @@ export const CAMPUS_LOCATIONS: LocationDef[] = [
     id: 'park',
     name: 'Sân Cỏ & Công Viên Xanh',
     shortName: 'Công viên',
+    avatarFile: 'park_8a55941b.png',
     lore: 'Thảm cỏ xanh mát dưới bóng cây cổ thụ – nơi lý tưởng để "touch grass", trò chuyện cùng bạn bè.',
     category: 'Lifestyle & Social Life',
     x: 390,
@@ -76,6 +82,7 @@ export const CAMPUS_LOCATIONS: LocationDef[] = [
     id: 'dorm',
     name: 'Ký Túc Xá Sinh Viên',
     shortName: 'Ký túc xá',
+    avatarFile: 'dormitory_b62878c1.png',
     lore: 'Căn cứ địa xuất phát mỗi ngày: nơi ngả lưng, dọn dẹp góc học tập và nhìn lại một ngày đã qua.',
     category: 'Daily Life',
     x: 150,
@@ -88,6 +95,7 @@ export const CAMPUS_LOCATIONS: LocationDef[] = [
     id: 'club-stage',
     name: 'Sân Khấu CLB & Kỹ Năng',
     shortName: 'Sân khấu CLB',
+    avatarFile: 'club_d91a3edf.png',
     lore: 'Không gian mở của các câu lạc bộ, nơi rèn luyện sự tự tin, phát biểu trước đám đông và bứt phá cá nhân.',
     category: 'Personal Growth',
     x: 280,
@@ -100,6 +108,7 @@ export const CAMPUS_LOCATIONS: LocationDef[] = [
     id: 'study-hub',
     name: 'Phòng Làm Việc Nhóm',
     shortName: 'Phòng học nhóm',
+    avatarFile: 'teamroom_70aad919.png',
     lore: 'Bảng trắng bút dạ khắp nơi, bàn tròn và những cuộc họp sprint gấp rút tiêu diệt deadline đồ án.',
     category: 'Productivity & Planning',
     x: 510,
@@ -112,6 +121,7 @@ export const CAMPUS_LOCATIONS: LocationDef[] = [
     id: 'event-hall',
     name: 'Hội Trường Lớn & Đấu Trường Thi',
     shortName: 'Hội trường',
+    avatarFile: 'auditorium_c93962d1.png',
     lore: 'Nơi tổ chức các sự kiện mùa giải, tuần lễ tân sinh viên và những kỳ thi boss kiểm tra kiến thức.',
     category: 'Sự kiện & Thi',
     x: 400,

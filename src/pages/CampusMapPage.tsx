@@ -34,6 +34,9 @@ import { TimeTableBuilder } from '../components/game/TimeTableBuilder.js';
 import { AssignmentManager } from '../components/game/AssignmentManager.js';
 
 
+const baseUrl = (import.meta.env?.BASE_URL || './').replace(/\/$/, '');
+const getAvatarUrl = (file?: string) => (file ? `${baseUrl}/assets/aistudio/${file}?v=navy` : '');
+
 interface CampusMapPageProps {
   defaultView?: 'map' | 'list' | 'assignments' | 'timetable';
 }
@@ -606,6 +609,10 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
                   <stop offset="0%" stopColor="#1E2656" />
                   <stop offset="100%" stopColor="#161B40" />
                 </linearGradient>
+                {/* Clip path for building pin avatar - fills frame with subtle rounded corners */}
+                <clipPath id="buildingPinClip">
+                  <rect x="-26" y="-26" width="52" height="52" rx="15" />
+                </clipPath>
               </defs>
 
               {/* Background */}
@@ -671,31 +678,55 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
                       />
                     )}
 
-                    {/* Building Base Outline */}
+                    {/* Building Base Background */}
                     <rect
                       x="-26"
                       y="-26"
                       width="52"
                       height="52"
                       rx="16"
-                      fill={isSelected ? '#1E1B4B' : '#161B40'}
-                      stroke={isSelected ? '#06B6D4' : loc.accentColor}
-                      strokeWidth={isSelected ? '3.5' : '2'}
-                      className="transition-all duration-200 drop-shadow-lg"
+                      fill={isSelected ? '#1E1B4B' : '#0F132E'}
                     />
 
-                    {/* Building Icon / Initial */}
-                    <text
-                      x="0"
-                      y="6"
-                      textAnchor="middle"
-                      fill="#FFFFFF"
-                      fontSize="14"
-                      fontWeight="bold"
-                      className="font-pixel pointer-events-none select-none"
-                    >
-                      {loc.name.charAt(0)}
-                    </text>
+                    {/* Building Inner Avatar - Zoomed in to bleed completely and fill entire pin frame */}
+                    <g clipPath="url(#buildingPinClip)">
+                      {loc.avatarFile ? (
+                        <image
+                          href={getAvatarUrl(loc.avatarFile)}
+                          x="-38"
+                          y="-38"
+                          width="76"
+                          height="76"
+                          preserveAspectRatio="xMidYMid slice"
+                          className="pixelated pointer-events-none select-none"
+                        />
+                      ) : (
+                        <text
+                          x="0"
+                          y="6"
+                          textAnchor="middle"
+                          fill="#FFFFFF"
+                          fontSize="14"
+                          fontWeight="bold"
+                          className="font-pixel pointer-events-none select-none"
+                        >
+                          {loc.name.charAt(0)}
+                        </text>
+                      )}
+                    </g>
+
+                    {/* Building Frame Outline (layered on top for crisp edge) */}
+                    <rect
+                      x="-26"
+                      y="-26"
+                      width="52"
+                      height="52"
+                      rx="16"
+                      fill="none"
+                      stroke={isSelected ? '#06B6D4' : loc.accentColor}
+                      strokeWidth={isSelected ? '3.5' : '2'}
+                      className="transition-all duration-200 drop-shadow-lg pointer-events-none"
+                    />
 
                     {/* Quest Badge on top right */}
                     {unfinished > 0 && (
@@ -795,11 +826,22 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
                 style={{ borderLeftColor: loc.accentColor }}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold font-heading text-sm text-slate-100 flex items-center gap-1.5">
-                    <MapPin className="w-4 h-4" style={{ color: loc.accentColor }} />
-                    <span>{loc.name}</span>
-                  </h3>
-                  <span className="text-xs font-bold text-cyan-400 font-pixel">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    {loc.avatarFile && (
+                      <div className="w-10 h-10 rounded-lg bg-[#0F132E] border border-slate-700/80 overflow-hidden shrink-0 flex items-center justify-center">
+                        <img
+                          src={getAvatarUrl(loc.avatarFile)}
+                          alt={loc.name}
+                          className="w-full h-full object-cover pixelated scale-[1.42]"
+                        />
+                      </div>
+                    )}
+                    <h3 className="font-bold font-heading text-sm text-slate-100 flex items-center gap-1.5 truncate">
+                      <MapPin className="w-4 h-4 shrink-0" style={{ color: loc.accentColor }} />
+                      <span className="truncate">{loc.name}</span>
+                    </h3>
+                  </div>
+                  <span className="text-xs font-bold text-cyan-400 font-pixel shrink-0">
                     Cấp {level}
                   </span>
                 </div>
@@ -822,22 +864,33 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
 
       {/* Location Details Sheet / Card */}
       <Card variant="surface" className="p-5 sm:p-6 space-y-4 border-t-4 border-t-cyan-500">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-slate-700/60">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] font-bold text-cyan-400 uppercase font-pixel tracking-wider">
-                {selectedLocation.category}
-              </span>
-              <span className="px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-bold font-pixel">
-                Độ Thân Quen: Cấp {selectedMastery?.level || 1}/5 ({selectedMastery?.xpEarned || 0} XP)
-              </span>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-3 border-b border-slate-700/60">
+          <div className="flex items-start gap-3.5">
+            {selectedLocation.avatarFile && (
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-[#0F132E] border-2 border-slate-700/80 overflow-hidden shrink-0 shadow-lg flex items-center justify-center">
+                <img
+                  src={getAvatarUrl(selectedLocation.avatarFile)}
+                  alt={selectedLocation.name}
+                  className="w-full h-full object-cover pixelated scale-[1.42]"
+                />
+              </div>
+            )}
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[11px] font-bold text-cyan-400 uppercase font-pixel tracking-wider">
+                  {selectedLocation.category}
+                </span>
+                <span className="px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-bold font-pixel">
+                  Độ Thân Quen: Cấp {selectedMastery?.level || 1}/5 ({selectedMastery?.xpEarned || 0} XP)
+                </span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black font-heading text-slate-100 mt-1">
+                {selectedLocation.name}
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">
+                {selectedLocation.lore}
+              </p>
             </div>
-            <h2 className="text-xl sm:text-2xl font-black font-heading text-slate-100 mt-1">
-              {selectedLocation.name}
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">
-              {selectedLocation.lore}
-            </p>
           </div>
 
           <div className="text-right shrink-0">
