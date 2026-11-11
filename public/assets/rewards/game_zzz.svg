@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
+  <defs>
+    <linearGradient id="zzzBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#0B0B0E"/>
+      <stop offset="50%" stopColor="#1A180E"/>
+      <stop offset="100%" stopColor="#060608"/>
+    </linearGradient>
+    <linearGradient id="zzzNeon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#FACC15"/>
+      <stop offset="100%" stopColor="#EAB308"/>
+    </linearGradient>
+    <filter id="zzzGlow">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Cyberpunk Dark Tech Background -->
+  <rect width="640" height="360" fill="url(#zzzBg)"/>
+
+  <!-- Hazard Stripes -->
+  <g opacity="0.15">
+    <line x1="-50" y1="0" x2="100" y2="360" stroke="#FACC15" stroke-width="18"/>
+    <line x1="50" y1="0" x2="200" y2="360" stroke="#FACC15" stroke-width="18"/>
+    <line x1="440" y1="0" x2="590" y2="360" stroke="#FACC15" stroke-width="18"/>
+    <line x1="540" y1="0" x2="690" y2="360" stroke="#FACC15" stroke-width="18"/>
+  </g>
+
+  <!-- TV Frame / Hollow Hazard Emblem -->
+  <g transform="translate(320, 145)" filter="url(#zzzGlow)">
+    <rect x="-65" y="-55" width="130" height="110" rx="18" fill="#18181B" stroke="url(#zzzNeon)" stroke-width="3.5"/>
+    <rect x="-53" y="-43" width="106" height="86" rx="12" fill="#09090B" stroke="#71717A" stroke-width="1"/>
+    <!-- Cassette / ZZZ Stylized Logo Symbol -->
+    <text x="0" y="16" font-family="'Impact', 'Arial Black', sans-serif" font-weight="900" font-size="44" fill="url(#zzzNeon)" text-anchor="middle" letter-spacing="3">ZZZ</text>
+    <!-- Hazard Dots -->
+    <circle cx="-38" cy="-28" r="4" fill="#EF4444"/>
+    <circle cx="38" cy="-28" r="4" fill="#22C55E"/>
+  </g>
+
+  <!-- Game Title Badge -->
+  <rect x="170" y="248" width="300" height="38" rx="8" fill="#18181B" stroke="url(#zzzNeon)" stroke-width="1.5"/>
+  <text x="320" y="273" font-family="'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="16" fill="#FACC15" text-anchor="middle" letter-spacing="2">ZENLESS ZONE ZERO</text>
+
+  <!-- Level Badge -->
+  <rect x="250" y="298" width="140" height="24" rx="6" fill="#422006" stroke="#EAB308" stroke-width="1"/>
+  <text x="320" y="315" font-family="'Courier New', monospace" font-weight="bold" font-size="12" fill="#FEF08A" text-anchor="middle" letter-spacing="1">YÊU CẦU: LV.20</text>
+</svg>

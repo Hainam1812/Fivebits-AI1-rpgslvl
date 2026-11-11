@@ -512,7 +512,7 @@ export const QuestsPage: React.FC = () => {
                         : undefined
                     }
                     onComplete={
-                      q.status === 'todo' || q.status === 'in_progress'
+                      q.status === 'in_progress'
                         ? () => {
                             if (q.source === 'daily') {
                               dispatch({ type: 'COMPLETE_DAILY_QUEST', payload: { questId: q.id } });
@@ -591,7 +591,7 @@ export const QuestsPage: React.FC = () => {
                         : undefined
                     }
                     onComplete={
-                      q.status === 'todo' || q.status === 'in_progress'
+                      q.status === 'in_progress'
                         ? () => {
                             if (q.source === 'daily') {
                               dispatch({ type: 'COMPLETE_DAILY_QUEST', payload: { questId: q.id } });

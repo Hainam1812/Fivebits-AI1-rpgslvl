@@ -37,12 +37,14 @@ export interface QuestPackageDef {
   tasks: PackageTaskDef[];
   reviews: PackageReview[];
   disclaimer?: string;
+  image?: string;
 }
 
 export const QUEST_PACKAGES: QuestPackageDef[] = [
   {
     id: 'pkg-master-python',
     title: 'MASTER PYTHON',
+    image: '/assets/aistudio/python_3be7556b.png',
     shortDescription: 'Làm quen tư duy lập trình từ con số 0 đến tự tay build script đầu tiên.',
     fullDescription: 'Dành cho tân sinh viên và người mới bắt đầu muốn thuần thục Python. Qua từng nhiệm vụ, bạn sẽ nắm vững biến, cấu trúc rẽ nhánh, vòng lặp, hàm và kỹ năng gỡ lỗi thực tế.',
     audience: 'Sinh viên năm nhất ngành CNTT, Khoa học dữ liệu hoặc bất kỳ ai muốn học code căn bản.',
@@ -180,6 +182,7 @@ export const QUEST_PACKAGES: QuestPackageDef[] = [
   {
     id: 'pkg-gym-rat',
     title: 'GYM RAT',
+    image: '/assets/aistudio/gymrat_d886cbe5.png',
     shortDescription: 'Không cần six-pack, không cần PR. Chỉ cần đứng dậy khỏi ghế và bắt đầu cày level cho cơ thể!',
     fullDescription: 'Bạn không cần phải "sống dở chết dở" với những thử thách vận động quá sức. Hãy bắt đầu hành trình biến thói quen "ngồi lì" thành lối sống năng động một cách tự nhiên nhất: khởi động đúng, tập luyện hợp lý, uống đủ nước và ngủ đủ giấc. Cuối con đường, một bài kiểm tra "trùm cuối" sẽ giúp bạn khẳng định sự kiên trì và kỷ luật của bản thân.',
     audience: '• Sinh viên ngồi một chỗ cả ngày, đứng dậy là nghe xương kêu răng rắc và cảm thấy người uể oải.\n• Sinh viên muốn bắt đầu tập thể dục nhưng sợ chấn thương, sợ ngại phòng gym hoặc không biết bắt đầu từ đâu.\n• Sinh viên từng tập hăng được 3 ngày rồi bỏ, giờ muốn tìm nhịp vận động nhẹ nhàng mà bền.',
@@ -273,6 +276,7 @@ export const QUEST_PACKAGES: QuestPackageDef[] = [
   {
     id: 'pkg-nerd-mode',
     title: 'NERD MODE',
+    image: '/assets/aistudio/nerd_85902aea.png',
     shortDescription: 'Học chủ động, nhớ sâu, ghi chép thông minh — biến kiến thức thành sức mạnh của riêng bạn!',
     fullDescription: 'Nâng cấp kỹ năng tiếp thu kiến thức học thuật: từ sơ đồ tư duy, kỹ thuật Feynman (giải thích đơn giản) đến active recall.',
     audience: '• Sinh viên muốn tối ưu thời gian học nhưng vẫn đạt hiệu quả cao.\n• Sinh viên muốn từ bỏ phương pháp học vẹt, học thuộc lòng máy móc bằng Mind Map và Active Recall.',
@@ -377,6 +381,7 @@ export const QUEST_PACKAGES: QuestPackageDef[] = [
   {
     id: 'pkg-ai-hcmus-er',
     title: 'AI HCMUS-ER',
+    image: '/assets/aistudio/AIHCMUS_24a410e6.png',
     shortDescription: 'Khám phá nền tảng Toán – Tin, phát triển tư duy lập trình và từng bước tiếp cận thế giới Trí tuệ nhân tạo với những gợi ý tự học hữu ích!',
     fullDescription: 'Bộ nhiệm vụ gợi ý rèn luyện tư duy vi tích phân, toán rời rạc và các bài toán thực hành AI căn bản. Giúp bạn chủ động đối chiếu tài liệu và vượt qua các môn đại cương.',
     audience: '• Sinh viên ngành Toán – Tin, Công nghệ thông tin.\n• Người muốn rèn luyện tư duy logic và lập trình.\n• Người muốn xây dựng nền tảng để theo đuổi lĩnh vực AI.',
@@ -481,6 +486,7 @@ export const QUEST_PACKAGES: QuestPackageDef[] = [
   {
     id: 'pkg-touch-grass',
     title: 'TOUCH GRASS',
+    image: '/assets/aistudio/touchgrass_0cb53321.png',
     shortDescription: 'Cân bằng nhịp sống, ra ngoài hít thở và tái tạo năng lượng tích cực.',
     fullDescription: 'Tạm gác điện thoại, máy tính và thế giới trực tuyến sang một bên. Đã đến lúc bước ra ngoài, hít thở không khí trong lành, khám phá thiên nhiên và kết nối với những người xung quanh. Hãy dành thời gian cho thế giới thực và tận hưởng những điều giản dị mà đôi khi bạn đã vô tình bỏ lỡ.',
     audience: '• Người thường xuyên sử dụng điện thoại, máy tính và Internet.\n• Người dành phần lớn thời gian trong nhà hoặc trước màn hình.\n• Người muốn vận động, thư giãn và khám phá thiên nhiên.\n• Người muốn cải thiện khả năng giao tiếp và kết nối xã hội.',
@@ -597,6 +603,7 @@ export const QUEST_PACKAGES: QuestPackageDef[] = [
   {
     id: 'pkg-main-character-arc',
     title: 'MAIN CHARACTER ARC',
+    image: '/assets/aistudio/mainarc_b76bc4e3.png',
     shortDescription: 'Trở thành nhân vật chính của cuộc đời bạn',
     fullDescription: 'Bước ra khỏi vùng an toàn, khẳng định cá tính và làm những điều mới mẻ. Đừng để nỗi sợ, sự chần chừ cướp mất cơ hội được sống theo cách riêng của bạn.',
     audience: '• Sinh viên cảm thấy cuộc đời mình như một NPC, hay rụt rè và nhạt nhẽo.\n• Sinh viên chán ngấy việc xem cuộc sống người khác qua màn hình điện thoại và muốn tự mình trải nghiệm.',
@@ -700,6 +707,7 @@ export const QUEST_PACKAGES: QuestPackageDef[] = [
   {
     id: 'pkg-deadline-survivor',
     title: 'DEADLINE SURVIVOR',
+    image: '/assets/aistudio/deadlinesurv_a97c7695.png',
     shortDescription: 'Chiến thuật quản lý thời gian, chia nhỏ đồ án và diệt trừ thói quen trì hoãn.',
     fullDescription: 'Biến chuỗi deadline dồn dập thành kế hoạch hành động từng ngày. Khắc phục triệt để cảm giác "nước đến chân mới nhảy" nhờ kỹ thuật time blocking và focus shield.',
     audience: 'Sinh viên ngập ngụa trong deadline bài tập lớn, đồ án môn học và báo cáo.',
@@ -815,4 +823,12 @@ export function getPackageById(id: string): QuestPackageDef | undefined {
 export function getTotalPotentialXpForPackage(pkg: QuestPackageDef): number {
   const taskXp = pkg.tasks.reduce((sum, t) => sum + t.xp, 0);
   return taskXp + pkg.clearBonusXp;
+}
+
+export function getPackageImageUrl(pkg: QuestPackageDef): string {
+  if (!pkg.image) return '';
+  if (pkg.image.startsWith('http')) return pkg.image;
+  const baseUrl = (typeof window !== 'undefined' && (import.meta as any).env?.BASE_URL || './').replace(/\/$/, '');
+  const cleanPath = pkg.image.startsWith('/') ? pkg.image : `/${pkg.image}`;
+  return `${baseUrl}${cleanPath}`;
 }

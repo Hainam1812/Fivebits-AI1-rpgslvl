@@ -955,7 +955,7 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
                       : undefined
                   }
                   onComplete={
-                    q.status === 'todo' || q.status === 'in_progress'
+                    q.status === 'in_progress'
                       ? () => {
                           if (q.source === 'daily') {
                             dispatch({ type: 'COMPLETE_DAILY_QUEST', payload: { questId: q.id } });

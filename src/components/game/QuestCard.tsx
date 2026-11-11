@@ -232,9 +232,9 @@ export const QuestCard: React.FC<QuestCardProps> = ({
 
           {status === 'todo' && onStart && (
             <Button
-              variant="secondary"
+              variant="cyan"
               size="sm"
-              icon={<Play className="w-3.5 h-3.5 text-emerald-400" />}
+              icon={<Play className="w-3.5 h-3.5 fill-current text-white" />}
               onClick={onStart}
             >
               Bắt đầu
@@ -306,7 +306,7 @@ export const QuestCard: React.FC<QuestCardProps> = ({
             </>
           )}
 
-          {(status === 'todo' || status === 'in_progress') && onComplete && (
+          {status === 'in_progress' && onComplete && (
             <Button
               variant={isBoss ? 'gold' : 'primary'}
               size="sm"

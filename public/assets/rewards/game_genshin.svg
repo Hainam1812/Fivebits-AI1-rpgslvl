@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
+  <defs>
+    <linearGradient id="genshinBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#0B1E28"/>
+      <stop offset="50%" stopColor="#0F3847"/>
+      <stop offset="100%" stopColor="#05151D"/>
+    </linearGradient>
+    <linearGradient id="genshinGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#FCD34D"/>
+      <stop offset="100%" stopColor="#D97706"/>
+    </linearGradient>
+    <linearGradient id="anemoGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#34D399"/>
+      <stop offset="100%" stopColor="#059669"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="640" height="360" fill="url(#genshinBg)"/>
+
+  <!-- Decorative Stars / Constellations -->
+  <g opacity="0.3">
+    <circle cx="80" cy="60" r="2" fill="#FDE68A"/>
+    <circle cx="160" cy="90" r="3" fill="#34D399"/>
+    <circle cx="240" cy="50" r="1.5" fill="#FDE68A"/>
+    <circle cx="540" cy="80" r="2.5" fill="#34D399"/>
+    <circle cx="580" cy="140" r="1.5" fill="#FDE68A"/>
+    <line x1="80" y1="60" x2="160" y2="90" stroke="#34D399" stroke-width="1" stroke-dasharray="3 3"/>
+    <line x1="160" y1="90" x2="240" y2="50" stroke="#34D399" stroke-width="1" stroke-dasharray="3 3"/>
+  </g>
+
+  <!-- Glowing Emblem in Center -->
+  <circle cx="320" cy="150" r="75" fill="#0A2A38" stroke="url(#genshinGold)" stroke-width="3" filter="url(#glow)"/>
+  <circle cx="320" cy="150" r="62" fill="none" stroke="#34D399" stroke-width="1.5" opacity="0.8"/>
+
+  <!-- Primogem / Four-Point Star Icon -->
+  <path d="M 320 95 Q 320 150 265 150 Q 320 150 320 205 Q 320 150 375 150 Q 320 150 320 95 Z" fill="url(#genshinGold)" filter="url(#glow)"/>
+  <circle cx="320" cy="150" r="10" fill="#FFFBEB"/>
+
+  <!-- Game Title Badge -->
+  <rect x="200" y="250" width="240" height="38" rx="8" fill="#081822" stroke="url(#genshinGold)" stroke-width="1.5"/>
+  <text x="320" y="275" font-family="'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="16" fill="#FDE68A" text-anchor="middle" letter-spacing="2">GENSHIN IMPACT</text>
+
+  <!-- Level Badge -->
+  <rect x="250" y="298" width="140" height="24" rx="6" fill="#064E3B" stroke="#34D399" stroke-width="1"/>
+  <text x="320" y="315" font-family="'Courier New', monospace" font-weight="bold" font-size="12" fill="#6EE7B7" text-anchor="middle" letter-spacing="1">YÊU CẦU: LV.8</text>
+</svg>

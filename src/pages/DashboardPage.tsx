@@ -319,11 +319,14 @@ export const DashboardPage: React.FC = () => {
                           })
                       : undefined
                   }
-                  onComplete={() =>
-                    dispatch({
-                      type: 'COMPLETE_DAILY_QUEST',
-                      payload: { questId: item.quest.id },
-                    })
+                  onComplete={
+                    status === 'in_progress'
+                      ? () =>
+                          dispatch({
+                            type: 'COMPLETE_DAILY_QUEST',
+                            payload: { questId: item.quest.id },
+                          })
+                      : undefined
                   }
                 />
               );

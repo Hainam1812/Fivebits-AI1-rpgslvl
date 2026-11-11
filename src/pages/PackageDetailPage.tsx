@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useGame } from '../store/GameContext.js';
-import { getPackageById, getTotalPotentialXpForPackage } from '../data/questPackages.js';
+import { getPackageById, getTotalPotentialXpForPackage, getPackageImageUrl } from '../data/questPackages.js';
 import { formatVnd } from '../domain/cart.js';
 import { Card } from '../components/ui/Card.js';
 import { Button } from '../components/ui/Button.js';
@@ -84,13 +84,25 @@ export const PackageDetailPage: React.FC = () => {
               )}
             </div>
 
-            <h1 className="text-2xl sm:text-4xl font-black font-heading text-slate-100">
-              {pkg.title}
-            </h1>
-
-            <p className="text-sm text-slate-300 leading-relaxed max-w-2xl">
-              {pkg.fullDescription}
-            </p>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              {pkg.image && (
+                <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-2xl overflow-hidden bg-[#0A0E27] border-2 border-violet-500/40 p-1 shadow-lg shadow-violet-950/40">
+                  <img
+                    src={getPackageImageUrl(pkg)}
+                    alt={pkg.title}
+                    className="w-full h-full object-cover rounded-xl bg-[#0A0E27]"
+                  />
+                </div>
+              )}
+              <div className="space-y-1">
+                <h1 className="text-2xl sm:text-4xl font-black font-heading text-slate-100">
+                  {pkg.title}
+                </h1>
+                <p className="text-sm text-slate-300 leading-relaxed max-w-2xl">
+                  {pkg.fullDescription}
+                </p>
+              </div>
+            </div>
 
             <div className="flex items-center gap-4 text-xs font-pixel text-slate-400 pt-2">
               <span>{pkg.tasks.length} Nhiệm vụ</span>

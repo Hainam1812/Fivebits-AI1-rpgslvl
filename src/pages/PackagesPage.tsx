@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useGame } from '../store/GameContext.js';
-import { QUEST_PACKAGES, FULL_PARTY_COMBO_ID } from '../data/questPackages.js';
+import { QUEST_PACKAGES, FULL_PARTY_COMBO_ID, getPackageImageUrl } from '../data/questPackages.js';
 import { calculateComboPrice, formatVnd } from '../domain/cart.js';
 import { Card } from '../components/ui/Card.js';
 import { Button } from '../components/ui/Button.js';
@@ -207,6 +207,19 @@ export const PackagesPage: React.FC = () => {
                     {formatVnd(pkg.price)}
                   </span>
                 </div>
+
+                {/* Ảnh đại diện cho gói - Căn giữa, phía dưới đề mục và giá tiền, kích cỡ đồng nhất */}
+                {pkg.image && (
+                  <div className="flex justify-center py-1">
+                    <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-[#0A0E27] border-2 border-violet-500/40 p-1 flex items-center justify-center shadow-lg shadow-violet-950/40 transition-transform duration-200 hover:scale-105">
+                      <img
+                        src={getPackageImageUrl(pkg)}
+                        alt={pkg.title}
+                        className="w-full h-full object-cover rounded-xl bg-[#0A0E27]"
+                      />
+                    </div>
+                  </div>
+                )}
 
                 <div>
                   <h3 className="font-black font-heading text-lg text-slate-100 flex items-center gap-1.5">

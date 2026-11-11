@@ -192,14 +192,14 @@ export const QuestDetailModal: React.FC<QuestDetailModalProps> = ({
 
           {quest.status === 'todo' && onStart && (
             <Button
-              variant="secondary"
-              icon={<Play className="w-4 h-4 text-emerald-400" />}
+              variant="cyan"
+              icon={<Play className="w-4 h-4 fill-current text-white" />}
               onClick={() => {
                 onStart();
                 onClose();
               }}
             >
-              Bắt đầu ngay
+              Bắt đầu
             </Button>
           )}
 
@@ -262,7 +262,7 @@ export const QuestDetailModal: React.FC<QuestDetailModalProps> = ({
             </>
           )}
 
-          {(quest.status === 'todo' || quest.status === 'in_progress') && onComplete && (
+          {quest.status === 'in_progress' && onComplete && (
             <Button
               variant={quest.isBoss ? 'gold' : 'primary'}
               icon={<Check className="w-4 h-4" />}
