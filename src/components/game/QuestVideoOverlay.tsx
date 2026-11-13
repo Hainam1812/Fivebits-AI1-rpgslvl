@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { X, Volume2, VolumeX, Play, Pause, Compass, Sparkles, Clock, ShieldCheck, MapPin, Headphones, Check, Music } from 'lucide-react';
+import { X, Volume2, VolumeX, Play, Pause, Compass, Sparkles, Clock, ShieldCheck, MapPin, Headphones, Check, Music, Maximize, Minimize } from 'lucide-react';
 import { DifficultyBadge } from '../ui/Badge.js';
 import { getLocationById } from '../../data/locations.js';
 
@@ -39,12 +39,41 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const videoSectionRef = useRef<HTMLElement>(null);
   const [phase, setPhase] = useState<TransitionPhase>('mosaic_in_start');
   const [isMuted, setIsMuted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const [showAutoplayHint, setShowAutoplayHint] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [completedState, setCompletedState] = useState(Boolean(isCompleted));
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Keep state in sync if native fullscreen is exited via browser controls or ESC
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const fsEl =
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement;
+      if (!fsEl) {
+        setIsFullscreen(false);
+        if (screen.orientation && typeof screen.orientation.unlock === 'function') {
+          try {
+            screen.orientation.unlock();
+          } catch {
+            // Ignore
+          }
+        }
+      } else {
+        setIsFullscreen(true);
+      }
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (isCompleted) {
@@ -215,6 +244,10 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
+    if (document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+    setIsFullscreen(false);
 
     if (prefersReduced) {
       onClose();
@@ -240,17 +273,56 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
     };
   }, [phase, prefersReduced, onClose]);
 
+  const toggleFullscreen = useCallback(async () => {
+    const container = videoSectionRef.current;
+    if (!isFullscreen) {
+      setIsFullscreen(true);
+      if (container) {
+        try {
+          if (container.requestFullscreen) {
+            await container.requestFullscreen();
+          } else if ((container as any).webkitRequestFullscreen) {
+            await (container as any).webkitRequestFullscreen();
+          }
+          if (screen.orientation && typeof (screen.orientation as any).lock === 'function') {
+            (screen.orientation as any).lock('landscape').catch(() => {});
+          }
+        } catch {
+          // Fallback to pure CSS fixed inset-0 fullscreen if native Fullscreen API is blocked/unsupported
+        }
+      }
+    } else {
+      setIsFullscreen(false);
+      try {
+        if (document.fullscreenElement && document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if ((document as any).webkitFullscreenElement && (document as any).webkitExitFullscreen) {
+          await (document as any).webkitExitFullscreen();
+        }
+        if (screen.orientation && typeof screen.orientation.unlock === 'function') {
+          screen.orientation.unlock();
+        }
+      } catch {
+        // Ignore
+      }
+    }
+  }, [isFullscreen]);
+
   // ESC key listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.preventDefault();
+        if (isFullscreen) {
+          toggleFullscreen();
+          return;
+        }
         handleExit();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleExit]);
+  }, [handleExit, isFullscreen, toggleFullscreen]);
 
   // Toggle Mute (synchronized between video and music)
   const toggleMute = () => {
@@ -348,14 +420,37 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
 
         {/* Content Area: Video (65%) + Quest Info Panel (35%) */}
         <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden bg-[#050714]">
-          {/* Video Section (~65% desktop) */}
-          <section className="w-full lg:w-[65%] h-[40vh] sm:h-[48vh] lg:h-full relative flex items-center justify-center bg-black overflow-hidden border-b lg:border-b-0 lg:border-r border-violet-900/30">
+          {/* Video Section (~65% desktop, or Fullscreen Mode) */}
+          <section
+            ref={videoSectionRef}
+            className={
+              isFullscreen
+                ? 'fixed inset-0 z-[25] w-full h-full flex items-center justify-center bg-black overflow-hidden'
+                : 'w-full lg:w-[65%] h-[40vh] sm:h-[48vh] lg:h-full relative flex items-center justify-center bg-black overflow-hidden border-b lg:border-b-0 lg:border-r border-violet-900/30'
+            }
+          >
+            {isFullscreen && (
+              <div className="absolute top-3 left-4 right-4 z-20 flex items-center justify-between gap-3 pointer-events-none">
+                <div className="px-3 py-1.5 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 text-xs font-bold font-heading text-slate-200 line-clamp-1 max-w-[65%]">
+                  {quest.name}
+                </div>
+                <button
+                  type="button"
+                  onClick={toggleFullscreen}
+                  aria-label="Thu nhỏ toàn màn hình"
+                  className="pointer-events-auto flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/70 hover:bg-black/90 backdrop-blur-md border border-cyan-500/40 text-cyan-300 hover:text-white text-[11px] font-bold font-pixel transition-colors cursor-pointer"
+                >
+                  <Minimize className="w-3.5 h-3.5" />
+                  <span>Thu nhỏ</span>
+                </button>
+              </div>
+            )}
             <video
               ref={videoRef}
               playsInline
               loop
               autoPlay
-              className="w-full h-full object-contain max-h-full"
+              className="w-full h-full object-contain"
               onPlay={() => {
                 setIsPlaying(true);
                 if (audioRef.current && audioRef.current.paused) {
@@ -374,7 +469,7 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
 
             {/* Autoplay Muted Notification Banner */}
             {showAutoplayHint && isMuted && (
-              <div className="absolute top-4 left-4 right-4 sm:left-auto sm:right-4 z-20 flex items-center justify-between gap-3 px-3.5 py-2 rounded-xl bg-[#161B40]/90 backdrop-blur-md border border-cyan-500/50 shadow-xl text-xs text-cyan-200">
+              <div className={`absolute ${isFullscreen ? 'top-14' : 'top-4'} left-4 right-4 sm:left-auto sm:right-4 z-20 flex items-center justify-between gap-3 px-3.5 py-2 rounded-xl bg-[#161B40]/90 backdrop-blur-md border border-cyan-500/50 shadow-xl text-xs text-cyan-200`}>
                 <span className="flex items-center gap-1.5">
                   <VolumeX className="w-4 h-4 text-amber-400 shrink-0" />
                   <span>Trình duyệt đang tắt tiếng video & nhạc</span>
@@ -408,6 +503,24 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
                   className="p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                 >
                   {isMuted ? <VolumeX className="w-4 h-4 text-amber-400" /> : <Volume2 className="w-4 h-4 text-cyan-400" />}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={toggleFullscreen}
+                  aria-label={isFullscreen ? 'Thoát toàn màn hình' : 'Phát toàn màn hình'}
+                  title={isFullscreen ? 'Thoát toàn màn hình' : 'Toàn màn hình'}
+                  className={`p-1.5 rounded-lg transition-colors cursor-pointer flex items-center gap-1 ${
+                    isFullscreen
+                      ? 'text-cyan-300 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40'
+                      : 'text-slate-300 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  {isFullscreen ? (
+                    <Minimize className="w-4 h-4" />
+                  ) : (
+                    <Maximize className="w-4 h-4 text-cyan-400" />
+                  )}
                 </button>
               </div>
 
