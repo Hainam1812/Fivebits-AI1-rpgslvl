@@ -4,7 +4,7 @@ import { DifficultyBadge, StatusBadge } from '../ui/Badge.js';
 import { Button } from '../ui/Button.js';
 import { DifficultyLevel } from '../../config/progression.js';
 import { ActiveTaskState } from '../../store/types.js';
-import { Check, Clock, Play, Pause, Lock, Sparkles, ChevronRight, RotateCcw, Flag } from 'lucide-react';
+import { Check, Clock, Play, Pause, Lock, Sparkles, ChevronRight, RotateCcw, Flag, Headphones } from 'lucide-react';
 
 export interface QuestCardProps {
   id: string;
@@ -20,6 +20,7 @@ export interface QuestCardProps {
   isBoss?: boolean;
   lockReason?: string;
   onStart?: () => void;
+  onOpenVideo?: () => void;
   onReplay?: () => void;
   onPause?: (currentElapsed?: number) => void;
   onResume?: () => void;
@@ -43,6 +44,7 @@ export const QuestCard: React.FC<QuestCardProps> = ({
   isBoss = false,
   lockReason,
   onStart,
+  onOpenVideo,
   onReplay,
   onPause,
   onResume,
@@ -265,6 +267,19 @@ export const QuestCard: React.FC<QuestCardProps> = ({
                     Tạm dừng
                   </Button>
                 )
+              )}
+
+              {onOpenVideo && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  icon={<Headphones className="w-3.5 h-3.5 text-cyan-400" />}
+                  onClick={onOpenVideo}
+                  className="border-cyan-500/40 text-cyan-300 hover:bg-cyan-950/40 hover:text-white"
+                  title="Quay lại trang video Vùng Yên Tĩnh"
+                >
+                  Vùng yên tĩnh
+                </Button>
               )}
 
               {onAbandon && (

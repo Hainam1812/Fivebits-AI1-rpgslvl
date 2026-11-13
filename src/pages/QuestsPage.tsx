@@ -4,8 +4,9 @@ import { useGame } from '../store/GameContext.js';
 import { selectDailyQuestsStatus, selectPackagesStatus } from '../store/selectors.js';
 import { QuestCard } from '../components/game/QuestCard.js';
 import { QuestDetailModal } from '../components/game/QuestDetailModal.js';
+import { QuestVideoOverlay } from '../components/game/QuestVideoOverlay.js';
 import { Button } from '../components/ui/Button.js';
-import { Search, Filter, SlidersHorizontal, CheckCircle2, Compass, Layers, Check, Clock } from 'lucide-react';
+import { Search, Filter, SlidersHorizontal, CheckCircle2, Compass, Layers, Check, Clock, Headphones } from 'lucide-react';
 import { canAttemptTask, isTaskCompleted } from '../domain/packages.js';
 import { sortQuestsByCompletionStatus, matchesCategory } from '../domain/quests.js';
 import { QUEST_PACKAGES } from '../data/questPackages.js';
@@ -22,6 +23,57 @@ export const QuestsPage: React.FC = () => {
 
   const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
   const [selectedQuest, setSelectedQuest] = useState<any | null>(null);
+  const [videoQuest, setVideoQuest] = useState<any | null>(null);
+  const [lastVideoQuest, setLastVideoQuest] = useState<any | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const handleStartQuestWithVideo = (q: any) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setLastVideoQuest(q);
+    dispatch({ type: 'START_TASK', payload: { questId: q.id } });
+    setVideoQuest(q);
+  };
+
+  const handleOpenQuietZone = (targetQuest?: any) => {
+    if (isTransitioning) return;
+    if (targetQuest) {
+      setIsTransitioning(true);
+      setLastVideoQuest(targetQuest);
+      setVideoQuest(targetQuest);
+      return;
+    }
+    if (lastVideoQuest) {
+      setIsTransitioning(true);
+      setVideoQuest(lastVideoQuest);
+      return;
+    }
+    const activeQuest = rawQuests.find(q => q.status === 'in_progress');
+    if (activeQuest) {
+      setIsTransitioning(true);
+      setLastVideoQuest(activeQuest);
+      setVideoQuest(activeQuest);
+      return;
+    }
+    const defaultQuietQuest = {
+      id: 'quiet-zone-focus',
+      name: 'Vùng Yên Tĩnh: Không Gian Tập Trung',
+      description: 'Không gian tĩnh lặng, hình ảnh thư giãn và nhịp điệu êm dịu giúp bạn lấy lại sự tập trung cao độ để hoàn thành các mục tiêu trong ngày.',
+      condition: 'Xem video, thư giãn và duy trì phiên tập trung liên tục.',
+      category: 'Tập Trung',
+      difficulty: 'Normal' as const,
+      xp: 25,
+      locationId: 'library',
+    };
+    setIsTransitioning(true);
+    setLastVideoQuest(defaultQuietQuest);
+    setVideoQuest(defaultQuietQuest);
+  };
+
+  const handleCloseVideo = () => {
+    setVideoQuest(null);
+    setIsTransitioning(false);
+  };
 
   const setTab = (tab: string) => {
     searchParams.set('tab', tab);
@@ -316,8 +368,21 @@ export const QuestsPage: React.FC = () => {
           </p>
         </div>
 
-        {/* Tab switchers */}
-        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-[#161B40] border border-slate-700/60 w-full sm:w-auto overflow-x-auto">
+        {/* Actions & Tab switchers */}
+        <div className="flex items-center gap-2.5 flex-wrap w-full sm:w-auto">
+          {/* Nút Vùng Yên Tĩnh */}
+          <button
+            type="button"
+            onClick={() => handleOpenQuietZone()}
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-950/90 via-[#161B40] to-violet-950/90 hover:from-cyan-900 hover:to-violet-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 hover:text-white transition-all shadow-[0_0_15px_rgba(6,182,212,0.25)] hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] cursor-pointer text-xs font-bold font-pixel group shrink-0"
+            title="Quay lại trang video Vùng Yên Tĩnh với hiệu ứng Mosaic"
+          >
+            <Headphones className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform animate-pulse" />
+            <span>Vùng yên tĩnh</span>
+          </button>
+
+          {/* Tab switchers */}
+          <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-[#161B40] border border-slate-700/60 overflow-x-auto">
           {[
             { id: 'daily', label: 'Daily', count: dailyStatus.totalCount - dailyStatus.completedCount },
             { id: 'active', label: 'Đang làm', count: activeCount },
@@ -347,6 +412,7 @@ export const QuestsPage: React.FC = () => {
               )}
             </button>
           ))}
+          </div>
         </div>
       </div>
 
@@ -482,8 +548,13 @@ export const QuestsPage: React.FC = () => {
                     lockReason={q.lockReason}
                     onClickDetail={() => setSelectedQuest(q)}
                     onStart={
-                      q.status === 'todo'
-                        ? () => dispatch({ type: 'START_TASK', payload: { questId: q.id } })
+                      q.status === 'todo' && !isTransitioning
+                        ? () => handleStartQuestWithVideo(q)
+                        : undefined
+                    }
+                    onOpenVideo={
+                      q.status === 'in_progress'
+                        ? () => handleOpenQuietZone(q)
                         : undefined
                     }
                     onReplay={
@@ -561,8 +632,13 @@ export const QuestsPage: React.FC = () => {
                     lockReason={q.lockReason}
                     onClickDetail={() => setSelectedQuest(q)}
                     onStart={
-                      q.status === 'todo'
-                        ? () => dispatch({ type: 'START_TASK', payload: { questId: q.id } })
+                      q.status === 'todo' && !isTransitioning
+                        ? () => handleStartQuestWithVideo(q)
+                        : undefined
+                    }
+                    onOpenVideo={
+                      q.status === 'in_progress'
+                        ? () => handleOpenQuietZone(q)
                         : undefined
                     }
                     onReplay={
@@ -708,8 +784,15 @@ export const QuestsPage: React.FC = () => {
             onClose={() => setSelectedQuest(null)}
             quest={liveQuest}
             onStart={() => {
+              if (selectedQuest && !isTransitioning) {
+                const target = selectedQuest;
+                setSelectedQuest(null);
+                handleStartQuestWithVideo(target);
+              }
+            }}
+            onOpenVideo={() => {
               if (selectedQuest) {
-                dispatch({ type: 'START_TASK', payload: { questId: selectedQuest.id } });
+                handleOpenQuietZone(selectedQuest);
               }
             }}
             onPause={(elapsed) => {
@@ -742,6 +825,42 @@ export const QuestsPage: React.FC = () => {
           />
         );
       })()}
+      {/* Video Overlay with Mosaic Transition */}
+      {videoQuest && (
+        <QuestVideoOverlay
+          quest={videoQuest}
+          isCompleted={state.completions.some(c => c.questId === videoQuest.id)}
+          onComplete={() => {
+            if (videoQuest.source === 'daily') {
+              dispatch({ type: 'COMPLETE_DAILY_QUEST', payload: { questId: videoQuest.id } });
+            } else if (videoQuest.packageId) {
+              dispatch({
+                type: 'COMPLETE_PACKAGE_TASK',
+                payload: { packageId: videoQuest.packageId, taskId: videoQuest.id },
+              });
+            } else {
+              const isDaily = DAILY_QUESTS.some(d => d.id === videoQuest.id);
+              if (isDaily) {
+                dispatch({ type: 'COMPLETE_DAILY_QUEST', payload: { questId: videoQuest.id } });
+              } else {
+                let foundInPkg = false;
+                for (const pkg of QUEST_PACKAGES) {
+                  const t = pkg.tasks.find(tk => tk.id === videoQuest.id);
+                  if (t) {
+                    dispatch({ type: 'COMPLETE_PACKAGE_TASK', payload: { packageId: pkg.id, taskId: t.id } });
+                    foundInPkg = true;
+                    break;
+                  }
+                }
+                if (!foundInPkg) {
+                  dispatch({ type: 'COMPLETE_DAILY_QUEST', payload: { questId: videoQuest.id } });
+                }
+              }
+            }
+          }}
+          onClose={handleCloseVideo}
+        />
+      )}
     </div>
   );
 };

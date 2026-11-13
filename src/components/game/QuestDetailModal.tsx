@@ -4,7 +4,7 @@ import { DifficultyBadge, StatusBadge } from '../ui/Badge.js';
 import { Button } from '../ui/Button.js';
 import { DifficultyLevel } from '../../config/progression.js';
 import { ActiveTaskState } from '../../store/types.js';
-import { Check, Play, Pause, MapPin, AlertCircle, Sparkles, Clock, Flag, RotateCcw } from 'lucide-react';
+import { Check, Play, Pause, MapPin, AlertCircle, Sparkles, Clock, Flag, RotateCcw, Headphones } from 'lucide-react';
 import { getLocationById } from '../../data/locations.js';
 
 interface QuestDetailModalProps {
@@ -25,6 +25,7 @@ interface QuestDetailModalProps {
     activeTaskState?: ActiveTaskState;
   } | null;
   onStart?: () => void;
+  onOpenVideo?: () => void;
   onPause?: (currentElapsed?: number) => void;
   onResume?: () => void;
   onAbandon?: () => void;
@@ -36,6 +37,7 @@ export const QuestDetailModal: React.FC<QuestDetailModalProps> = ({
   onClose,
   quest,
   onStart,
+  onOpenVideo,
   onPause,
   onResume,
   onAbandon,
@@ -258,6 +260,20 @@ export const QuestDetailModal: React.FC<QuestDetailModalProps> = ({
                     Bỏ cuộc
                   </Button>
                 )
+              )}
+              {onOpenVideo && (
+                <Button
+                  variant="secondary"
+                  icon={<Headphones className="w-4 h-4 text-cyan-400" />}
+                  onClick={() => {
+                    onClose();
+                    onOpenVideo();
+                  }}
+                  className="border-cyan-500/40 text-cyan-300 hover:bg-cyan-950/40"
+                  title="Quay lại trang video Vùng Yên Tĩnh"
+                >
+                  Vùng yên tĩnh
+                </Button>
               )}
             </>
           )}
