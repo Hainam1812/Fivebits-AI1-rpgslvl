@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGame } from '../../store/GameContext.js';
+import { useCharacterLibrary } from '../../store/CharacterLibraryContext.js';
 import charactersData from '../../data/characters.json' with { type: 'json' };
+import { ImageOff } from 'lucide-react';
 
 interface CharacterSpriteProps {
   characterId: string;
@@ -16,6 +18,52 @@ export const CharacterSprite: React.FC<CharacterSpriteProps> = ({
   className = '',
 }) => {
   const { state } = useGame();
+  const { selectedCharacter, selectedGifUrl } = useCharacterLibrary();
+  const [gifError, setGifError] = useState(false);
+
+  useEffect(() => {
+    setGifError(false);
+  }, [selectedGifUrl]);
+
+  const userScale = state.profile.characterScale ?? 1;
+  const userOffsetX = state.profile.characterOffsetX ?? 0;
+  const userOffsetY = state.profile.characterOffsetY ?? 0;
+
+  // If user selected a GIF character in Tủ Đồ, render it across all character displays
+  const shouldUseSelectedGif = Boolean(
+    selectedCharacter &&
+    selectedGifUrl &&
+    (!characterId || characterId === state.profile.characterId || characterId === 'hero')
+  );
+
+  if (shouldUseSelectedGif && selectedCharacter && selectedGifUrl) {
+    const importedScale = selectedCharacter.scale ?? 1;
+    const gifScale = scale * importedScale * userScale;
+    return (
+      <div
+        className={`relative w-full h-full flex items-center justify-center select-none transition-transform duration-150 ${className}`}
+        style={{
+          transform: `translate(${userOffsetX}px, ${userOffsetY}px) scale(${gifScale})`,
+        }}
+      >
+        {gifError ? (
+          <div className="flex flex-col items-center justify-center text-slate-400">
+            <ImageOff className="w-6 h-6" aria-hidden="true" />
+          </div>
+        ) : (
+          <img
+            src={selectedGifUrl}
+            alt={selectedCharacter.name}
+            onError={() => setGifError(true)}
+            className={`max-w-full max-h-full object-contain pointer-events-none z-[2] transition-transform duration-300 ${
+              isCelebrating ? 'animate-celebrate-bounce' : ''
+            }`}
+            draggable={false}
+          />
+        )}
+      </div>
+    );
+  }
 
   // Check if character is custom uploaded or built-in
   const customChar = state.customCharacters?.find(c => c.id === characterId);
@@ -70,10 +118,6 @@ export const CharacterSprite: React.FC<CharacterSpriteProps> = ({
 
   const stageScale = (character as any).stage?.scale || 0.9;
   const stageOffsetY = (character as any).stage?.offsetY || 0;
-
-  const userScale = state.profile.characterScale ?? 1;
-  const userOffsetX = state.profile.characterOffsetX ?? 0;
-  const userOffsetY = state.profile.characterOffsetY ?? 0;
 
   const totalScale = scale * stageScale * userScale;
   const totalTranslateX = userOffsetX;

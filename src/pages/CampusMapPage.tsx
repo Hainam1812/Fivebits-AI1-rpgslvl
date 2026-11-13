@@ -83,6 +83,7 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
   const MIN_ZOOM = 0.45;
   const MAX_ZOOM = 2.8;
   const ZOOM_STEP = 0.25;
+  const LOCATION_SQUARE_SIZE = 52;
 
   const clampPan = (newX: number, newY: number, currentZoom: number): { x: number; y: number } => {
     if (!mapContainerRef.current) return { x: newX, y: newY };
@@ -594,7 +595,7 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
           >
             <svg
               viewBox="0 0 800 480"
-              className="w-full h-full select-none"
+              className="w-full h-full select-none overflow-visible"
               aria-label="Sơ đồ tương tác khuôn viên trường"
             >
               <defs>
@@ -777,33 +778,28 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
               {/* Character Sprite & ground shadow in SVG coordinate space */}
               <g
                 className="pointer-events-none"
-                transform={`translate(${charPos.x}, ${charPos.y})`}
+                transform={`translate(${charPos.x}, ${charPos.y - LOCATION_SQUARE_SIZE / 2})`}
               >
-                {/* Ground shadow beneath character with physics-based scaling */}
+                {/* Ground shadow beneath character */}
                 <ellipse
                   cx="0"
-                  cy="16"
-                  rx="32"
-                  ry="9"
+                  cy="22"
+                  rx="23.4"
+                  ry="6.5"
                   fill="#000000"
-                  className={charPos.isMoving ? '' : 'animate-physics-shadow'}
-                  opacity={0.6}
+                  opacity={0.55}
                 />
 
-                {/* Embedded HTML character sprite with doubled size and physics jump */}
+                {/* Embedded HTML character sprite */}
                 <foreignObject
-                  x="-64"
-                  y="-74"
-                  width="128"
-                  height="128"
+                  x="-32"
+                  y="-44"
+                  width="64"
+                  height="64"
                   className="overflow-visible pointer-events-none"
                 >
-                  <div
-                    className={`w-full h-full flex items-center justify-center filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.8)] ${
-                      charPos.isMoving ? '' : 'animate-gentle-bob'
-                    }`}
-                  >
-                    <CharacterSprite characterId={state.profile.characterId} scale={1.4} />
+                  <div className="w-full h-full flex items-center justify-center filter drop-shadow-[0_6px_12px_rgba(0,0,0,0.8)]">
+                    <CharacterSprite characterId={state.profile.characterId} scale={1.105} />
                   </div>
                 </foreignObject>
               </g>

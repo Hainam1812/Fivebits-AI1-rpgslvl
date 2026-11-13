@@ -24,6 +24,7 @@ import { GameState, CourseSlot } from '../store/types.ts';
 import { QUEST_PACKAGES } from '../data/questPackages.ts';
 import { EXAMS } from '../data/exams/index.ts';
 import { gameReducer } from '../store/reducer.ts';
+import { validateGifFile, stripGifExtension, MAX_CHARACTER_GIF_BYTES, clampCharacterScale } from '../store/characterStorage.ts';
 
 function createMockState(partial: Partial<GameState> = {}): GameState {
   return {
@@ -1088,5 +1089,48 @@ test('Package task: START_TASK puts task into activeTasks and is accessible as i
   assert.equal(resultState.activeTasks['py-01'].isPaused, false);
   assert.equal(resultState.activeTasks['py-01'].elapsedSeconds, 0);
 });
+
+test('characterStorage: stripGifExtension and validateGifFile enforce MIME, magic bytes, and size limit', async () => {
+  assert.equal(stripGifExtension('knight.gif'), 'knight');
+  assert.equal(stripGifExtension('my.hero.GIF'), 'my.hero');
+  assert.equal(stripGifExtension('.gif'), 'Nhân vật GIF');
+
+  const validGif89a = new File([new TextEncoder().encode('GIF89a\x01\x00\x01\x00')], 'hero.gif', {
+    type: 'image/gif',
+  });
+  const validGif87a = new File([new TextEncoder().encode('GIF87a\x01\x00\x01\x00')], 'hero2.gif', {
+    type: 'image/gif',
+  });
+  const fakeGifExtension = new File([new TextEncoder().encode('PNG\r\n\x1a\n')], 'fake.gif', {
+    type: 'image/gif',
+  });
+  const wrongMime = new File([new TextEncoder().encode('GIF89a\x01\x00')], 'hero.png', {
+    type: 'image/png',
+  });
+  const oversized = new File([new Uint8Array(MAX_CHARACTER_GIF_BYTES + 1)], 'huge.gif', {
+    type: 'image/gif',
+  });
+
+  assert.equal((await validateGifFile(validGif89a)).valid, true);
+  assert.equal((await validateGifFile(validGif87a)).valid, true);
+
+  const fakeRes = await validateGifFile(fakeGifExtension);
+  assert.equal(fakeRes.valid, false);
+  if (!fakeRes.valid) assert.equal(fakeRes.error, 'File không phải GIF');
+
+  const mimeRes = await validateGifFile(wrongMime);
+  assert.equal(mimeRes.valid, false);
+  if (!mimeRes.valid) assert.equal(mimeRes.error, 'File không phải GIF');
+
+  const sizeRes = await validateGifFile(oversized);
+  assert.equal(sizeRes.valid, false);
+  if (!sizeRes.valid) assert.ok(sizeRes.error.includes('5MB'));
+
+  assert.equal(clampCharacterScale(undefined), 1);
+  assert.equal(clampCharacterScale(0.1), 0.5);
+  assert.equal(clampCharacterScale(3.5), 2.0);
+  assert.equal(clampCharacterScale(1.356), 1.36);
+});
+
 
 

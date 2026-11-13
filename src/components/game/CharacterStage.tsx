@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGame } from '../../store/GameContext.js';
+import { useCharacterLibrary } from '../../store/CharacterLibraryContext.js';
 import { CharacterSprite } from './CharacterSprite.js';
 import { CharacterAdjustModal } from './CharacterAdjustModal.js';
 import { getCosmeticById } from '../../data/cosmetics.js';
 import charactersData from '../../data/characters.json' with { type: 'json' };
-import { SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal, ImageOff } from 'lucide-react';
 
 interface CharacterStageProps {
   characterId?: string;
@@ -26,12 +27,19 @@ export const CharacterStage: React.FC<CharacterStageProps> = ({
   characterScaleMultiplier = 1,
 }) => {
   const { state, isCelebrating } = useGame();
+  const { selectedCharacter, selectedGifUrl } = useCharacterLibrary();
   const [isAdjustOpen, setIsAdjustOpen] = useState(false);
+  const [gifError, setGifError] = useState(false);
+
+  useEffect(() => {
+    setGifError(false);
+  }, [selectedGifUrl]);
 
   const canAdjust = allowAdjustment !== undefined ? allowAdjustment : (size === 'md' || size === 'lg');
 
   const activeCharId = characterId || state.profile.characterId || 'hero';
   const charDef = charactersData.find((c: any) => c.id === activeCharId) || charactersData[0];
+  const hasSelectedGif = Boolean(!characterId && selectedCharacter && selectedGifUrl);
 
   // Resolve equipped cosmetics, allowing preview override
   const equipped = {
@@ -60,9 +68,24 @@ export const CharacterStage: React.FC<CharacterStageProps> = ({
     return (
       <div
         className={`relative shrink-0 overflow-hidden border-2 border-violet-400/60 flex items-center justify-center bg-[#161B40] ${sizeContainerStyles.mini} ${className}`}
-        aria-label={`Avatar nhân vật ${charDef?.displayName || 'Adventurer'}`}
+        aria-label={`Avatar nhân vật ${selectedCharacter?.name || charDef?.displayName || 'Adventurer'}`}
       >
-        <CharacterSprite characterId={activeCharId} isCelebrating={isCelebrating} scale={0.9} />
+        {hasSelectedGif && selectedGifUrl ? (
+          gifError ? (
+            <ImageOff className="w-4 h-4 text-slate-400" aria-hidden="true" />
+          ) : (
+            <img
+              src={selectedGifUrl}
+              alt={selectedCharacter!.name}
+              onError={() => setGifError(true)}
+              style={(selectedCharacter!.scale ?? 1) !== 1 ? { transform: `scale(${selectedCharacter!.scale})` } : undefined}
+              className="w-full h-full object-cover object-center pointer-events-none select-none transition-transform duration-150"
+              draggable={false}
+            />
+          )
+        ) : (
+          <CharacterSprite characterId={activeCharId} isCelebrating={isCelebrating} scale={0.9} />
+        )}
       </div>
     );
   }
@@ -75,7 +98,7 @@ export const CharacterStage: React.FC<CharacterStageProps> = ({
       <div
         className={`relative shrink-0 flex items-center justify-center overflow-hidden border border-slate-700/60 shadow-2xl transition-all duration-300 ${sizeContainerStyles[size]}`}
         style={{ backgroundColor: backdropColor }}
-        aria-label={`Sân khấu nhân vật ${charDef?.displayName || 'Adventurer'}`}
+        aria-label={`Sân khấu nhân vật ${selectedCharacter?.name || charDef?.displayName || 'Adventurer'}`}
       >
         {/* Layer 1: Backdrop scenery SVG patterns */}
         <div className="absolute inset-0 pointer-events-none opacity-25">
@@ -106,14 +129,29 @@ export const CharacterStage: React.FC<CharacterStageProps> = ({
           />
         )}
 
-        {/* Layer 3: Character Sprite with Gear */}
+        {/* Layer 3: Character Sprite or Selected GIF */}
         <div className="relative z-10 w-full h-full flex items-center justify-center p-1 sm:p-2">
-          <CharacterSprite
-            key={activeCharId} // Keeps key stable across cosmetic changes!
-            characterId={activeCharId}
-            isCelebrating={isCelebrating}
-            scale={(size === 'lg' ? 1.1 : size === 'sm' ? 0.75 : size === 'xs' ? 0.52 : 0.95) * characterScaleMultiplier}
-          />
+          {hasSelectedGif && selectedGifUrl && size === 'xs' ? (
+            gifError ? (
+              <ImageOff className="w-5 h-5 text-slate-400" aria-hidden="true" />
+            ) : (
+              <img
+                src={selectedGifUrl}
+                alt={selectedCharacter!.name}
+                onError={() => setGifError(true)}
+                style={(selectedCharacter!.scale ?? 1) !== 1 ? { transform: `scale(${selectedCharacter!.scale})` } : undefined}
+                className="w-full h-full object-contain pointer-events-none select-none transition-transform duration-150"
+                draggable={false}
+              />
+            )
+          ) : (
+            <CharacterSprite
+              key={hasSelectedGif ? selectedCharacter!.id : activeCharId}
+              characterId={activeCharId}
+              isCelebrating={isCelebrating}
+              scale={(size === 'lg' ? 1.1 : size === 'sm' ? 0.75 : size === 'xs' ? 0.52 : 0.95) * characterScaleMultiplier}
+            />
+          )}
         </div>
 
         {/* Layer 4: Frame Border Overlay */}

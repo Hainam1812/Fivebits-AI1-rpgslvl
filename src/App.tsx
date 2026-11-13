@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { GameProvider } from './store/GameContext.js';
+import { CharacterLibraryProvider } from './store/CharacterLibraryContext.js';
 import { AppShell } from './components/layout/AppShell.js';
 
 // Resilient lazy loader that retries on transient network/Vite reload errors
@@ -106,36 +107,38 @@ export default function App() {
   return (
     <HashRouter>
       <GameProvider>
-        <AppShell>
-          <ErrorBoundary>
-            <Suspense fallback={<LoadingSpinner />}>
-              <Routes>
-                {/* Public Area */}
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/packages" element={<PackagesPage />} />
-                <Route path="/packages/:id" element={<PackageDetailPage />} />
-                <Route path="/cart" element={<CartPage />} />
-                <Route path="/checkout" element={<CheckoutPage />} />
-                <Route path="/order/:id" element={<OrderDetailPage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/contact" element={<ContactPage />} />
+        <CharacterLibraryProvider>
+          <AppShell>
+            <ErrorBoundary>
+              <Suspense fallback={<LoadingSpinner />}>
+                <Routes>
+                  {/* Public Area */}
+                  <Route path="/" element={<LandingPage />} />
+                  <Route path="/packages" element={<PackagesPage />} />
+                  <Route path="/packages/:id" element={<PackageDetailPage />} />
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/checkout" element={<CheckoutPage />} />
+                  <Route path="/order/:id" element={<OrderDetailPage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
 
-                {/* Game Area */}
-                <Route path="/play" element={<DashboardPage />} />
-                <Route path="/play/quests" element={<QuestsPage />} />
-                <Route path="/play/map" element={<CampusMapPage />} />
-                <Route path="/play/timetable" element={<CampusMapPage defaultView="timetable" />} />
-                <Route path="/play/events" element={<EventsPage />} />
-                <Route path="/play/wardrobe" element={<WardrobePage />} />
-                <Route path="/play/achievements" element={<AchievementsPage />} />
-                <Route path="/play/profile" element={<ProfilePage />} />
+                  {/* Game Area */}
+                  <Route path="/play" element={<DashboardPage />} />
+                  <Route path="/play/quests" element={<QuestsPage />} />
+                  <Route path="/play/map" element={<CampusMapPage />} />
+                  <Route path="/play/timetable" element={<CampusMapPage defaultView="timetable" />} />
+                  <Route path="/play/events" element={<EventsPage />} />
+                  <Route path="/play/wardrobe" element={<WardrobePage />} />
+                  <Route path="/play/achievements" element={<AchievementsPage />} />
+                  <Route path="/play/profile" element={<ProfilePage />} />
 
-                {/* 404 Catch-All */}
-                <Route path="*" element={<NotFoundPage />} />
-              </Routes>
-            </Suspense>
-          </ErrorBoundary>
-        </AppShell>
+                  {/* 404 Catch-All */}
+                  <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+              </Suspense>
+            </ErrorBoundary>
+          </AppShell>
+        </CharacterLibraryProvider>
       </GameProvider>
     </HashRouter>
   );
