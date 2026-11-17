@@ -24,7 +24,16 @@ import { GameState, CourseSlot } from '../store/types.ts';
 import { QUEST_PACKAGES } from '../data/questPackages.ts';
 import { EXAMS } from '../data/exams/index.ts';
 import { gameReducer } from '../store/reducer.ts';
-import { validateGifFile, stripGifExtension, MAX_CHARACTER_GIF_BYTES, clampCharacterScale } from '../store/characterStorage.ts';
+import {
+  validateGifFile,
+  stripGifExtension,
+  MAX_CHARACTER_GIF_BYTES,
+  clampCharacterScale,
+  PRESET_CHARACTERS,
+  ensurePresetCharactersSeeded,
+  getSelectedId,
+  deleteCharacter,
+} from '../store/characterStorage.ts';
 
 function createMockState(partial: Partial<GameState> = {}): GameState {
   return {
@@ -349,7 +358,7 @@ test('Custom GIFs: CLEAR_ALL_CUSTOM_GIFS and REMOVE_CUSTOM_CHARACTER work proper
     payload: { id: 'custom-char-123' },
   }).state;
   assert.equal(afterRemoveChar.customCharacters?.length, 0);
-  assert.equal(afterRemoveChar.profile.characterId, 'hero');
+  assert.equal(afterRemoveChar.profile.characterId, 'boy1');
 
   // Test CLEAR_ALL_CUSTOM_GIFS
   const afterClearAll = gameReducer(initial, {
@@ -358,7 +367,7 @@ test('Custom GIFs: CLEAR_ALL_CUSTOM_GIFS and REMOVE_CUSTOM_CHARACTER work proper
   assert.deepEqual(afterClearAll.customCharacters, []);
   assert.deepEqual(afterClearAll.customGearMeta, []);
   assert.deepEqual(afterClearAll.equippedCustomGearIds, []);
-  assert.equal(afterClearAll.profile.characterId, 'hero');
+  assert.equal(afterClearAll.profile.characterId, 'boy1');
 });
 
 test('Character naming constraints: not empty, strips leading and trailing spaces, enforces 2-20 length', () => {
@@ -1130,6 +1139,43 @@ test('characterStorage: stripGifExtension and validateGifFile enforce MIME, magi
   assert.equal(clampCharacterScale(0.1), 0.5);
   assert.equal(clampCharacterScale(3.5), 2.0);
   assert.equal(clampCharacterScale(1.356), 1.36);
+});
+
+test('characterStorage: auto-seeds the 5 preset sample characters (boy1, boy2, girl1, girl2, gojo) and preserves deletions', async () => {
+  assert.equal(PRESET_CHARACTERS.length, 5);
+  assert.deepEqual(
+    PRESET_CHARACTERS.map(p => p.name),
+    ['Boy1', 'boy2', 'girl1', 'girl2', 'char_gojoFIT']
+  );
+
+  const storage = new Map<string, string>();
+  const prevWindow = (globalThis as any).window;
+  (globalThis as any).window = {
+    localStorage: {
+      getItem: (k: string) => storage.get(k) ?? null,
+      setItem: (k: string, v: string) => storage.set(k, v),
+      removeItem: (k: string) => storage.delete(k),
+    },
+  };
+
+  try {
+    const seeded = await ensurePresetCharactersSeeded();
+    assert.equal(seeded.length, 5);
+    assert.equal(getSelectedId(), 'preset-char-gojo');
+    assert.equal(seeded.find(c => c.id === 'preset-char-gojo')?.scale, 1.15);
+
+    // Deleting a preset keeps it deleted on subsequent loads
+    await deleteCharacter('preset-char-boy2');
+    const afterReload = await ensurePresetCharactersSeeded();
+    assert.equal(afterReload.length, 4);
+    assert.equal(afterReload.some(c => c.id === 'preset-char-boy2'), false);
+  } finally {
+    if (prevWindow === undefined) {
+      delete (globalThis as any).window;
+    } else {
+      (globalThis as any).window = prevWindow;
+    }
+  }
 });
 
 

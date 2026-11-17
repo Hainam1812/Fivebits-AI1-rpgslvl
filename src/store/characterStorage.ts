@@ -12,6 +12,60 @@ export const DEFAULT_CHARACTER_SCALE = 1;
 
 export const CHARACTERS_META_KEY = 'solo_levelling_gif_characters_v1';
 export const SELECTED_CHARACTER_ID_KEY = 'solo_levelling_selected_gif_character_id_v1';
+export const PRESET_CHARACTERS_SEEDED_KEY = 'solo_levelling_preset_characters_seeded_v1';
+
+export interface PresetCharacterDef {
+  id: string;
+  name: string;
+  assetPath: string;
+  fallbackSize: number;
+  scale: number;
+}
+
+export const PRESET_CHARACTERS: PresetCharacterDef[] = [
+  {
+    id: 'preset-char-boy1',
+    name: 'Boy1',
+    assetPath: 'assets/char/boy1/boy1.gif',
+    fallbackSize: 123249,
+    scale: DEFAULT_CHARACTER_SCALE,
+  },
+  {
+    id: 'preset-char-boy2',
+    name: 'boy2',
+    assetPath: 'assets/char/boy2/boy2.gif',
+    fallbackSize: 873330,
+    scale: DEFAULT_CHARACTER_SCALE,
+  },
+  {
+    id: 'preset-char-girl1',
+    name: 'girl1',
+    assetPath: 'assets/char/girl1/girl1.gif',
+    fallbackSize: 56723,
+    scale: DEFAULT_CHARACTER_SCALE,
+  },
+  {
+    id: 'preset-char-girl2',
+    name: 'girl2',
+    assetPath: 'assets/char/girl2/girl2.gif',
+    fallbackSize: 57871,
+    scale: DEFAULT_CHARACTER_SCALE,
+  },
+  {
+    id: 'preset-char-gojo',
+    name: 'char_gojoFIT',
+    assetPath: 'assets/char/gojo/char_gojoFIT.gif',
+    fallbackSize: 65665,
+    scale: 1.15,
+  },
+];
+
+export function resolvePresetAssetUrl(assetPath: string): string {
+  const rawBase =
+    (import.meta as { env?: { BASE_URL?: string } }).env?.BASE_URL ?? './';
+  const baseUrl = rawBase.replace(/\/$/, '');
+  return `${baseUrl}/${assetPath.replace(/^\//, '')}`;
+}
 
 const DB_NAME = 'SoloLevellingCharacterLibraryDB';
 const DB_VERSION = 1;
@@ -184,11 +238,25 @@ async function putBlob(id: string, blob: Blob): Promise<void> {
   });
 }
 
+async function fetchPresetBlob(assetPath: string): Promise<Blob | null> {
+  if (typeof fetch !== 'function') return null;
+  try {
+    const response = await fetch(resolvePresetAssetUrl(assetPath));
+    if (!response.ok) return null;
+    const blob = await response.blob();
+    return blob.size > 0 ? blob : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function getCharacterBlob(id: string): Promise<Blob | null> {
   if (!id) return null;
+  let storedBlob: Blob | null = null;
+
   try {
     const db = await openDb();
-    return await new Promise(resolve => {
+    storedBlob = await new Promise<Blob | null>(resolve => {
       try {
         const tx = db.transaction(STORE_NAME, 'readonly');
         const store = tx.objectStore(STORE_NAME);
@@ -207,8 +275,24 @@ export async function getCharacterBlob(id: string): Promise<Blob | null> {
       }
     });
   } catch {
-    return null;
+    storedBlob = null;
   }
+
+  if (storedBlob) {
+    return storedBlob;
+  }
+
+  // Fallback for preset sample characters if IndexedDB blob is absent or cleared
+  const preset = PRESET_CHARACTERS.find(p => p.id === id);
+  if (preset) {
+    const fetched = await fetchPresetBlob(preset.assetPath);
+    if (fetched) {
+      putBlob(id, fetched).catch(() => {});
+      return fetched;
+    }
+  }
+
+  return null;
 }
 
 async function removeBlob(id: string): Promise<void> {
@@ -247,6 +331,94 @@ function generateUniqueId(): string {
 export async function listCharacters(): Promise<CharacterRecord[]> {
   const metaList = readMetaList();
   return metaList.map(meta => ({ ...meta }));
+}
+
+let seedingPromise: Promise<CharacterRecord[]> | null = null;
+
+async function runPresetSeeding(): Promise<CharacterRecord[]> {
+  if (typeof window === 'undefined') return [];
+
+  let alreadySeeded = false;
+  try {
+    alreadySeeded = window.localStorage.getItem(PRESET_CHARACTERS_SEEDED_KEY) === 'true';
+  } catch {
+    alreadySeeded = false;
+  }
+
+  const currentList = readMetaList();
+  if (alreadySeeded) {
+    return currentList.map(meta => ({ ...meta }));
+  }
+
+  const updatedList = [...currentList];
+  let changed = false;
+
+  for (const preset of PRESET_CHARACTERS) {
+    if (updatedList.length >= MAX_CHARACTERS_COUNT) break;
+
+    const normalizedPresetName = preset.name.trim().toLowerCase();
+    const alreadyExists = updatedList.some(
+      c =>
+        c.id === preset.id ||
+        (c.name.trim().toLowerCase() === normalizedPresetName && c.size === preset.fallbackSize)
+    );
+    if (alreadyExists) continue;
+
+    let size = preset.fallbackSize;
+    const blob = await fetchPresetBlob(preset.assetPath);
+    if (blob) {
+      size = blob.size;
+      try {
+        await putBlob(preset.id, blob);
+      } catch {
+        // Ignore IDB errors; getCharacterBlob falls back to fetching the preset asset URL
+      }
+    }
+
+    updatedList.push({
+      id: preset.id,
+      name: preset.name,
+      size,
+      scale: clampCharacterScale(preset.scale),
+      createdAt: new Date().toISOString(),
+    });
+    changed = true;
+  }
+
+  if (changed) {
+    writeMetaList(updatedList);
+  }
+
+  const currentSelected = getSelectedId();
+  if (!currentSelected || !updatedList.some(c => c.id === currentSelected)) {
+    const gojoMatch = updatedList.find(
+      c =>
+        c.id === 'preset-char-gojo' ||
+        c.name.trim().toLowerCase() === 'char_gojofit'
+    );
+    const defaultSelectedId = gojoMatch?.id || updatedList[0]?.id || null;
+    if (defaultSelectedId) {
+      setSelectedId(defaultSelectedId);
+    }
+  }
+
+  try {
+    window.localStorage.setItem(PRESET_CHARACTERS_SEEDED_KEY, 'true');
+  } catch {
+    // Ignore storage quota error on flag write
+  }
+
+  return updatedList.map(meta => ({ ...meta }));
+}
+
+export async function ensurePresetCharactersSeeded(): Promise<CharacterRecord[]> {
+  if (seedingPromise) {
+    return seedingPromise;
+  }
+  seedingPromise = runPresetSeeding().finally(() => {
+    seedingPromise = null;
+  });
+  return seedingPromise;
 }
 
 export async function addCharacter(input: {

@@ -19,6 +19,7 @@ export interface PackageReview {
   role: string;
   rating: number;
   comment: string;
+  avatar?: string;
 }
 
 export interface QuestPackageDef {
@@ -61,8 +62,20 @@ export const QUEST_PACKAGES: QuestPackageDef[] = [
     color: '#0284C7',
     accentColor: '#38BDF8',
     reviews: [
-      { author: 'Quang M.', role: 'K23 CNTT (Mẫu)', rating: 5, comment: 'Nhiệm vụ Loop Dungeon giúp mình vượt qua bài tập tuần của trường siêu mượt!' },
-      { author: 'Hương T.', role: 'K24 Dữ liệu (Mẫu)', rating: 5, comment: 'Lộ trình rất rõ ràng, không bị ngợp lý thuyết.' },
+      {
+        author: 'Shiori',
+        role: 'K23 CNTT (Mẫu)',
+        rating: 5,
+        comment: 'Nhiệm vụ Loop Dungeon giúp mình vượt qua bài tập tuần của trường siêu mượt!',
+        avatar: '/assets/aistudio/masterpython1_dc5f9b28.jpg',
+      },
+      {
+        author: 'Hương T.',
+        role: 'K24 KDL',
+        rating: 5,
+        comment: 'Lộ trình rất rõ ràng, không bị ngợp lý thuyết.',
+        avatar: '/assets/aistudio/masterpython2_44a81bc4.jpg',
+      },
     ],
     tasks: [
       {
@@ -199,8 +212,20 @@ export const QUEST_PACKAGES: QuestPackageDef[] = [
     color: '#059669',
     accentColor: '#34D399',
     reviews: [
-      { author: 'Tuấn K.', role: 'K22 Cơ khí (Mẫu)', rating: 5, comment: 'Không áp lực tạ nặng, chỉ cần đều đặn là thấy người nhẹ nhõm hẳn!' },
-      { author: 'Trang B.', role: 'K24 Y sinh (Mẫu)', rating: 5, comment: 'Thích nhất nhiệm vụ Recovery Mode nhắc ngủ sớm.' },
+      {
+        author: 'Tuấn K.',
+        role: 'K22 Cơ khí (Mẫu)',
+        rating: 5,
+        comment: 'Không áp lực tạ nặng, chỉ cần đều đặn là thấy người nhẹ nhõm hẳn!',
+        avatar: '/assets/aistudio/gymrat1_4058c4f7.jpg',
+      },
+      {
+        author: 'KarinaVN',
+        role: 'K24 Y sinh (Mẫu)',
+        rating: 5,
+        comment: 'Thích nhất nhiệm vụ Recovery Mode nhắc ngủ sớm.',
+        avatar: '/assets/aistudio/gymrat2_f3401831.jpg',
+      },
     ],
     tasks: [
       {
@@ -293,8 +318,20 @@ export const QUEST_PACKAGES: QuestPackageDef[] = [
     color: '#8B5CF6',
     accentColor: '#C4B5FD',
     reviews: [
-      { author: 'Thảo N.', role: 'K23 Sư phạm Toán (Mẫu)', rating: 5, comment: 'Nhờ Active Recall, mình biết cách tự kiểm tra kiến thức thay vì chỉ đọc đi đọc lại. Việc ôn tập cũng trở nên tập trung và hiệu quả hơn.' },
-      { author: 'Đức P.', role: 'K24 Điện tử (Mẫu)', rating: 5, comment: 'Mình thử giải thích lại bài học bằng lời của mình và nhận ra cách này giúp mình hiểu sâu, nhớ lâu hơn hẳn.' },
+      {
+        author: 'BanaBana',
+        role: 'K26 CNTT',
+        rating: 5,
+        comment: 'Nhờ Active Recall, mình biết cách tự kiểm tra kiến thức thay vì chỉ đọc đi đọc lại. Việc ôn tập cũng trở nên tập trung và hiệu quả hơn.',
+        avatar: '/assets/aistudio/nerdmode1_88be94b3.jpg',
+      },
+      {
+        author: 'Phạm Hân',
+        role: 'K26 CNTT',
+        rating: 5,
+        comment: 'Mình thử giải thích lại bài học bằng lời của mình và nhận ra cách này giúp mình hiểu sâu, nhớ lâu hơn hẳn.',
+        avatar: '/assets/aistudio/nerdmode2_d0acc634.jpg',
+      },
     ],
     tasks: [
       {
@@ -398,8 +435,20 @@ export const QUEST_PACKAGES: QuestPackageDef[] = [
     accentColor: '#67E8F9',
     disclaimer: 'Nhiệm vụ gợi ý tự học mang tính tham khảo, người học tự đối chiếu với môn học thực tế tại trường.',
     reviews: [
-      { author: 'Bảo V.', role: 'K22 Toán Tin HCMUS (Mẫu)', rating: 5, comment: 'Đại số tuyến tính với Vi tích phân bớt ám ảnh hơn hẳn khi chia nhỏ ra từng nhiệm vụ.' },
-      { author: 'Minh L.', role: 'K23 KTPM (Mẫu)', rating: 5, comment: 'Nhiệm vụ Academic Comeback tạo động lực gỡ điểm rất tốt!' },
+      {
+        author: 'Mtriet',
+        role: 'K26 CNTT',
+        rating: 5,
+        comment: 'Đại số tuyến tính với Vi tích phân bớt ám ảnh hơn hẳn khi chia nhỏ ra từng nhiệm vụ.',
+        avatar: '/assets/aistudio/aier_d98e8ba4.jpg',
+      },
+      {
+        author: 'Phongzzs',
+        role: 'K26 CNTT',
+        rating: 5,
+        comment: 'Nhiệm vụ Academic Comeback tạo động lực gỡ điểm rất tốt!',
+        avatar: '/assets/aistudio/aier2_7b5eaee0.jpg',
+      },
     ],
     tasks: [
       {
@@ -504,8 +553,20 @@ export const QUEST_PACKAGES: QuestPackageDef[] = [
     color: '#10B981',
     accentColor: '#6EE7B7',
     reviews: [
-      { author: 'Phương A.', role: 'K23 Thiết kế (Mẫu)', rating: 5, comment: 'Nhiệm vụ Digital Sunset giúp mình ngủ ngon hơn nhiều.' },
-      { author: 'Hoàng D.', role: 'K24 Kiến trúc (Mẫu)', rating: 5, comment: 'Ra công viên ngồi vẽ một lúc thấy đầu óc thông suốt hẳn.' },
+      {
+        author: 'Ánh Minh',
+        role: 'K26 CNTT',
+        rating: 5,
+        comment: 'Nhiệm vụ Digital Sunset giúp mình ngủ ngon hơn nhiều.',
+        avatar: '/assets/aistudio/touchgrass1_d658a260.jpg',
+      },
+      {
+        author: 'Hoàng D.',
+        role: 'K24 Kiến trúc (Mẫu)',
+        rating: 5,
+        comment: 'Ra công viên ngồi vẽ một lúc thấy đầu óc thông suốt hẳn.',
+        avatar: '/assets/aistudio/touchgrass2_43613a9f.jpg',
+      },
     ],
     tasks: [
       {
@@ -619,8 +680,20 @@ export const QUEST_PACKAGES: QuestPackageDef[] = [
     color: '#D946EF',
     accentColor: '#F0ABFC',
     reviews: [
-      { author: 'Yến N.', role: 'K23 Xã hội học (Mẫu)', rating: 5, comment: 'Nhờ gói quest này mà mình đã học được cách kệ m* người khác và sống, hạnh phúc hơn hẳn.' },
-      { author: 'Hải Đ.', role: 'K22 Kinh tế (Mẫu)', rating: 4.5, comment: 'Cảm thấy cuộc đời mình thú vị hơn cả TikTok, thank you sô mếch Solo leveling.' },
+      {
+        author: 'Yến N.',
+        role: 'K23 Xã hội học (Mẫu)',
+        rating: 5,
+        comment: 'Nhờ gói quest này mà mình đã học được cách kệ m* người khác và sống, hạnh phúc hơn hẳn.',
+        avatar: '/assets/aistudio/mainchar1_b4ccd26e.jpg',
+      },
+      {
+        author: 'Hải Đ.',
+        role: 'K22 Kinh tế (Mẫu)',
+        rating: 4.5,
+        comment: 'Cảm thấy cuộc đời mình thú vị hơn cả TikTok, thank you sô mếch Solo leveling.',
+        avatar: '/assets/aistudio/mainchar2_31106c98.jpg',
+      },
     ],
     tasks: [
       {
@@ -723,9 +796,27 @@ export const QUEST_PACKAGES: QuestPackageDef[] = [
     color: '#E11D48',
     accentColor: '#FB7185',
     reviews: [
-      { author: 'Chí T.', role: 'K22 CNTT (Mẫu)', rating: 5, comment: 'Cảm ơn Time Block, Eisenhower đã biến tôi thành một người kỷ luật hơn' },
-      { author: 'Ngọc M.', role: 'K23 Quản trị (Mẫu)', rating: 5, comment: 'Tôi thích deadline, hãy cho tôi thật nhiều deadline!!' },
-      { author: 'Loser', role: 'K25 CNTT (Mẫu)', rating: 2.5, comment: 'Tào lao. Thà chs rô lóc còn hơn làm Time Block' },
+      {
+        author: 'Chí T.',
+        role: 'K22 CNTT (Mẫu)',
+        rating: 5,
+        comment: 'Cảm ơn Time Block, Eisenhower đã biến tôi thành một người kỷ luật hơn',
+        avatar: '/assets/aistudio/dlsur1_56668768.jpg',
+      },
+      {
+        author: 'Ngọc M.',
+        role: 'K23 Quản trị (Mẫu)',
+        rating: 5,
+        comment: 'Tôi thích deadline, hãy cho tôi thật nhiều deadline!!',
+        avatar: '/assets/aistudio/dlsur1_56668768.jpg',
+      },
+      {
+        author: 'Loser',
+        role: 'K25 CNTT (Mẫu)',
+        rating: 2.5,
+        comment: 'Tào lao. Thà chs rô lóc còn hơn làm Time Block',
+        avatar: '/assets/aistudio/dlser2_135f26d0.jpg',
+      },
     ],
     tasks: [
       {
@@ -825,10 +916,14 @@ export function getTotalPotentialXpForPackage(pkg: QuestPackageDef): number {
   return taskXp + pkg.clearBonusXp;
 }
 
-export function getPackageImageUrl(pkg: QuestPackageDef): string {
-  if (!pkg.image) return '';
-  if (pkg.image.startsWith('http')) return pkg.image;
+export function resolvePackageAssetUrl(assetPath?: string): string {
+  if (!assetPath) return '';
+  if (assetPath.startsWith('http')) return assetPath;
   const baseUrl = (typeof window !== 'undefined' && (import.meta as any).env?.BASE_URL || './').replace(/\/$/, '');
-  const cleanPath = pkg.image.startsWith('/') ? pkg.image : `/${pkg.image}`;
+  const cleanPath = assetPath.startsWith('/') ? assetPath : `/${assetPath}`;
   return `${baseUrl}${cleanPath}`;
+}
+
+export function getPackageImageUrl(pkg: QuestPackageDef): string {
+  return resolvePackageAssetUrl(pkg.image);
 }

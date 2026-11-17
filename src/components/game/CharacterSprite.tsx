@@ -33,7 +33,7 @@ export const CharacterSprite: React.FC<CharacterSpriteProps> = ({
   const shouldUseSelectedGif = Boolean(
     selectedCharacter &&
     selectedGifUrl &&
-    (!characterId || characterId === state.profile.characterId || characterId === 'hero')
+    (!characterId || characterId === state.profile.characterId || characterId === 'boy1' || characterId === 'hero')
   );
 
   if (shouldUseSelectedGif && selectedCharacter && selectedGifUrl) {
@@ -72,10 +72,9 @@ export const CharacterSprite: React.FC<CharacterSpriteProps> = ({
     customChar ||
     charactersData.find((c: any) => c.id === characterId) ||
     charactersData[0] || {
-      id: 'hero',
-      displayName: 'Nam Sinh Viên (Quân)',
-      idle: { src: 'assets/char/hero/main.gif' },
-      reward: { src: 'assets/char/hero/get_star.gif' },
+      id: 'boy1',
+      displayName: 'Boy1',
+      idle: { src: 'assets/char/boy1/boy1.gif' },
       pixelArt: true,
       stage: { scale: 0.9, offsetY: 0 },
     };

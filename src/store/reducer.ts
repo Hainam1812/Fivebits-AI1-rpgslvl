@@ -646,7 +646,7 @@ export function gameReducer(
         equippedCustomGearIds: [],
         profile: {
           ...state.profile,
-          characterId: 'hero',
+          characterId: 'boy1',
         },
       };
       break;
@@ -676,7 +676,7 @@ export function gameReducer(
         customCharacters: filtered,
         profile: {
           ...state.profile,
-          characterId: state.profile.characterId === action.payload.id ? 'hero' : state.profile.characterId,
+          characterId: state.profile.characterId === action.payload.id ? 'boy1' : state.profile.characterId,
         },
       };
       break;

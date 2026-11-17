@@ -96,7 +96,7 @@ export const DashboardPage: React.FC = () => {
                   {state.profile.nickname || 'Tân Binh'}
                 </h1>
                 {(() => {
-                  const activeCharId = state.profile.characterId || 'hero';
+                  const activeCharId = state.profile.characterId || 'boy1';
                   const charObj = state.customCharacters?.find(c => c.id === activeCharId) ||
                     charactersData.find((c: any) => c.id === activeCharId);
                   const desc = charObj?.description || charObj?.tagline;
@@ -155,7 +155,7 @@ export const DashboardPage: React.FC = () => {
               </Link>
               <Link to="/play/wardrobe" className="flex-1 min-w-[130px]">
                 <Button variant="secondary" size="sm" fullWidth>
-                  Tủ Đồ ({state.seenCosmetics.length} món)
+                  Nhân vật
                 </Button>
               </Link>
             </div>

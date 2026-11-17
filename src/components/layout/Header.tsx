@@ -140,7 +140,7 @@ export const Header: React.FC<HeaderProps> = ({ isSidebarCollapsed, onToggleSide
                     className="flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-200 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
                   >
                     <Shirt className="w-4 h-4 text-cyan-400" />
-                    <span>Tủ đồ & Ngoại trang</span>
+                    <span>Nhân vật</span>
                   </Link>
 
                   <Link

@@ -27,6 +27,7 @@ import {
   validateGifFile,
 } from '../../store/characterStorage.js';
 import { useCharacterLibrary } from '../../store/CharacterLibraryContext.js';
+import { useGame } from '../../store/GameContext.js';
 import { Button } from '../ui/Button.js';
 import { Card } from '../ui/Card.js';
 import { Modal } from '../ui/Modal.js';
@@ -55,6 +56,7 @@ export const CharacterSelect: React.FC = () => {
     deleteCharacterById,
     clearStorageError,
   } = useCharacterLibrary();
+  const { dispatch } = useGame();
 
   const fileInputId = useId();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -258,6 +260,12 @@ export const CharacterSelect: React.FC = () => {
   const handleSelectCharacter = (char: CharacterMeta) => {
     if (selectedId === char.id) return;
     selectCharacter(char.id);
+    const normalized = char.name.trim().toLowerCase();
+    if (char.id === 'preset-char-boy1' || normalized === 'boy1') {
+      dispatch({ type: 'SET_PROFILE', payload: { characterId: 'boy1' } });
+    } else if (char.id === 'preset-char-girl1' || normalized === 'girl1') {
+      dispatch({ type: 'SET_PROFILE', payload: { characterId: 'girl1' } });
+    }
     showToast('success', `Đã chọn nhân vật "${char.name}"`);
   };
 
@@ -363,7 +371,7 @@ export const CharacterSelect: React.FC = () => {
         <div>
           <h1 className="text-2xl sm:text-3xl font-black font-heading text-slate-100 flex items-center gap-2.5">
             <Shirt className="w-6 h-6 text-cyan-400" />
-            <span>Tủ Đồ</span>
+            <span>Nhân vật</span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-400 mt-1">
             Thêm file GIF và chọn nhân vật đồng hành của bạn

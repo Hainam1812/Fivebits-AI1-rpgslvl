@@ -89,7 +89,7 @@ export const ProfilePage: React.FC = () => {
                   {state.profile.nickname || 'Tân Binh'}
                 </h1>
                 {(() => {
-                  const activeCharId = state.profile.characterId || 'hero';
+                  const activeCharId = state.profile.characterId || 'boy1';
                   const charObj = state.customCharacters?.find(c => c.id === activeCharId) ||
                     charactersData.find((c: any) => c.id === activeCharId);
                   const desc = charObj?.description || charObj?.tagline;

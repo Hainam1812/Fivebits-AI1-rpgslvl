@@ -14,7 +14,7 @@ export function getDefaultState(): GameState {
     schemaVersion: CURRENT_SCHEMA_VERSION,
     profile: {
       nickname: '',
-      characterId: 'hero',
+      characterId: 'boy1',
       createdAt: new Date().toISOString(),
       motionPreference: 'system',
       characterScale: 1,
@@ -79,6 +79,12 @@ export function loadStateFromStorage(): GameState {
       profile: {
         ...defaultState.profile,
         ...(parsed.profile || {}),
+        characterId:
+          parsed.profile?.characterId === 'hero'
+            ? 'boy1'
+            : parsed.profile?.characterId === 'scholar'
+            ? 'girl1'
+            : parsed.profile?.characterId || defaultState.profile.characterId,
       },
       completions: Array.isArray(parsed.completions) ? parsed.completions : [],
       unlockedPackages: Array.isArray(parsed.unlockedPackages) ? parsed.unlockedPackages : [],

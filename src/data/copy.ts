@@ -17,7 +17,7 @@ export const COPY = {
     events: 'Sự kiện & Thi',
     packages: 'Gói nhiệm vụ',
     achievements: 'Thành tựu',
-    wardrobe: 'Tủ đồ',
+    wardrobe: 'Nhân vật',
     profile: 'Hồ sơ',
     cart: 'Kho đồ / Giỏ hàng',
   },

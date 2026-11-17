@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGame } from '../../store/GameContext.js';
+import { useCharacterLibrary } from '../../store/CharacterLibraryContext.js';
 import charactersData from '../../data/characters.json' with { type: 'json' };
 import { Button } from '../ui/Button.js';
 import { Sparkles, Check, User, Upload, Plus, Trash2, Image as ImageIcon, X } from 'lucide-react';
@@ -21,9 +22,16 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
   subtitle = 'Chào mừng bạn đến với SOLO LEVELLING! Chọn nhân vật sinh viên 2D Pixel hoặc tải lên file GIF riêng để bắt đầu hành trình!',
 }) => {
   const { state, dispatch } = useGame();
-  const [selectedId, setSelectedId] = useState<string>(
-    state.profile.characterId || charactersData[0]?.id || 'hero'
-  );
+  const { characters, selectedCharacter, selectCharacter } = useCharacterLibrary();
+  const [selectedId, setSelectedId] = useState<string>(() => {
+    const builtIn = Array.isArray(charactersData) ? charactersData : [];
+    const curId = state.profile.characterId;
+    const isValid =
+      builtIn.some((c: any) => c.id === curId) ||
+      (state.customCharacters || []).some(c => c.id === curId);
+    return isValid ? curId : builtIn[0]?.id || 'boy1';
+  });
+  const [hasPickedCharacter, setHasPickedCharacter] = useState(false);
   const [nickname, setNickname] = useState<string>(state.profile.nickname || '');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -36,6 +44,32 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
   const [charDescription, setCharDescription] = useState('');
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [charToDelete, setCharToDelete] = useState<{ id: string; displayName: string } | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setNickname(state.profile.nickname || '');
+    setErrorMsg(null);
+    setHasPickedCharacter(false);
+
+    const builtIn = Array.isArray(charactersData) ? charactersData : [];
+    if (state.profile.nickname?.trim() && selectedCharacter) {
+      const normalized = selectedCharacter.name.trim().toLowerCase();
+      if (selectedCharacter.id === 'preset-char-boy1' || normalized === 'boy1') {
+        setSelectedId('boy1');
+        return;
+      }
+      if (selectedCharacter.id === 'preset-char-girl1' || normalized === 'girl1') {
+        setSelectedId('girl1');
+        return;
+      }
+    }
+
+    const curId = state.profile.characterId;
+    const isValid =
+      builtIn.some((c: any) => c.id === curId) ||
+      (state.customCharacters || []).some(c => c.id === curId);
+    setSelectedId(isValid ? curId : builtIn[0]?.id || 'boy1');
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -93,6 +127,7 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
     });
 
     setSelectedId(newId);
+    setHasPickedCharacter(true);
     setIsUploading(false);
     setUploadFile(null);
     setUploadPreviewUrl(null);
@@ -115,6 +150,19 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
         nickname: validation.cleanName,
       },
     });
+
+    const isOnboarding = !state.profile.nickname || !state.profile.nickname.trim();
+    if (isOnboarding || hasPickedCharacter) {
+      if (selectedId === 'boy1' || selectedId === 'girl1') {
+        const targetPresetId = selectedId === 'boy1' ? 'preset-char-boy1' : 'preset-char-girl1';
+        const match = characters.find(
+          c => c.id === targetPresetId || c.name.trim().toLowerCase() === selectedId
+        );
+        selectCharacter(match ? match.id : null);
+      } else {
+        selectCharacter(null);
+      }
+    }
 
     onClose?.();
   };
@@ -216,13 +264,13 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
                         await deleteCharBlob(c.id);
                       }
                       dispatch({ type: 'CLEAR_ALL_CUSTOM_GIFS' });
-                      setSelectedId('hero');
+                      setSelectedId('boy1');
                       saveStateToStorageImmediate({
                         ...state,
                         customCharacters: [],
                         profile: {
                           ...state.profile,
-                          characterId: 'hero',
+                          characterId: 'boy1',
                         },
                       });
                     }
@@ -332,7 +380,10 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
               return (
                 <div
                   key={char.id}
-                  onClick={() => setSelectedId(char.id)}
+                  onClick={() => {
+                    setSelectedId(char.id);
+                    setHasPickedCharacter(true);
+                  }}
                   className={`relative p-3 rounded-2xl border-2 transition-all cursor-pointer flex flex-col items-center text-center select-none ${
                     isSelected
                       ? 'bg-violet-950/40 border-violet-400 shadow-lg shadow-violet-900/40 scale-[1.02]'
@@ -380,7 +431,10 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
               return (
                 <div
                   key={char.id}
-                  onClick={() => setSelectedId(char.id)}
+                  onClick={() => {
+                    setSelectedId(char.id);
+                    setHasPickedCharacter(true);
+                  }}
                   className={`relative p-3 rounded-2xl border-2 transition-all cursor-pointer flex flex-col items-center text-center select-none ${
                     isSelected
                       ? 'bg-cyan-950/40 border-cyan-400 shadow-lg shadow-cyan-900/40 scale-[1.02]'
@@ -477,11 +531,11 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
                     customCharacters: (state.customCharacters || []).filter(c => c.id !== targetId),
                     profile: {
                       ...state.profile,
-                      characterId: state.profile.characterId === targetId ? 'hero' : state.profile.characterId,
+                      characterId: state.profile.characterId === targetId ? 'boy1' : state.profile.characterId,
                     },
                   });
                   if (selectedId === targetId) {
-                    setSelectedId('hero');
+                    setSelectedId('boy1');
                   }
                 }}
               >

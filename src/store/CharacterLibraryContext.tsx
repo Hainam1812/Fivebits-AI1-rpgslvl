@@ -3,6 +3,7 @@ import {
   CharacterMeta,
   addCharacter,
   deleteCharacter,
+  ensurePresetCharactersSeeded,
   getCharacterBlob,
   getSelectedId,
   listCharacters,
@@ -55,12 +56,12 @@ export const CharacterLibraryProvider: React.FC<{ children: React.ReactNode }> =
 
     const init = async () => {
       try {
-        const list = await listCharacters();
+        const list = await ensurePresetCharactersSeeded();
         if (!mounted) return;
         setCharacters(list);
 
         const storedSelected = getSelectedId();
-        if (storedSelected && !list.some(c => c.id === storedSelected)) {
+        if (!storedSelected || !list.some(c => c.id === storedSelected)) {
           const fallbackId = list.length > 0 ? list[0].id : null;
           persistSelectedId(fallbackId);
           setSelectedIdState(fallbackId);

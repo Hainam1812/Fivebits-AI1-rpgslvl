@@ -38,7 +38,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggleC
 
     { to: '/play/events', label: 'Events & Thi', icon: CalendarCheck2 },
     { to: '/packages', label: 'Quest Packages', icon: Layers },
-    { to: '/play/wardrobe', label: 'Tủ Đồ', icon: Shirt },
+    { to: '/play/wardrobe', label: 'Nhân vật', icon: Shirt },
     { to: '/play/achievements', label: 'Thành Tựu', icon: Award },
     { to: '/play/profile', label: 'Hồ Sơ', icon: User },
   ];

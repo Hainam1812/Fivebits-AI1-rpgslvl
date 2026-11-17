@@ -37,7 +37,7 @@ export const CharacterStage: React.FC<CharacterStageProps> = ({
 
   const canAdjust = allowAdjustment !== undefined ? allowAdjustment : (size === 'md' || size === 'lg');
 
-  const activeCharId = characterId || state.profile.characterId || 'hero';
+  const activeCharId = characterId || state.profile.characterId || 'boy1';
   const charDef = charactersData.find((c: any) => c.id === activeCharId) || charactersData[0];
   const hasSelectedGif = Boolean(!characterId && selectedCharacter && selectedGifUrl);
 

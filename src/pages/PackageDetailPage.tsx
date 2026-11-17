@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useGame } from '../store/GameContext.js';
-import { getPackageById, getTotalPotentialXpForPackage, getPackageImageUrl } from '../data/questPackages.js';
+import { getPackageById, getTotalPotentialXpForPackage, getPackageImageUrl, resolvePackageAssetUrl } from '../data/questPackages.js';
 import { formatVnd } from '../domain/cart.js';
 import { Card } from '../components/ui/Card.js';
 import { Button } from '../components/ui/Button.js';
@@ -253,10 +253,19 @@ export const PackageDetailPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {pkg.reviews.map((rev, idx) => (
             <Card key={idx} variant="surface" className="p-4 space-y-2">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-bold text-xs text-slate-200">{rev.author}</div>
-                  <div className="text-[11px] text-slate-400">{rev.role}</div>
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  {rev.avatar && (
+                    <img
+                      src={resolvePackageAssetUrl(rev.avatar)}
+                      alt={rev.author}
+                      className="w-9 h-9 rounded-full object-cover border border-slate-700/80 shrink-0"
+                    />
+                  )}
+                  <div className="min-w-0">
+                    <div className="font-bold text-xs text-slate-200 truncate">{rev.author}</div>
+                    <div className="text-[11px] text-slate-400 truncate">{rev.role}</div>
+                  </div>
                 </div>
                 <div className="flex text-amber-400 text-xs items-center gap-0.5">
                   {Array.from({ length: 5 }).map((_, i) => {
