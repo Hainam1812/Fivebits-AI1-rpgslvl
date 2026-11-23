@@ -357,32 +357,32 @@ export const QuestsPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Title & Tabs Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-black font-heading text-slate-100 flex items-center gap-2">
-            <Compass className="w-6 h-6 text-violet-400" />
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+        <div className="min-w-0">
+          <h1 className="text-2xl sm:text-3xl font-black font-heading text-[var(--text)] flex items-center gap-2">
+            <Compass className="w-6 h-6 text-[var(--gold)] shrink-0" />
             <span>Nhiệm Vụ (Quests)</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-[var(--muted)] mt-1">
             Chinh phục thử thách, tích lũy XP và nâng cấp bản thân mỗi ngày
           </p>
         </div>
 
         {/* Actions & Tab switchers */}
-        <div className="flex items-center gap-2.5 flex-wrap w-full sm:w-auto">
+        <div className="flex items-center gap-2.5 flex-wrap w-full lg:w-auto min-w-0">
           {/* Nút Vùng Yên Tĩnh */}
           <button
             type="button"
             onClick={() => handleOpenQuietZone()}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-950/90 via-[#161B40] to-violet-950/90 hover:from-cyan-900 hover:to-violet-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 hover:text-white transition-all shadow-[0_0_15px_rgba(6,182,212,0.25)] hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] cursor-pointer text-xs font-bold font-pixel group shrink-0"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-[2px] bg-[var(--panel-2)] hover:bg-[#273063] border-2 border-[var(--sky)] text-[var(--sky)] hover:text-[var(--text)] shadow-[0_3px_0_0_var(--ink)] active:translate-y-[3px] active:shadow-none transition-transform duration-100 cursor-pointer text-xs font-bold font-pixel shrink-0 min-h-[44px]"
             title="Quay lại trang video Vùng Yên Tĩnh với hiệu ứng Mosaic"
           >
-            <Headphones className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform animate-pulse" />
+            <Headphones className="w-4 h-4 text-[var(--sky)]" />
             <span>Vùng yên tĩnh</span>
           </button>
 
           {/* Tab switchers */}
-          <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-[#161B40] border border-slate-700/60 overflow-x-auto">
+          <div className="pixel-tab-list flex items-center gap-1 p-1 overflow-x-auto max-w-full min-w-0">
           {[
             { id: 'daily', label: 'Daily', count: dailyStatus.totalCount - dailyStatus.completedCount },
             { id: 'active', label: 'Đang làm', count: activeCount },
@@ -392,20 +392,20 @@ export const QuestsPage: React.FC = () => {
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
+              className={`px-3 sm:px-3.5 py-2 rounded-[2px] text-xs font-bold transition-colors whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 min-h-[38px] shrink-0 ${
                 currentTab === t.id
-                  ? 'bg-violet-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                  ? 'bg-[var(--gold)] text-[var(--ink)] border-2 border-[var(--ink)]'
+                  : 'text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--panel-2)] border-2 border-transparent'
               }`}
             >
               <span>{t.label}</span>
               {typeof t.count === 'number' && t.count > 0 && (
-                <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-pixel leading-none ${
+                <span className={`px-1.5 py-0.5 rounded-[2px] text-[10px] font-num leading-none ${
                   currentTab === t.id
-                    ? 'bg-white/20 text-white'
+                    ? 'bg-[var(--ink)] text-[var(--gold)]'
                     : t.id === 'active'
-                    ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 animate-pulse'
-                    : 'bg-slate-700/60 text-slate-300'
+                    ? 'bg-[var(--panel-2)] text-[var(--gold)] border border-[var(--gold)]'
+                    : 'bg-[var(--panel-2)] text-[var(--text)] border border-[var(--ink)]'
                 }`}>
                   {t.count}
                 </span>
@@ -417,24 +417,24 @@ export const QuestsPage: React.FC = () => {
       </div>
 
       {/* Search & Filter Bar */}
-      <div className="flex items-center gap-2.5">
-        <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+      <div className="flex flex-wrap lg:flex-nowrap items-center gap-2.5 min-w-0">
+        <div className="relative flex-1 min-w-[200px]">
+          <Search className="w-4 h-4 text-[var(--muted)] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
             onChange={e => setQuery(e.target.value)}
             placeholder="Tìm kiếm nhiệm vụ, danh mục, từ khóa..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#161B40] border border-slate-700/60 focus:border-violet-500 text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none"
+            className="pixel-input w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[var(--text)] placeholder:text-[var(--muted)] min-h-[44px]"
           />
         </div>
 
         {/* Desktop Quick Category Select */}
-        <div className="hidden sm:flex items-center gap-2">
+        <div className="hidden sm:flex flex-wrap items-center gap-2 max-w-full min-w-0">
           <select
             value={filterCategory}
             onChange={e => setCategory(e.target.value)}
-            className="px-3 py-2.5 rounded-xl bg-[#161B40] border border-slate-700/60 text-xs text-slate-200 focus:outline-none focus:border-violet-500 cursor-pointer max-w-[200px]"
+            className="pixel-input px-3 py-2.5 text-xs text-[var(--text)] cursor-pointer max-w-[180px] min-h-[44px]"
           >
             <option value="all">Tất cả danh mục ({rawQuests.length})</option>
             {availableCategories.map(c => (
@@ -447,7 +447,7 @@ export const QuestsPage: React.FC = () => {
           <select
             value={filterDifficulty}
             onChange={e => setDifficulty(e.target.value)}
-            className="px-3 py-2.5 rounded-xl bg-[#161B40] border border-slate-700/60 text-xs text-slate-200 focus:outline-none focus:border-violet-500 cursor-pointer"
+            className="pixel-input px-3 py-2.5 text-xs text-[var(--text)] cursor-pointer max-w-[170px] min-h-[44px]"
           >
             <option value="all">Tất cả độ khó</option>
             {availableDifficulties.length > 0 ? (
@@ -471,7 +471,7 @@ export const QuestsPage: React.FC = () => {
         <button
           type="button"
           onClick={() => setIsFilterSheetOpen(true)}
-          className="sm:hidden p-2.5 rounded-xl bg-[#161B40] border border-slate-700 text-slate-300 hover:text-white"
+          className="sm:hidden p-2.5 pixel-input text-[var(--text)] hover:text-[var(--gold)] min-h-[44px] min-w-[44px] flex items-center justify-center"
           aria-label="Mở bộ lọc"
         >
           <SlidersHorizontal className="w-5 h-5" />
@@ -480,18 +480,18 @@ export const QuestsPage: React.FC = () => {
 
       {/* Summary indicator */}
       {displayedQuests.length > 0 && (
-        <div className="flex items-center justify-between text-xs text-slate-400 px-1">
+        <div className="flex items-center justify-between text-xs text-[var(--muted)] px-1">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
-              <span>Cần làm: <strong className="text-slate-200">{pendingQuests.length}</strong></span>
+              <span className="w-2 h-2 bg-[var(--gold)]" />
+              <span>Cần làm: <strong className="text-[var(--text)]">{pendingQuests.length}</strong></span>
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400" />
-              <span>Đã xong: <strong className="text-emerald-300">{completedQuests.length}</strong></span>
+              <span className="w-2 h-2 bg-[var(--green)]" />
+              <span>Đã xong: <strong className="text-[var(--green)]">{completedQuests.length}</strong></span>
             </span>
           </div>
-          <span className="text-[11px] text-slate-500 hidden sm:inline font-pixel">
+          <span className="text-xs text-[var(--muted)] hidden sm:inline font-pixel">
             Chưa xong ở trên • Đã xong ở dưới
           </span>
         </div>
@@ -499,10 +499,10 @@ export const QuestsPage: React.FC = () => {
 
       {/* Quest Cards Grid */}
       {displayedQuests.length === 0 ? (
-        <div className="p-12 text-center rounded-2xl bg-[#161B40]/50 border border-dashed border-slate-700 space-y-3">
-          <Compass className="w-10 h-10 text-slate-500 mx-auto" />
-          <h3 className="text-base font-bold text-slate-300">Không tìm thấy nhiệm vụ phù hợp</h3>
-          <p className="text-xs text-slate-400 max-w-sm mx-auto">
+        <div className="p-12 text-center pixel-frame pixel-frame-muted border-dashed space-y-3">
+          <Compass className="w-10 h-10 text-[var(--muted)] mx-auto" />
+          <h3 className="text-base font-bold text-[var(--text)]">Không tìm thấy nhiệm vụ phù hợp</h3>
+          <p className="text-xs text-[var(--muted)] max-w-sm mx-auto">
             Hãy thử xóa bộ lọc tìm kiếm hoặc chuyển sang tab khác để tiếp tục cày nhiệm vụ.
           </p>
           {(searchQuery || filterCategory !== 'all' || filterDifficulty !== 'all') && (
@@ -525,8 +525,8 @@ export const QuestsPage: React.FC = () => {
           {pendingQuests.length > 0 && (
             <div className="space-y-3">
               {completedQuests.length > 0 && (
-                <div className="flex items-center gap-2 text-xs font-pixel uppercase tracking-wider text-violet-300 px-1">
-                  <Clock className="w-3.5 h-3.5 text-violet-400" />
+                <div className="flex items-center gap-2 text-xs font-pixel uppercase tracking-wider text-[var(--gold)] px-1">
+                  <Clock className="w-3.5 h-3.5 text-[var(--gold)]" />
                   <span>Nhiệm Vụ Chưa Hoàn Thành ({pendingQuests.length})</span>
                 </div>
               )}
@@ -606,12 +606,12 @@ export const QuestsPage: React.FC = () => {
           {completedQuests.length > 0 && (
             <div className="space-y-3">
               {pendingQuests.length > 0 && (
-                <div className="pt-4 border-t border-slate-700/60 flex items-center justify-between px-1">
-                  <div className="flex items-center gap-2 text-xs font-pixel uppercase tracking-wider text-emerald-400">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <div className="pt-4 border-t-2 border-[#2C3563] flex items-center justify-between px-1">
+                  <div className="flex items-center gap-2 text-xs font-pixel uppercase tracking-wider text-[var(--green)]">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[var(--green)]" />
                     <span>Nhiệm Vụ Đã Xong ({completedQuests.length})</span>
                   </div>
-                  <span className="text-[11px] text-slate-500 font-pixel">Hoàn thành</span>
+                  <span className="text-xs text-[var(--muted)] font-pixel">Hoàn thành</span>
                 </div>
               )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -691,28 +691,28 @@ export const QuestsPage: React.FC = () => {
       {/* Mobile Filter Sheet Modal */}
       {isFilterSheetOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-sm sm:hidden"
+          className="fixed inset-0 z-50 flex items-end justify-center bg-[var(--ink)]/85 sm:hidden"
           role="dialog"
           aria-modal="true"
         >
-          <div className="w-full bg-[#161B40] border-t border-slate-700 rounded-t-3xl p-6 space-y-4 max-h-[80vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-700">
-              <h3 className="font-bold text-base text-slate-100">Bộ Lọc Nhiệm Vụ</h3>
+          <div className="w-full pixel-frame pixel-frame-gold p-6 space-y-4 max-h-[80vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-2 border-b-2 border-[#2C3563]">
+              <h3 className="font-bold text-base text-[var(--text)] font-heading">Bộ Lọc Nhiệm Vụ</h3>
               <button
                 type="button"
                 onClick={() => setIsFilterSheetOpen(false)}
-                className="text-xs text-violet-400 font-bold"
+                className="text-xs text-[var(--gold)] font-bold min-h-[36px] px-2"
               >
                 Xong
               </button>
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase text-slate-400">Danh mục:</label>
+              <label className="text-xs font-bold uppercase text-[var(--muted)]">Danh mục:</label>
               <select
                 value={filterCategory}
                 onChange={e => setCategory(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl bg-[#0F132E] border border-slate-700 text-xs text-slate-200"
+                className="pixel-input w-full px-3 py-2.5 text-xs text-[var(--text)] min-h-[44px]"
               >
                 <option value="all">Tất cả danh mục ({rawQuests.length})</option>
                 {availableCategories.map(c => (
@@ -724,11 +724,11 @@ export const QuestsPage: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase text-slate-400">Độ khó:</label>
+              <label className="text-xs font-bold uppercase text-[var(--muted)]">Độ khó:</label>
               <select
                 value={filterDifficulty}
                 onChange={e => setDifficulty(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl bg-[#0F132E] border border-slate-700 text-xs text-slate-200"
+                className="pixel-input w-full px-3 py-2.5 text-xs text-[var(--text)] min-h-[44px]"
               >
                 <option value="all">Tất cả độ khó</option>
                 {availableDifficulties.length > 0 ? (

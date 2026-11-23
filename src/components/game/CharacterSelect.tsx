@@ -339,26 +339,26 @@ export const CharacterSelect: React.FC = () => {
         <div
           role="status"
           aria-live="polite"
-          className={`fixed top-5 right-5 z-50 max-w-sm px-4 py-3 rounded-xl border text-xs font-semibold shadow-2xl flex items-start gap-2.5 animate-fade-in ${
+          className={`fixed top-5 right-5 z-50 max-w-sm px-4 py-3 rounded-[2px] border-[3px] text-xs font-semibold shadow-[6px_6px_0_0_var(--ink)] flex items-start gap-2.5 animate-fade-in bg-[var(--panel)] ${
             toast.type === 'error'
-              ? 'bg-rose-950/95 border-rose-500 text-rose-100'
+              ? 'border-[var(--danger)] text-[var(--text)]'
               : toast.type === 'warning'
-              ? 'bg-amber-950/95 border-amber-500 text-amber-100'
-              : 'bg-cyan-950/95 border-cyan-400 text-cyan-100'
+              ? 'border-[var(--gold)] text-[var(--text)]'
+              : 'border-[var(--sky)] text-[var(--text)]'
           }`}
         >
           {toast.type === 'error' ? (
-            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+            <AlertCircle className="w-4 h-4 text-[var(--danger)] shrink-0 mt-0.5" />
           ) : toast.type === 'warning' ? (
-            <AlertCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+            <AlertCircle className="w-4 h-4 text-[var(--gold)] shrink-0 mt-0.5" />
           ) : (
-            <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+            <Check className="w-4 h-4 text-[var(--green)] shrink-0 mt-0.5" />
           )}
           <span className="flex-1 leading-relaxed">{toast.message}</span>
           <button
             type="button"
             onClick={() => setToast(null)}
-            className="text-slate-400 hover:text-white cursor-pointer p-0.5"
+            className="text-[var(--muted)] hover:text-[var(--text)] cursor-pointer p-0.5"
             aria-label="Đóng thông báo"
           >
             <X className="w-3.5 h-3.5" />
@@ -369,18 +369,18 @@ export const CharacterSelect: React.FC = () => {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black font-heading text-slate-100 flex items-center gap-2.5">
-            <Shirt className="w-6 h-6 text-cyan-400" />
+          <h1 className="text-2xl sm:text-3xl font-black font-heading text-[var(--text)] flex items-center gap-2.5">
+            <Shirt className="w-6 h-6 text-[var(--gold)]" />
             <span>Nhân vật</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-sm text-[var(--muted)] mt-1">
             Thêm file GIF và chọn nhân vật đồng hành của bạn
           </p>
         </div>
 
         <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-          <span className="px-3 py-1.5 rounded-xl bg-[#161B40] border border-slate-700/70 text-xs font-pixel text-slate-300">
-            {characters.length} / {MAX_CHARACTERS_COUNT} nhân vật
+          <span className="px-3 py-1.5 rounded-[2px] bg-[var(--panel)] border-2 border-[#3B4474] text-xs font-pixel text-[var(--text)]">
+            <span className="font-num text-[var(--gold)]">{characters.length}/{MAX_CHARACTERS_COUNT}</span> nhân vật
           </span>
 
           <Button
@@ -405,8 +405,8 @@ export const CharacterSelect: React.FC = () => {
       {/* Loading State */}
       {isInitializing ? (
         <Card variant="surface" className="p-12 flex flex-col items-center justify-center text-center space-y-3">
-          <Loader2 className="w-8 h-8 text-violet-400 animate-spin" />
-          <p className="text-xs font-pixel text-slate-300">Đang tải thư viện nhân vật...</p>
+          <Loader2 className="w-8 h-8 text-[var(--gold)] animate-spin" />
+          <p className="text-xs font-pixel text-[var(--muted)]">Đang tải thư viện nhân vật...</p>
         </Card>
       ) : characters.length === 0 ? (
         /* Empty State */
@@ -415,10 +415,10 @@ export const CharacterSelect: React.FC = () => {
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-          className={`rounded-3xl border-2 border-dashed p-10 sm:p-16 text-center transition-all flex flex-col items-center justify-center space-y-4 ${
+          className={`rounded-[2px] border-[3px] border-dashed p-10 sm:p-16 text-center transition-all flex flex-col items-center justify-center space-y-4 ${
             isDragging
-              ? 'border-cyan-400 bg-cyan-950/25 shadow-[0_0_30px_rgba(6,182,212,0.25)] scale-[1.01]'
-              : 'border-slate-700/80 bg-[#161B40]/60 hover:border-violet-500/60'
+              ? 'border-[var(--sky)] bg-[var(--panel-2)]'
+              : 'border-[#3B4474] bg-[var(--panel)] hover:border-[var(--gold)]'
           }`}
         >
           <div
@@ -432,19 +432,19 @@ export const CharacterSelect: React.FC = () => {
             role="button"
             tabIndex={0}
             aria-label="Khu vực thêm file GIF nhân vật"
-            className="w-16 h-16 rounded-2xl bg-violet-950/80 border border-violet-500/40 flex items-center justify-center text-violet-300 cursor-pointer hover:scale-105 transition-transform focus:outline-none focus:ring-2 focus:ring-violet-400"
+            className="w-16 h-16 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--gold)] flex items-center justify-center text-[var(--gold)] cursor-pointer hover:-translate-y-0.5 transition-transform"
           >
-            <ImagePlus className="w-8 h-8 text-cyan-400" />
+            <ImagePlus className="w-8 h-8 text-[var(--gold)]" />
           </div>
 
           <div className="space-y-1.5 max-w-md">
-            <h2 className="text-lg sm:text-xl font-bold font-heading text-slate-100">
+            <h2 className="text-lg sm:text-xl font-bold font-heading text-[var(--text)]">
               Chưa có nhân vật nào
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300">
+            <p className="text-sm text-[var(--muted)]">
               Kéo thả file GIF vào đây hoặc bấm để thêm
             </p>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-xs text-[var(--muted)]">
               Chỉ nhận file .gif hợp lệ (tối đa {maxMb}MB mỗi file, tối đa {MAX_CHARACTERS_COUNT} nhân vật).
             </p>
           </div>
@@ -465,20 +465,20 @@ export const CharacterSelect: React.FC = () => {
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Large Selected Character Preview Panel */}
           <div className="w-full lg:w-80 shrink-0 lg:sticky lg:top-24 z-10">
-            <Card variant="surface" className="p-5 border-violet-500/35 space-y-4">
+            <Card variant="gold" className="p-5 space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-violet-300 font-pixel flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                <span className="text-xs font-bold uppercase tracking-wider text-[var(--gold)] font-pixel flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[var(--gold)]" />
                   <span>Nhân vật đang chọn</span>
                 </span>
                 {selectedCharacter && (
-                  <span className="px-2 py-0.5 rounded-md bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 text-[10px] font-bold font-pixel">
+                  <span className="px-2 py-0.5 rounded-[2px] bg-[var(--bg)] border border-[var(--green)] text-[var(--green)] text-xs font-bold font-pixel">
                     Đang chọn
                   </span>
                 )}
               </div>
 
-              <div className="w-full aspect-square max-h-64 sm:max-h-72 mx-auto rounded-2xl bg-[#0F132E] border border-slate-700/70 flex items-center justify-center p-4 overflow-hidden relative">
+              <div className="w-full aspect-square max-h-64 sm:max-h-72 mx-auto rounded-[2px] bg-[var(--bg)] border-2 border-[#3B4474] flex items-center justify-center p-4 overflow-hidden relative">
                 {selectedCharacter && selectedGifUrl && !previewImgError ? (
                   <img
                     src={selectedGifUrl}
@@ -489,41 +489,41 @@ export const CharacterSelect: React.FC = () => {
                     draggable={false}
                   />
                 ) : selectedCharacter ? (
-                  <div className="flex flex-col items-center justify-center text-slate-500 gap-2">
-                    <Loader2 className="w-6 h-6 animate-spin text-violet-400" />
+                  <div className="flex flex-col items-center justify-center text-[var(--muted)] gap-2">
+                    <Loader2 className="w-6 h-6 animate-spin text-[var(--gold)]" />
                     <span className="text-xs">Đang hiển thị GIF...</span>
                   </div>
                 ) : (
-                  <p className="text-xs text-slate-400 text-center">
+                  <p className="text-xs text-[var(--muted)] text-center">
                     Chưa chọn nhân vật nào
                   </p>
                 )}
               </div>
 
               {selectedCharacter && (
-                <div className="space-y-3 pt-1 border-t border-slate-700/60">
+                <div className="space-y-3 pt-2 border-t-2 border-[var(--ink)]">
                   <div>
-                    <div className="text-base font-bold font-heading text-slate-100 truncate" title={selectedCharacter.name}>
+                    <div className="text-base font-bold font-heading text-[var(--text)] truncate" title={selectedCharacter.name}>
                       {selectedCharacter.name}
                     </div>
-                    <div className="text-[11px] text-slate-400 mt-0.5">
+                    <div className="text-xs text-[var(--muted)] mt-0.5">
                       Đã thêm: {new Date(selectedCharacter.createdAt).toLocaleDateString('vi-VN')}
                     </div>
                   </div>
 
                   {/* Quick Size Adjustment for Selected Character */}
-                  <div className="p-2.5 rounded-xl bg-[#0F132E] border border-slate-800 space-y-1.5">
-                    <div className="flex items-center justify-between text-[11px]">
-                      <span className="font-semibold text-slate-300">Kích thước hiển thị:</span>
+                  <div className="p-2.5 rounded-[2px] bg-[var(--bg)] border-2 border-[#3B4474] space-y-1.5">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-semibold text-[var(--muted)]">Kích thước hiển thị:</span>
                       <div className="flex items-center gap-1.5">
-                        <span className="font-bold font-pixel text-cyan-300">
+                        <span className="font-num text-[11px] text-[var(--gold)]">
                           {Math.round((selectedCharacter.scale ?? 1) * 100)}%
                         </span>
                         {(selectedCharacter.scale ?? 1) !== DEFAULT_CHARACTER_SCALE && (
                           <button
                             type="button"
                             onClick={() => updateCharacterScaleById(selectedCharacter.id, DEFAULT_CHARACTER_SCALE)}
-                            className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                            className="p-1 rounded-[2px] text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--panel-2)] transition-colors cursor-pointer"
                             title="Đặt lại kích thước 100%"
                             aria-label="Đặt lại kích thước 100%"
                           >
@@ -540,7 +540,7 @@ export const CharacterSelect: React.FC = () => {
                         onClick={() =>
                           updateCharacterScaleById(selectedCharacter.id, (selectedCharacter.scale ?? 1) - 0.1)
                         }
-                        className="p-1.5 rounded-lg bg-[#161B40] hover:bg-[#1F2656] text-slate-200 border border-slate-700/70 disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
+                        className="p-1.5 rounded-[2px] bg-[var(--panel)] hover:bg-[var(--panel-2)] text-[var(--text)] border-2 border-[#3B4474] disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
                         title="Thu nhỏ 10%"
                         aria-label="Thu nhỏ nhân vật"
                       >
@@ -566,7 +566,7 @@ export const CharacterSelect: React.FC = () => {
                         onClick={() =>
                           updateCharacterScaleById(selectedCharacter.id, (selectedCharacter.scale ?? 1) + 0.1)
                         }
-                        className="p-1.5 rounded-lg bg-[#161B40] hover:bg-[#1F2656] text-slate-200 border border-slate-700/70 disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
+                        className="p-1.5 rounded-[2px] bg-[var(--panel)] hover:bg-[var(--panel-2)] text-[var(--text)] border-2 border-[#3B4474] disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
                         title="Phóng to 10%"
                         aria-label="Phóng to nhân vật"
                       >
@@ -608,16 +608,16 @@ export const CharacterSelect: React.FC = () => {
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            className={`flex-1 w-full rounded-3xl p-1 transition-all relative ${
+            className={`flex-1 w-full rounded-[2px] p-1 transition-all relative ${
               isDragging
-                ? 'ring-2 ring-cyan-400 bg-cyan-950/20 shadow-[0_0_30px_rgba(6,182,212,0.25)]'
+                ? 'ring-2 ring-[var(--sky)] bg-[var(--panel-2)]'
                 : ''
             }`}
           >
             {isDragging && (
-              <div className="absolute inset-0 z-30 rounded-3xl bg-[#0A0E27]/85 border-2 border-dashed border-cyan-400 flex flex-col items-center justify-center gap-2 pointer-events-none">
-                <Upload className="w-10 h-10 text-cyan-400 animate-bounce" />
-                <p className="text-sm font-bold font-heading text-cyan-200">
+              <div className="absolute inset-0 z-30 rounded-[2px] bg-[var(--bg)]/90 border-2 border-dashed border-[var(--sky)] flex flex-col items-center justify-center gap-2 pointer-events-none">
+                <Upload className="w-10 h-10 text-[var(--sky)] animate-bounce" />
+                <p className="text-sm font-bold font-heading text-[var(--sky)]">
                   Thả file GIF vào đây để thêm nhân vật
                 </p>
               </div>
@@ -647,17 +647,17 @@ export const CharacterSelect: React.FC = () => {
                         handleSelectCharacter(char);
                       }
                     }}
-                    className={`group relative rounded-2xl p-3.5 border transition-all cursor-pointer flex flex-col justify-between select-none focus:outline-none focus:ring-2 focus:ring-violet-400 ${
+                    className={`group relative rounded-[2px] p-3.5 border-[3px] transition-all cursor-pointer flex flex-col justify-between select-none shadow-[inset_0_0_0_2px_var(--ink),6px_8px_0_0_rgba(0,0,0,0.28)] ${
                       isSelected
-                        ? 'bg-[#1F2656] border-violet-400 rpg-border-glow shadow-[0_0_20px_rgba(124,58,237,0.3)]'
-                        : 'bg-[#161B40] border-slate-700/70 hover:border-violet-500/50 hover:bg-[#1A204C]'
+                        ? 'bg-[var(--panel-2)] border-[var(--gold)]'
+                        : 'bg-[var(--panel)] border-[#3B4474] hover:border-[var(--violet)]'
                     }`}
                   >
                     {/* Top badges & menu */}
                     <div className="flex items-center justify-between gap-2 mb-2 min-h-[24px]">
                       {isSelected ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-violet-600/30 border border-violet-400/60 text-violet-200 text-[10px] font-bold font-pixel">
-                          <Check className="w-3 h-3 text-cyan-300" />
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[2px] bg-[var(--bg)] border border-[var(--gold)] text-[var(--gold)] text-xs font-bold font-pixel">
+                          <Check className="w-3 h-3 text-[var(--green)]" />
                           <span>Đang chọn</span>
                         </span>
                       ) : (
@@ -671,7 +671,7 @@ export const CharacterSelect: React.FC = () => {
                             e.stopPropagation();
                             setOpenMenuId(prev => (prev === char.id ? null : char.id));
                           }}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/80 transition-colors cursor-pointer"
+                          className="p-1.5 rounded-[2px] text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--bg)] transition-colors cursor-pointer"
                           aria-label={`Tùy chọn cho ${char.name}`}
                           aria-haspopup="menu"
                           aria-expanded={isMenuOpen}
@@ -682,15 +682,15 @@ export const CharacterSelect: React.FC = () => {
                         {isMenuOpen && (
                           <div
                             role="menu"
-                            className="absolute right-0 mt-1 w-36 bg-[#0F132E] border border-slate-700 rounded-xl shadow-2xl p-1.5 z-30 flex flex-col gap-1"
+                            className="absolute right-0 mt-1 w-36 bg-[var(--bg)] border-2 border-[#3B4474] rounded-[2px] shadow-[4px_6px_0_0_var(--ink)] p-1.5 z-30 flex flex-col gap-1"
                           >
                             <button
                               type="button"
                               role="menuitem"
                               onClick={() => handleOpenRename(char)}
-                              className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-200 hover:text-white hover:bg-white/10 transition-colors text-left cursor-pointer"
+                              className="flex items-center gap-2 px-2.5 py-1.5 rounded-[2px] text-xs font-medium text-[var(--text)] hover:bg-[var(--panel-2)] transition-colors text-left cursor-pointer"
                             >
-                              <Edit3 className="w-3.5 h-3.5 text-cyan-400" />
+                              <Edit3 className="w-3.5 h-3.5 text-[var(--sky)]" />
                               <span>Đổi tên</span>
                             </button>
                             <button
@@ -700,7 +700,7 @@ export const CharacterSelect: React.FC = () => {
                                 setOpenMenuId(null);
                                 setDeleteTarget(char);
                               }}
-                              className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium text-rose-400 hover:text-rose-200 hover:bg-rose-950/50 transition-colors text-left cursor-pointer"
+                              className="flex items-center gap-2 px-2.5 py-1.5 rounded-[2px] text-xs font-medium text-[var(--danger)] hover:bg-[var(--panel-2)] transition-colors text-left cursor-pointer"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                               <span>Xóa</span>
@@ -711,7 +711,7 @@ export const CharacterSelect: React.FC = () => {
                     </div>
 
                     {/* GIF Thumbnail (object-contain, lazy-loaded) */}
-                    <div className="w-full h-36 sm:h-40 rounded-xl bg-[#0F132E] border border-slate-800/90 flex items-center justify-center p-2 overflow-hidden">
+                    <div className="w-full h-36 sm:h-40 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--ink)] flex items-center justify-center p-2 overflow-hidden">
                       <LazyCharacterGif
                         characterId={char.id}
                         name={char.name}
@@ -724,7 +724,7 @@ export const CharacterSelect: React.FC = () => {
                     {/* Name & Select Button */}
                     <div className="mt-3 space-y-2.5">
                       <div
-                        className="font-bold text-sm text-slate-100 font-heading truncate text-center"
+                        className="font-bold text-sm text-[var(--text)] font-heading truncate text-center"
                         title={char.name}
                       >
                         {char.name}
@@ -753,16 +753,16 @@ export const CharacterSelect: React.FC = () => {
                 type="button"
                 onClick={openFilePicker}
                 disabled={isSaving || isValidatingFiles}
-                className="min-h-[250px] rounded-2xl border-2 border-dashed border-slate-700/80 hover:border-cyan-400/70 bg-[#161B40]/40 hover:bg-[#161B40]/80 p-4 flex flex-col items-center justify-center text-center gap-3 transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                className="min-h-[250px] rounded-[2px] border-2 border-dashed border-[#3B4474] hover:border-[var(--gold)] bg-[var(--panel)] hover:bg-[var(--panel-2)] p-4 flex flex-col items-center justify-center text-center gap-3 transition-all cursor-pointer group"
               >
-                <div className="w-12 h-12 rounded-2xl bg-[#0F132E] border border-slate-700 group-hover:border-cyan-400/60 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-[2px] bg-[var(--bg)] border-2 border-[#3B4474] group-hover:border-[var(--gold)] flex items-center justify-center text-[var(--gold)]">
                   <Plus className="w-6 h-6" />
                 </div>
                 <div>
-                  <div className="text-sm font-bold font-heading text-slate-200 group-hover:text-cyan-300">
+                  <div className="text-sm font-bold font-heading text-[var(--text)] group-hover:text-[var(--gold)]">
                     Thêm nhân vật
                   </div>
-                  <div className="text-[11px] text-slate-400 mt-1">
+                  <div className="text-xs text-[var(--muted)] mt-1">
                     Chọn hoặc kéo thả file GIF
                   </div>
                 </div>
@@ -793,7 +793,7 @@ export const CharacterSelect: React.FC = () => {
       >
         <form onSubmit={handleConfirmRename} className="space-y-4">
           <div className="space-y-1.5">
-            <label htmlFor="rename-character-input" className="text-xs font-bold text-slate-300">
+            <label htmlFor="rename-character-input" className="text-xs font-bold text-[var(--muted)]">
               Tên nhân vật mới:
             </label>
             <input
@@ -807,14 +807,14 @@ export const CharacterSelect: React.FC = () => {
                 if (renameError) setRenameError(null);
               }}
               placeholder="Nhập tên nhân vật..."
-              className="w-full px-3.5 py-2.5 rounded-xl bg-[#0F132E] border border-slate-700 text-sm text-slate-100 focus:outline-none focus:border-violet-500"
+              className="pixel-input w-full px-3.5 py-2.5 text-sm text-[var(--text)]"
             />
             {renameError && (
-              <p className="text-xs text-rose-400 font-medium">{renameError}</p>
+              <p className="text-xs text-[var(--danger)] font-medium">{renameError}</p>
             )}
           </div>
 
-          <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t-2 border-[var(--ink)]">
             <Button
               type="button"
               variant="secondary"
@@ -838,12 +838,12 @@ export const CharacterSelect: React.FC = () => {
         maxWidth="sm"
       >
         <div className="space-y-4">
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <p className="text-sm text-[var(--muted)] leading-relaxed">
             Bạn có chắc chắn muốn xóa nhân vật{' '}
-            <strong className="text-white font-bold">"{deleteTarget?.name}"</strong>? File GIF sẽ bị xóa khỏi thiết bị này.
+            <strong className="text-[var(--text)] font-bold">"{deleteTarget?.name}"</strong>? File GIF sẽ bị xóa khỏi thiết bị này.
           </p>
 
-          <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t-2 border-[var(--ink)]">
             <Button
               type="button"
               variant="secondary"

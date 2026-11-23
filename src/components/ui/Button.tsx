@@ -19,27 +19,28 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 select-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-violet-400 focus:ring-offset-2 focus:ring-offset-[#0A0E27] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 min-h-[44px]';
+  const baseStyles =
+    'inline-flex items-center justify-center font-bold rounded-[2px] transition-transform duration-100 select-none cursor-pointer focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--gold)] min-h-[44px] disabled:bg-[var(--panel-2)] disabled:text-[var(--muted)] disabled:border-[var(--ink)] disabled:shadow-none disabled:translate-y-0 disabled:cursor-not-allowed';
 
   const sizeStyles = {
-    sm: 'text-xs px-3.5 py-2 gap-1.5',
+    sm: 'text-xs px-3 py-2 gap-1.5 whitespace-nowrap shrink-0',
     md: 'text-sm px-4 py-2.5 gap-2',
     lg: 'text-base px-6 py-3.5 gap-2.5',
   };
 
   const variantStyles = {
     primary:
-      'bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white shadow-lg shadow-violet-900/40 border border-violet-400/30',
+      'bg-[var(--gold)] hover:bg-[#F3D392] text-[var(--ink)] border-[3px] border-[var(--ink)] shadow-[0_4px_0_0_var(--ink)] active:translate-y-[4px] active:shadow-none',
     cyan:
-      'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-lg shadow-cyan-900/40 border border-cyan-400/40',
+      'bg-[var(--sky)] hover:bg-[#82C7FA] text-[var(--ink)] border-[3px] border-[var(--ink)] shadow-[0_4px_0_0_var(--ink)] active:translate-y-[4px] active:shadow-none',
     gold:
-      'bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 font-bold shadow-lg shadow-amber-900/40 border border-amber-300',
+      'bg-[var(--gold)] hover:bg-[#F3D392] text-[var(--ink)] border-[3px] border-[var(--ink)] shadow-[0_4px_0_0_var(--ink)] active:translate-y-[4px] active:shadow-none',
     secondary:
-      'bg-[#161B40] hover:bg-[#1F2656] text-slate-200 border border-slate-700/60 hover:border-slate-500 shadow-md',
+      'bg-transparent hover:bg-[var(--panel-2)] text-[var(--text)] border-2 border-[var(--muted)] hover:border-[var(--gold)] shadow-[0_3px_0_0_var(--ink)] active:translate-y-[3px] active:shadow-none',
     danger:
-      'bg-rose-600/90 hover:bg-rose-600 text-white border border-rose-400/40 shadow-lg shadow-rose-950/40',
+      'bg-[var(--danger)] hover:bg-[#FF8598] text-[var(--ink)] border-[3px] border-[var(--ink)] shadow-[0_4px_0_0_var(--ink)] active:translate-y-[4px] active:shadow-none',
     ghost:
-      'bg-transparent hover:bg-white/5 text-slate-300 hover:text-white',
+      'bg-transparent hover:bg-[var(--panel-2)] text-[var(--muted)] hover:text-[var(--text)] border-2 border-transparent',
   };
 
   return (
@@ -51,7 +52,7 @@ export const Button: React.FC<ButtonProps> = ({
       {...props}
     >
       {isLoading ? (
-        <svg className="animate-spin h-4 w-4 text-current" viewBox="0 0 24 24" fill="none">
+        <svg className="animate-spin h-4 w-4 text-current shrink-0" viewBox="0 0 24 24" fill="none">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
         </svg>

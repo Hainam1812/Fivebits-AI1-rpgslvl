@@ -50,10 +50,10 @@ export const ContactPage: React.FC = () => {
     <div className="space-y-12 max-w-4xl mx-auto py-4">
       {/* Title */}
       <div className="text-center space-y-3">
-        <h1 className="text-2xl sm:text-4xl font-black font-heading text-slate-100 uppercase">
+        <h1 className="text-2xl sm:text-4xl font-bold font-heading text-[var(--text)] uppercase">
           Liên Hệ & Câu Hỏi Thường Gặp
         </h1>
-        <p className="text-xs sm:text-sm text-slate-400 max-w-lg mx-auto">
+        <p className="text-xs sm:text-sm text-[var(--muted)] max-w-lg mx-auto">
           Gửi phản hồi đóng góp cho nhóm phát triển hoặc xem các thắc mắc phổ biến về ứng dụng
         </p>
       </div>
@@ -61,20 +61,20 @@ export const ContactPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* Contact Form */}
         <Card variant="surface" className="p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-2 border-b border-slate-700/60">
-            <Mail className="w-5 h-5 text-violet-400" />
-            <h2 className="text-lg font-bold font-heading text-slate-100">
+          <div className="flex items-center gap-2 pb-2 border-b border-[#2C3563]">
+            <Mail className="w-5 h-5 text-[var(--gold)]" />
+            <h2 className="text-lg font-bold font-heading text-[var(--text)]">
               Gửi Tin Nhắn Phản Hồi
             </h2>
           </div>
 
-          <div className="p-3 bg-amber-950/30 border border-amber-500/30 rounded-xl text-xs text-amber-200">
+          <div className="p-3 pixel-frame pixel-frame-gold text-xs text-[var(--text)]">
             ℹ️ Lưu ý: Đây là bản demo, tin nhắn được lưu cục bộ trên thiết bị của bạn để mô phỏng tính năng và không gửi qua mạng.
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-3" noValidate>
             <div className="space-y-1">
-              <label htmlFor="contact-name" className="text-xs font-semibold text-slate-300">
+              <label htmlFor="contact-name" className="text-xs font-semibold text-[#D5DAE8]">
                 Họ và tên *
               </label>
               <input
@@ -83,15 +83,15 @@ export const ContactPage: React.FC = () => {
                 value={name}
                 onChange={e => setName(e.target.value)}
                 aria-describedby={errors.name ? 'contact-name-err' : undefined}
-                className="w-full px-3.5 py-2 rounded-xl bg-[#0F132E] border border-slate-700 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-violet-500"
+                className="w-full px-3.5 py-2 pixel-input text-xs sm:text-sm"
               />
               {errors.name && (
-                <p id="contact-name-err" className="text-xs text-rose-400 font-medium">{errors.name}</p>
+                <p id="contact-name-err" className="text-xs text-[var(--danger)] font-medium">{errors.name}</p>
               )}
             </div>
 
             <div className="space-y-1">
-              <label htmlFor="contact-email" className="text-xs font-semibold text-slate-300">
+              <label htmlFor="contact-email" className="text-xs font-semibold text-[#D5DAE8]">
                 Địa chỉ Email *
               </label>
               <input
@@ -100,15 +100,15 @@ export const ContactPage: React.FC = () => {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 aria-describedby={errors.email ? 'contact-email-err' : undefined}
-                className="w-full px-3.5 py-2 rounded-xl bg-[#0F132E] border border-slate-700 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-violet-500"
+                className="w-full px-3.5 py-2 pixel-input text-xs sm:text-sm"
               />
               {errors.email && (
-                <p id="contact-email-err" className="text-xs text-rose-400 font-medium">{errors.email}</p>
+                <p id="contact-email-err" className="text-xs text-[var(--danger)] font-medium">{errors.email}</p>
               )}
             </div>
 
             <div className="space-y-1">
-              <label htmlFor="contact-subject" className="text-xs font-semibold text-slate-300">
+              <label htmlFor="contact-subject" className="text-xs font-semibold text-[#D5DAE8]">
                 Tiêu đề thư *
               </label>
               <input
@@ -117,15 +117,15 @@ export const ContactPage: React.FC = () => {
                 value={subject}
                 onChange={e => setSubject(e.target.value)}
                 aria-describedby={errors.subject ? 'contact-subject-err' : undefined}
-                className="w-full px-3.5 py-2 rounded-xl bg-[#0F132E] border border-slate-700 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-violet-500"
+                className="w-full px-3.5 py-2 pixel-input text-xs sm:text-sm"
               />
               {errors.subject && (
-                <p id="contact-subject-err" className="text-xs text-rose-400 font-medium">{errors.subject}</p>
+                <p id="contact-subject-err" className="text-xs text-[var(--danger)] font-medium">{errors.subject}</p>
               )}
             </div>
 
             <div className="space-y-1">
-              <label htmlFor="contact-message" className="text-xs font-semibold text-slate-300">
+              <label htmlFor="contact-message" className="text-xs font-semibold text-[#D5DAE8]">
                 Nội dung tin nhắn *
               </label>
               <textarea
@@ -134,15 +134,15 @@ export const ContactPage: React.FC = () => {
                 value={message}
                 onChange={e => setMessage(e.target.value)}
                 aria-describedby={errors.message ? 'contact-message-err' : undefined}
-                className="w-full px-3.5 py-2 rounded-xl bg-[#0F132E] border border-slate-700 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-violet-500 resize-none"
+                className="w-full px-3.5 py-2 pixel-input text-xs sm:text-sm resize-none"
               />
               {errors.message && (
-                <p id="contact-message-err" className="text-xs text-rose-400 font-medium">{errors.message}</p>
+                <p id="contact-message-err" className="text-xs text-[var(--danger)] font-medium">{errors.message}</p>
               )}
             </div>
 
             {isSuccess && (
-              <div className="p-3 bg-emerald-950/50 border border-emerald-500/50 rounded-xl text-xs text-emerald-300 flex items-center gap-2">
+              <div className="p-3 bg-[var(--bg)] border-2 border-[var(--green)] rounded-[2px] text-xs text-[var(--green)] flex items-center gap-2">
                 <Check className="w-4 h-4 shrink-0" />
                 <span>Gửi phản hồi thành công! Cảm ơn bạn đã đóng góp cho dự án.</span>
               </div>
@@ -153,16 +153,16 @@ export const ContactPage: React.FC = () => {
             </Button>
           </form>
 
-          <div className="pt-2 border-t border-slate-700/60 text-[11px] text-slate-500 text-center">
+          <div className="pt-2 border-t border-[#2C3563] text-xs text-[var(--muted)] text-center">
             Email liên hệ hỗ trợ: {BRAND.contactEmail}
           </div>
         </Card>
 
         {/* 6 FAQ Accordion */}
         <div className="space-y-4">
-          <div className="flex items-center gap-2 pb-2 border-b border-slate-700/60">
-            <HelpCircle className="w-5 h-5 text-cyan-400" />
-            <h2 className="text-lg font-bold font-heading text-slate-100">
+          <div className="flex items-center gap-2 pb-2 border-b border-[#2C3563]">
+            <HelpCircle className="w-5 h-5 text-[var(--sky)]" />
+            <h2 className="text-lg font-bold font-heading text-[var(--text)]">
               Câu Hỏi Thường Gặp (FAQ)
             </h2>
           </div>
@@ -174,24 +174,24 @@ export const ContactPage: React.FC = () => {
                 <Card
                   key={idx}
                   variant="surface"
-                  className="transition-all overflow-hidden"
+                  className="transition-colors overflow-hidden"
                 >
                   <button
                     type="button"
                     onClick={() => setExpandedFaqIndex(isOpen ? null : idx)}
-                    className="w-full p-4 flex items-center justify-between gap-3 text-left font-bold text-xs sm:text-sm text-slate-200 hover:text-white cursor-pointer select-none"
+                    className="w-full p-4 flex items-center justify-between gap-3 text-left font-bold text-xs sm:text-sm text-[var(--text)] hover:text-[var(--gold)] cursor-pointer select-none"
                     aria-expanded={isOpen}
                   >
                     <span>{faq.question}</span>
                     {isOpen ? (
-                      <ChevronUp className="w-4 h-4 text-violet-400 shrink-0" />
+                      <ChevronUp className="w-4 h-4 text-[var(--gold)] shrink-0" />
                     ) : (
-                      <ChevronDown className="w-4 h-4 text-slate-500 shrink-0" />
+                      <ChevronDown className="w-4 h-4 text-[var(--muted)] shrink-0" />
                     )}
                   </button>
 
                   {isOpen && (
-                    <div className="px-4 pb-4 pt-1 text-xs text-slate-300 leading-relaxed border-t border-slate-800 animate-fade-in">
+                    <div className="px-4 pb-4 pt-2 text-xs text-[#D5DAE8] leading-relaxed border-t border-[#2C3563] animate-fade-in">
                       {faq.answer}
                     </div>
                   )}

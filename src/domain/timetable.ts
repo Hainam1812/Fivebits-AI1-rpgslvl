@@ -28,16 +28,16 @@ export const PERIODS = [
 
 export const TIMETABLE_STORAGE_KEY = 'solo_levelling_timetable_v1';
 
-// Preset RPG & Neon colors for course badges
+// Preset Midnight & Champagne Pixel colors for course badges
 export const COURSE_COLORS = [
-  { bg: 'bg-violet-950/80', border: 'border-violet-500/70', text: 'text-violet-200', tag: 'bg-violet-500/20 text-violet-300' },
-  { bg: 'bg-cyan-950/80', border: 'border-cyan-500/70', text: 'text-cyan-200', tag: 'bg-cyan-500/20 text-cyan-300' },
-  { bg: 'bg-emerald-950/80', border: 'border-emerald-500/70', text: 'text-emerald-200', tag: 'bg-emerald-500/20 text-emerald-300' },
-  { bg: 'bg-amber-950/80', border: 'border-amber-500/70', text: 'text-amber-200', tag: 'bg-amber-500/20 text-amber-300' },
-  { bg: 'bg-rose-950/80', border: 'border-rose-500/70', text: 'text-rose-200', tag: 'bg-rose-500/20 text-rose-300' },
-  { bg: 'bg-indigo-950/80', border: 'border-indigo-500/70', text: 'text-indigo-200', tag: 'bg-indigo-500/20 text-indigo-300' },
-  { bg: 'bg-fuchsia-950/80', border: 'border-fuchsia-500/70', text: 'text-fuchsia-200', tag: 'bg-fuchsia-500/20 text-fuchsia-300' },
-  { bg: 'bg-teal-950/80', border: 'border-teal-500/70', text: 'text-teal-200', tag: 'bg-teal-500/20 text-teal-300' },
+  { bg: 'bg-[#161B33]', border: 'border-[#A99BFF]', text: 'text-[#F3EFE6]', tag: 'bg-[#0C1020] text-[#A99BFF] border border-[#A99BFF]' },
+  { bg: 'bg-[#161B33]', border: 'border-[#62B6F7]', text: 'text-[#F3EFE6]', tag: 'bg-[#0C1020] text-[#62B6F7] border border-[#62B6F7]' },
+  { bg: 'bg-[#161B33]', border: 'border-[#34D3A0]', text: 'text-[#F3EFE6]', tag: 'bg-[#0C1020] text-[#34D3A0] border border-[#34D3A0]' },
+  { bg: 'bg-[#161B33]', border: 'border-[#E8C27A]', text: 'text-[#F3EFE6]', tag: 'bg-[#0C1020] text-[#E8C27A] border border-[#E8C27A]' },
+  { bg: 'bg-[#161B33]', border: 'border-[#FF6B81]', text: 'text-[#F3EFE6]', tag: 'bg-[#0C1020] text-[#FF6B81] border border-[#FF6B81]' },
+  { bg: 'bg-[#161B33]', border: 'border-[#2DD4E6]', text: 'text-[#F3EFE6]', tag: 'bg-[#0C1020] text-[#2DD4E6] border border-[#2DD4E6]' },
+  { bg: 'bg-[#161B33]', border: 'border-[#E879D9]', text: 'text-[#F3EFE6]', tag: 'bg-[#0C1020] text-[#E879D9] border border-[#E879D9]' },
+  { bg: 'bg-[#161B33]', border: 'border-[#FF8C6B]', text: 'text-[#F3EFE6]', tag: 'bg-[#0C1020] text-[#FF8C6B] border border-[#FF8C6B]' },
 ];
 
 export function getCourseColor(code: string, name: string): typeof COURSE_COLORS[0] {

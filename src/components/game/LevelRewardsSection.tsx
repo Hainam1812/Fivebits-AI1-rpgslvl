@@ -47,33 +47,36 @@ export const LevelRewardsSection: React.FC<LevelRewardsSectionProps> = ({ curren
   return (
     <div className="lr-section space-y-6">
       {/* Banner Tiêu đề & Cấp độ hiện tại */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-[#161B40] via-[#1E1B4B] to-[#121636] border border-amber-500/30 shadow-xl">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 pixel-frame pixel-frame-gold bg-[var(--panel)]">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <span className="text-xl sm:text-2xl">🎁</span>
-            <h2 className="text-xl sm:text-2xl font-black font-heading text-slate-100 flex items-center gap-2">
+            <h2 className="text-xl sm:text-2xl font-bold font-heading text-[var(--text)] flex items-center gap-2">
               <span>Thưởng Cấp (Level Rewards)</span>
             </h2>
           </div>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-sm text-[var(--muted)]">
             Đạt cấp độ yêu cầu để nhận giftcode game miễn phí
           </p>
         </div>
 
         {/* Cấp độ người chơi hiện tại */}
-        <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-[#0F132E]/90 border border-amber-400/50 shadow-md">
-          <Award className="w-5 h-5 text-amber-400 shrink-0" />
-          <div className="text-left font-pixel">
-            <div className="text-[10px] uppercase text-slate-400">Cấp hiện tại</div>
-            <div className="text-sm sm:text-base font-bold text-amber-300">
-              LV.{safeLevel} <span className="text-xs text-slate-400 font-sans font-normal">({unlockedRewardsCount}/{LEVEL_REWARDS.length} đã mở)</span>
+        <div className="flex items-center gap-3 px-4 py-2.5 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--gold)]">
+          <Award className="w-5 h-5 text-[var(--gold)] shrink-0" />
+          <div className="text-left">
+            <div className="text-xs uppercase font-bold text-[var(--muted)]">Cấp hiện tại</div>
+            <div className="text-sm font-bold text-[var(--gold)] font-num mt-0.5">
+              LV.{safeLevel}{' '}
+              <span className="text-xs text-[var(--muted)] font-sans font-semibold">
+                ({unlockedRewardsCount}/{LEVEL_REWARDS.length} đã mở)
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Lưới các gói phần thưởng: 3 cột desktop, 2 cột tablet, 1 cột mobile */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {LEVEL_REWARDS.map(reward => {
           const isUnlocked = safeLevel >= reward.requiredLevel;
           const isClaimed = claimedRewardIds.includes(reward.id);
@@ -87,42 +90,41 @@ export const LevelRewardsSection: React.FC<LevelRewardsSectionProps> = ({ curren
             <Card
               key={reward.id}
               variant={isUnlocked ? 'gold' : 'surface'}
-              className={`lr-reward-card p-4 sm:p-5 flex flex-col justify-between space-y-4 transition-all duration-200 hover:-translate-y-0.5 ${
-                !isUnlocked ? 'opacity-85' : 'shadow-amber-950/20'
+              className={`lr-reward-card p-4 sm:p-5 flex flex-col justify-between space-y-4 pixel-frame-interactive ${
+                !isUnlocked ? 'border-[var(--lock)] opacity-90' : ''
               }`}
             >
               <div className="space-y-3">
-                {/* Ảnh Game 16:9 bo góc với Fallback */}
-                <div className="lr-card-thumb relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-[#0A0E27] border border-slate-700/60 shadow-sm">
+                {/* Ảnh Game 16:9 với Fallback */}
+                <div className="lr-card-thumb relative aspect-[16/9] w-full rounded-[2px] overflow-hidden bg-[var(--bg)] border-2 border-[var(--ink)]">
                   <img
                     src={imageUrl}
                     alt={`${reward.gameName} - ${reward.rewardName}`}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    className="w-full h-full object-cover"
                     onError={(e) => {
-                      // Fallback nếu ảnh bị lỗi tải
                       const target = e.currentTarget;
                       target.style.display = 'none';
                       const parent = target.parentElement;
                       if (parent) {
                         const fallbackDiv = document.createElement('div');
-                        fallbackDiv.className = 'w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-violet-950 via-[#161B40] to-slate-900 text-center p-3';
-                        fallbackDiv.innerHTML = `<span class="text-xs font-bold text-slate-200">${reward.gameName}</span><span class="text-[10px] text-slate-400">${reward.rewardName}</span>`;
+                        fallbackDiv.className = 'w-full h-full flex flex-col items-center justify-center bg-[#1F2650] text-center p-3';
+                        fallbackDiv.innerHTML = `<span class="text-xs font-bold text-[#F3EFE6]">${reward.gameName}</span><span class="text-xs text-[#9AA0BD]">${reward.rewardName}</span>`;
                         parent.appendChild(fallbackDiv);
                       }
                     }}
                   />
 
-                  {/* Badge Cấp độ yêu cầu ở góc trên - Điều chỉnh bằng 4/5 (scale 1.2) */}
+                  {/* Badge Cấp độ yêu cầu ở góc trên - scale 1.2 giữ nguyên */}
                   <div className="absolute top-2.5 left-2.5 scale-[1.2] origin-top-left z-10">
-                    <span className="px-2 py-0.5 rounded-md bg-black/85 backdrop-blur-md border border-amber-400 text-amber-300 text-[11px] font-bold font-pixel shadow-lg shadow-amber-950/40 inline-block">
+                    <span className="px-2 py-1 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--gold)] text-[var(--gold)] text-[10px] font-bold font-num inline-block shadow-[2px_2px_0_0_var(--ink)]">
                       LV.{reward.requiredLevel}
                     </span>
                   </div>
 
                   {/* Tên game ở góc dưới */}
                   <div className="absolute bottom-2 right-2">
-                    <span className="px-2 py-0.5 rounded-md bg-black/75 backdrop-blur-md border border-slate-700 text-slate-200 text-[11px] font-medium flex items-center gap-1">
-                      <Gamepad2 className="w-3 h-3 text-cyan-400" />
+                    <span className="px-2 py-0.5 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--ink)] text-[var(--text)] text-xs font-semibold flex items-center gap-1">
+                      <Gamepad2 className="w-3 h-3 text-[var(--sky)]" />
                       <span>{reward.gameName}</span>
                     </span>
                   </div>
@@ -131,18 +133,18 @@ export const LevelRewardsSection: React.FC<LevelRewardsSectionProps> = ({ curren
                 {/* Tên & Trạng thái */}
                 <div>
                   <div className="flex items-center justify-between gap-1 mb-1">
-                    <span className="text-[10px] font-bold text-cyan-400 uppercase font-pixel tracking-wider">
+                    <span className="text-xs font-bold text-[var(--sky)] uppercase font-heading tracking-wider">
                       {reward.gameName}
                     </span>
                     {/* Badge trạng thái */}
                     {isUnlocked ? (
-                      <span className="text-[11px] font-bold text-amber-300 flex items-center gap-1 font-pixel">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-xs font-bold text-[var(--gold)] flex items-center gap-1 font-heading">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[var(--green)]" />
                         <span>{isClaimed ? 'Đã nhận mã' : 'Đã mở khóa'}</span>
                       </span>
                     ) : (
-                      <span className="text-[11px] font-semibold text-slate-400 flex items-center gap-1">
-                        <Lock className="w-3.5 h-3.5 text-slate-500" />
+                      <span className="text-xs font-semibold text-[var(--muted)] flex items-center gap-1">
+                        <Lock className="w-3.5 h-3.5 text-[var(--lock)]" />
                         <span>Còn {remainingLevels} cấp nữa</span>
                       </span>
                     )}
@@ -150,25 +152,25 @@ export const LevelRewardsSection: React.FC<LevelRewardsSectionProps> = ({ curren
 
                   <h3
                     className={`font-bold font-heading text-base ${
-                      isUnlocked ? 'text-amber-300' : 'text-slate-200'
+                      isUnlocked ? 'text-[var(--gold)]' : 'text-[var(--text)]'
                     }`}
                   >
                     {reward.rewardName}
                   </h3>
 
-                  <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+                  <p className="text-sm text-[var(--muted)] mt-1 line-clamp-2 leading-relaxed">
                     {reward.description}
                   </p>
                 </div>
               </div>
 
-              {/* Khung hành động chia hai phần: Bên trái là Chi tiết, Bên phải là Nhận thưởng có chữ vàng */}
-              <div className="pt-3 border-t border-slate-700/60 grid grid-cols-2 gap-2">
+              {/* Khung hành động chia hai phần: Bên trái là Chi tiết, Bên phải là Nhận thưởng */}
+              <div className="pt-3 border-t-2 border-[var(--ink)] grid grid-cols-2 gap-2">
                 <Button
                   variant="secondary"
                   size="sm"
                   onClick={() => setSelectedReward(reward)}
-                  className="font-pixel text-[11px] sm:text-xs flex items-center justify-center cursor-pointer min-h-[38px] px-1.5 sm:px-2.5 whitespace-nowrap"
+                  className="font-heading text-xs px-2"
                 >
                   <span className="whitespace-nowrap">chi tiết &gt;</span>
                 </Button>
@@ -178,7 +180,7 @@ export const LevelRewardsSection: React.FC<LevelRewardsSectionProps> = ({ curren
                     variant="gold"
                     size="sm"
                     onClick={() => setSelectedReward(reward)}
-                    className="font-pixel text-[11px] sm:text-xs flex items-center justify-center gap-1 cursor-pointer min-h-[38px] px-1.5 sm:px-2.5 shadow-amber-950/40 whitespace-nowrap"
+                    className="font-heading text-xs px-2"
                     icon={<Gift className="w-3.5 h-3.5 shrink-0" />}
                   >
                     <span className="whitespace-nowrap">{isClaimed ? 'Xem Mã' : 'Nhận Thưởng'}</span>
@@ -188,9 +190,9 @@ export const LevelRewardsSection: React.FC<LevelRewardsSectionProps> = ({ curren
                     type="button"
                     disabled
                     aria-disabled="true"
-                    className="inline-flex items-center justify-center font-semibold rounded-xl text-[11px] sm:text-xs px-1.5 sm:px-2.5 py-2 min-h-[38px] bg-slate-900/90 text-slate-500 border border-slate-800 opacity-50 cursor-not-allowed select-none gap-1 font-pixel pointer-events-none whitespace-nowrap"
+                    className="inline-flex items-center justify-center font-bold rounded-[2px] text-xs px-2 py-2 min-h-[44px] bg-[var(--panel-2)] text-[var(--muted)] border-2 border-[var(--ink)] cursor-not-allowed select-none gap-1 font-heading whitespace-nowrap"
                   >
-                    <Lock className="w-3 h-3 text-slate-500 shrink-0" />
+                    <Lock className="w-3 h-3 text-[var(--lock)] shrink-0" />
                     <span className="whitespace-nowrap">Nhận Thưởng</span>
                   </button>
                 )}

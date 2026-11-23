@@ -2,62 +2,128 @@
 
 @layer base {
   :root {
-    --bg-main: #0A0E27;
-    --bg-surface: #161B40;
-    --bg-surface-elevated: #1F2656;
-    --primary-purple: #5B35C9;
-    --electric-violet: #7C3AED;
-    --neon-cyan: #06B6D4;
-    --lavender: #C4B5FD;
-    --gold-boss: #F59E0B;
-    --easy-green: #10B981;
-    --normal-blue: #3B82F6;
-    --hard-orange: #F97316;
-    --overdue-red: #EF4444;
+    /* Core Midnight & Champagne Pixel Surfaces */
+    --bg: #0C1020;
+    --panel: #161B33;
+    --panel-2: #1F2650;
+    --ink: #070A15;
+    --text: #F3EFE6;
+    --muted: #9AA0BD;
+    --lock: #8E93AD;
+
+    /* Core Pixel Accents */
+    --gold: #E8C27A;
+    --green: #34D3A0;
+    --coral: #FF8C6B;
+    --sky: #62B6F7;
+    --violet: #A99BFF;
+    --danger: #FF6B81;
+
+    /* Category Frame Tokens */
+    --cat-health: #34D3A0;
+    --cat-lifestyle: #FF8C6B;
+    --cat-code: #62B6F7;
+    --cat-learning: #A99BFF;
+    --cat-university: #2DD4E6;
+    --cat-productivity: #FF6B81;
+    --cat-growth: #E879D9;
+    --cat-daily: #E8C27A;
+    --cat-academic: #2DD4E6;
+    --cat-default: #E8C27A;
+
+    --frame-color: var(--cat-default);
+
+    /* Typography Tokens (Vietnamese-safe) */
+    --font-display: 'Chakra Petch', 'Nunito', system-ui, sans-serif;
+    --font-pixel-latin: 'Pixelify Sans', 'Chakra Petch', 'Nunito', sans-serif;
+    --font-num: 'Press Start 2P', monospace;
+    --font-body: 'Nunito', system-ui, -apple-system, sans-serif;
+
+    /* Legacy variable aliases kept for safe reference */
+    --bg-main: var(--bg);
+    --bg-surface: var(--panel);
+    --bg-surface-elevated: var(--panel-2);
+    --gold-boss: var(--gold);
+    --easy-green: var(--green);
+    --normal-blue: var(--sky);
+    --hard-orange: var(--coral);
+    --overdue-red: var(--danger);
   }
 
   body {
-    font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
-    background-color: var(--bg-main);
-    color: #F8FAFC;
+    font-family: var(--font-body);
+    font-size: 14px;
+    background-color: var(--bg);
+    background-image: radial-gradient(rgba(154, 160, 189, 0.22) 1px, transparent 1px);
+    background-size: 24px 24px;
+    color: var(--text);
     overflow-x: hidden;
   }
 
   h1, h2, h3, .font-heading {
-    font-family: 'Chakra Petch', 'Be Vietnam Pro', sans-serif;
+    font-family: var(--font-display);
+    font-weight: 700;
   }
 
+  /* Vietnamese-safe crisp pixel-geometric label font */
   .font-pixel {
-    font-family: 'Silkscreen', monospace;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.03em;
   }
 
-  /* Custom Sleek Navy Purple Scrollbar (Ngang & Dọc) */
+  /* Pure ASCII/English Pixelify title helper */
+  .font-pixel-latin {
+    font-family: var(--font-pixel-latin);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  /* Strictly numeric & short ASCII tags (+25 XP, LV.1, 404, 00:00) */
+  .font-num {
+    font-family: var(--font-num);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+
+  /* Crisp Focus Ring across interactive controls */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  /* Pixel Scrollbar */
   html, body, * {
     scrollbar-width: thin;
-    scrollbar-color: #3730A3 transparent;
+    scrollbar-color: var(--panel-2) var(--bg);
   }
 
   ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    background: transparent;
+    background: var(--bg);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #3730A3;
-    border-radius: 9999px;
-    border: 1px solid rgba(99, 102, 241, 0.25);
+    background: var(--panel-2);
+    border-radius: 0;
+    border: 1px solid var(--ink);
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #4F46E5;
+    background: var(--muted);
   }
 
   ::-webkit-scrollbar-thumb:active {
-    background: #6366F1;
+    background: var(--gold);
   }
 
   ::-webkit-scrollbar-button {
@@ -70,7 +136,7 @@
     background: transparent;
   }
 
-  /* Custom Sleek Navy Purple Range Slider */
+  /* Pixel Range Slider */
   input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
@@ -78,69 +144,213 @@
     cursor: pointer;
   }
 
-  input[type="range"]:focus {
-    outline: none;
-  }
-
   input[type="range"]::-webkit-slider-runnable-track {
-    background: #1E1B4B;
-    height: 3px;
-    border-radius: 9999px;
-    border: 1px solid rgba(99, 102, 241, 0.3);
+    background: var(--panel-2);
+    height: 6px;
+    border-radius: 0;
+    border: 2px solid var(--ink);
   }
 
   input[type="range"]::-moz-range-track {
-    background: #1E1B4B;
-    height: 3px;
-    border-radius: 9999px;
-    border: 1px solid rgba(99, 102, 241, 0.3);
+    background: var(--panel-2);
+    height: 6px;
+    border-radius: 0;
+    border: 2px solid var(--ink);
   }
 
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    margin-top: -4.5px;
-    background: #4F46E5;
-    height: 12px;
-    width: 12px;
-    border-radius: 9999px;
-    border: 1.5px solid #818CF8;
-    box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
-    transition: transform 0.15s ease, background-color 0.15s ease;
+    margin-top: -6px;
+    background: var(--gold);
+    height: 14px;
+    width: 14px;
+    border-radius: 0;
+    border: 2px solid var(--ink);
+    box-shadow: 0 2px 0 0 var(--ink);
+    transition: transform 80ms steps(2), background-color 80ms steps(2);
   }
 
   input[type="range"]::-moz-range-thumb {
-    background: #4F46E5;
-    height: 12px;
-    width: 12px;
-    border-radius: 9999px;
-    border: 1.5px solid #818CF8;
-    box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
-    transition: transform 0.15s ease, background-color 0.15s ease;
+    background: var(--gold);
+    height: 14px;
+    width: 14px;
+    border-radius: 0;
+    border: 2px solid var(--ink);
+    box-shadow: 0 2px 0 0 var(--ink);
+    transition: transform 80ms steps(2), background-color 80ms steps(2);
   }
 
   input[type="range"]:hover::-webkit-slider-thumb {
-    background: #6366F1;
-    transform: scale(1.15);
+    background: #F4D594;
+    transform: scale(1.1);
   }
 
   input[type="range"]:hover::-moz-range-thumb {
-    background: #6366F1;
-    transform: scale(1.15);
+    background: #F4D594;
+    transform: scale(1.1);
   }
 }
 
-/* Custom RPG Glows & Utilities */
+/* =========================================================
+   Category Bindings -> Sets --frame-color semantically
+   ========================================================= */
+[data-category="health"]       { --frame-color: var(--cat-health); }
+[data-category="lifestyle"]    { --frame-color: var(--cat-lifestyle); }
+[data-category="code"]         { --frame-color: var(--cat-code); }
+[data-category="learning"]     { --frame-color: var(--cat-learning); }
+[data-category="university"]   { --frame-color: var(--cat-university); }
+[data-category="productivity"] { --frame-color: var(--cat-productivity); }
+[data-category="growth"]       { --frame-color: var(--cat-growth); }
+[data-category="daily"]        { --frame-color: var(--cat-daily); }
+[data-category="academic"]     { --frame-color: var(--cat-academic); }
+[data-category="default"]      { --frame-color: var(--cat-default); }
+
+/* =========================================================
+   Pixel Frame System (Midnight & Champagne Pixel)
+   ========================================================= */
+.pixel-frame {
+  position: relative;
+  background-color: var(--panel);
+  border: 3px solid var(--frame-color);
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 2px var(--ink), 6px 8px 0 0 rgba(0, 0, 0, 0.28);
+}
+
+.pixel-frame-elevated {
+  background-color: var(--panel-2);
+  border: 3px solid var(--frame-color);
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 2px var(--ink), 6px 8px 0 0 rgba(0, 0, 0, 0.34);
+}
+
+.pixel-frame-muted {
+  --frame-color: #3B4474;
+}
+
+.pixel-frame-gold {
+  --frame-color: var(--gold);
+}
+
+.pixel-frame-violet {
+  --frame-color: var(--violet);
+}
+
+.pixel-frame-interactive {
+  transition: transform 100ms steps(2), border-color 100ms steps(2), background-color 100ms steps(2);
+}
+
+.pixel-frame-interactive:hover {
+  transform: translateY(-3px);
+  background-color: #1A2140;
+}
+
+/* Locked card state: gray frame + CSS scanlines */
+.pixel-locked {
+  --frame-color: var(--lock);
+  border-color: var(--lock) !important;
+  position: relative;
+}
+
+.pixel-locked::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(7, 10, 21, 0.24) 0px,
+    rgba(7, 10, 21, 0.24) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  z-index: 1;
+}
+
+/* Boss / Event card pulse border */
+@keyframes pixelBorderPulse {
+  0%, 100% {
+    border-color: var(--frame-color);
+  }
+  50% {
+    border-color: var(--gold);
+  }
+}
+
+.pixel-event-frame {
+  animation: pixelBorderPulse 240ms steps(4) infinite alternate;
+  animation-duration: 1.2s;
+}
+
+/* Stepped RPG Segmented Progress Bar */
+.pixel-progress {
+  position: relative;
+  width: 100%;
+  background-color: var(--panel-2);
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.pixel-progress-fill {
+  height: 100%;
+  background-color: var(--green);
+  transition: width 220ms steps(6);
+  position: relative;
+}
+
+/* Segmented tick divider overlay */
+.pixel-progress::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(10% - 2px),
+    var(--ink) calc(10% - 2px),
+    var(--ink) 10%
+  );
+}
+
+/* Pixel Inputs & Selects */
+.pixel-input {
+  background-color: var(--bg);
+  color: var(--text);
+  border: 2px solid #3B4474;
+  border-radius: 2px;
+  box-shadow: inset 0 2px 0 0 rgba(7, 10, 21, 0.65);
+  transition: border-color 100ms steps(2);
+}
+
+.pixel-input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+/* Stepped Pixel Tabs */
+.pixel-tab-list {
+  background-color: var(--bg);
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+  box-shadow: inset 0 2px 0 0 rgba(7, 10, 21, 0.5);
+}
+
+/* Legacy RPG Glow classes remapped to crisp hard pixel frames (zero blur/neon) */
 .rpg-border-glow {
-  box-shadow: 0 0 15px -3px rgba(124, 58, 237, 0.3), inset 0 0 10px rgba(124, 58, 237, 0.15);
+  border-color: var(--violet);
+  box-shadow: inset 0 0 0 2px var(--ink), 6px 8px 0 0 rgba(0, 0, 0, 0.3);
 }
 
 .rpg-border-cyan {
-  box-shadow: 0 0 15px -3px rgba(6, 182, 212, 0.35);
+  border-color: var(--sky);
+  box-shadow: inset 0 0 0 2px var(--ink), 6px 8px 0 0 rgba(0, 0, 0, 0.3);
 }
 
 .rpg-border-gold {
-  box-shadow: 0 0 20px -2px rgba(245, 158, 11, 0.4);
+  border-color: var(--gold);
+  box-shadow: inset 0 0 0 2px var(--ink), 6px 8px 0 0 rgba(0, 0, 0, 0.34);
 }
 
 .pixelated {
@@ -149,15 +359,15 @@
   image-rendering: crisp-edges;
 }
 
-/* Keyframe animations */
+/* Keyframe animations (crisp pixel steps, <= 300ms for UI transitions) */
 @keyframes xpFloatUp {
   0% {
     opacity: 0;
-    transform: translateY(0) scale(0.8);
+    transform: translateY(0) scale(0.9);
   }
   20% {
     opacity: 1;
-    transform: translateY(-8px) scale(1.1);
+    transform: translateY(-8px) scale(1.05);
   }
   80% {
     opacity: 1;
@@ -165,7 +375,7 @@
   }
   100% {
     opacity: 0;
-    transform: translateY(-36px) scale(0.9);
+    transform: translateY(-32px) scale(0.95);
   }
 }
 
@@ -173,101 +383,100 @@
   0%, 100% {
     transform: translateY(0);
   }
-  25% {
-    transform: translateY(-14px) scale(1.05);
-  }
   50% {
-    transform: translateY(0) scale(0.98);
-  }
-  75% {
-    transform: translateY(-7px) scale(1.02);
+    transform: translateY(-10px);
   }
 }
 
-@keyframes pulseAura {
-  0%, 100% {
-    opacity: 0.4;
-    transform: scale(0.98);
-    filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.5));
-  }
-  50% {
-    opacity: 0.85;
-    transform: scale(1.04);
-    filter: drop-shadow(0 0 18px rgba(6, 182, 212, 0.8));
-  }
-}
-
-@keyframes sparkleSpin {
+@keyframes pixelScaleIn {
   0% {
-    transform: rotate(0deg) scale(0.8);
-    opacity: 0.3;
-  }
-  50% {
-    transform: rotate(180deg) scale(1.2);
-    opacity: 1;
+    opacity: 0;
+    transform: scale(0.96);
   }
   100% {
-    transform: rotate(360deg) scale(0.8);
-    opacity: 0.3;
+    opacity: 1;
+    transform: scale(1);
   }
+}
+
+@keyframes pixelSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pixelFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-scale-in {
+  animation: pixelScaleIn 160ms steps(4) forwards;
+}
+
+.animate-slide-up {
+  animation: pixelSlideUp 180ms steps(4) forwards;
+}
+
+.animate-fade-in {
+  animation: pixelFadeIn 150ms steps(3) forwards;
 }
 
 .animate-xp-float {
-  animation: xpFloatUp 1.4s ease-out forwards;
+  animation: xpFloatUp 1.4s steps(8) forwards;
 }
 
 .animate-celebrate-bounce {
-  animation: bounceCelebration 0.7s cubic-bezier(0.28, 0.84, 0.42, 1) infinite;
+  animation: bounceCelebration 0.45s steps(2) infinite;
 }
 
 .animate-pulse-aura {
-  animation: pulseAura 2.5s ease-in-out infinite;
+  animation: pixelFadeIn 200ms steps(2);
 }
 
 .animate-sparkle {
-  animation: sparkleSpin 3s linear infinite;
+  animation: bounceCelebration 0.6s steps(2) infinite;
 }
 
-/* Continuous physics jump with zero ground dwell time (instant rebound, gravity, hang time, falling acceleration) */
+/* Continuous character sprite physics jump (preserved on character sprites) */
 @keyframes characterPhysicsJump {
   0% {
-    /* Instant ground contact & immediate elastic launch */
     transform: translateY(0px) scale(1.08, 0.92);
   }
   5% {
-    /* Immediately airborne with high upward velocity */
     transform: translateY(-6px) scale(0.95, 1.05);
   }
   16% {
-    /* Fast upward travel */
     transform: translateY(-17px) scale(0.97, 1.03);
   }
   32% {
-    /* Decelerating against gravity */
     transform: translateY(-27px) scale(0.99, 1.01);
   }
   46% {
-    /* Peak apex */
     transform: translateY(-30px) scale(1, 1);
   }
   54% {
-    /* Hang time tipping point */
     transform: translateY(-29.5px) scale(1, 1);
   }
   68% {
-    /* Gravitational falling acceleration */
     transform: translateY(-22px) scale(0.98, 1.02);
   }
   84% {
-    /* Fast downward plunge under gravity */
     transform: translateY(-11px) scale(0.96, 1.04);
   }
   96% {
-    /* Plunging towards ground with maximum downward speed */
     transform: translateY(-2px) scale(0.95, 1.05);
   }
   100% {
-    /* Instant ground touch-down, rebounding immediately into next cycle with 0ms delay */
     transform: translateY(0px) scale(1.08, 0.92);
   }
 }
@@ -282,7 +491,6 @@
     opacity: 0.55;
   }
   46%, 54% {
-    /* High airborne apex: smaller, lighter shadow */
     transform: scale(0.65);
     opacity: 0.3;
   }
@@ -295,7 +503,6 @@
     opacity: 0.6;
   }
   100% {
-    /* Ground contact instant */
     transform: scale(1.08);
     opacity: 0.65;
   }
@@ -310,7 +517,7 @@
   animation: physicsShadow 1.15s ease-in-out infinite;
 }
 
-/* Respect reduced motion */
+/* Respect reduced motion (OS preference AND user profile preference) */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
@@ -320,3 +527,11 @@
   }
 }
 
+[data-motion="reduced"] *,
+[data-motion="reduced"] *::before,
+[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}

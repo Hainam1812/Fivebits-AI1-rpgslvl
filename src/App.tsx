@@ -73,18 +73,18 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     if (this.state.hasError) {
       return (
         <div className="py-20 flex flex-col items-center justify-center text-center space-y-4 px-4">
-          <div className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center text-xl font-bold font-pixel">
+          <div className="w-12 h-12 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--gold)] text-[var(--gold)] flex items-center justify-center text-xl font-bold font-num">
             !
           </div>
           <div className="space-y-1">
-            <h2 className="text-lg font-bold font-heading text-slate-100">Không thể tải trang</h2>
-            <p className="text-xs text-slate-400 max-w-sm mx-auto">
+            <h2 className="text-lg font-bold font-heading text-[var(--text)]">Không thể tải trang</h2>
+            <p className="text-sm text-[var(--muted)] max-w-sm mx-auto">
               Dữ liệu vừa được cập nhật hoặc kết nối tạm thời bị gián đoạn. Vui lòng bấm tải lại trang để tiếp tục.
             </p>
           </div>
           <button
             onClick={() => window.location.reload()}
-            className="px-4 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold font-pixel transition-colors shadow-lg cursor-pointer"
+            className="px-4 py-2.5 rounded-[2px] bg-[var(--gold)] hover:bg-[#F3D392] text-[var(--ink)] border-[3px] border-[var(--ink)] shadow-[0_4px_0_0_var(--ink)] active:translate-y-[4px] active:shadow-none text-xs font-bold font-heading transition-transform cursor-pointer"
           >
             Tải lại trang (Reload)
           </button>
@@ -98,8 +98,8 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
 const LoadingSpinner: React.FC = () => (
   <div className="py-24 flex flex-col items-center justify-center space-y-3">
-    <div className="w-10 h-10 border-4 border-violet-500/30 border-t-violet-400 rounded-full animate-spin" />
-    <span className="text-xs font-pixel text-violet-300">Đang tải Dungeon...</span>
+    <div className="w-10 h-10 border-4 border-[var(--panel-2)] border-t-[var(--gold)] rounded-[2px] animate-spin" />
+    <span className="text-xs font-heading font-bold text-[var(--gold)]">Đang tải Dungeon...</span>
   </div>
 );
 

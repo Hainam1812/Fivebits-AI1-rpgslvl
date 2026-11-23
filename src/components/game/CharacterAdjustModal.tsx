@@ -56,18 +56,18 @@ export const CharacterAdjustModal: React.FC<CharacterAdjustModalProps> = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Căn Chỉnh & Thu Phóng Nhân Vật" maxWidth="sm">
       <div className="space-y-5">
-        <p className="text-xs text-slate-300 leading-relaxed">
+        <p className="text-sm text-[var(--muted)] leading-relaxed">
           Tùy chỉnh kích thước (phóng to, thu nhỏ) và vị trí căn lề của nhân vật để hiển thị đẹp nhất trên sân khấu.
         </p>
 
         {/* Zoom Section */}
-        <div className="p-3.5 rounded-xl bg-[#0F132E]/80 border border-slate-800 space-y-3">
+        <div className="p-3.5 rounded-[2px] bg-[var(--bg)] border-2 border-[#3B4474] space-y-3">
           <div className="flex items-center justify-between text-xs font-bold">
-            <span className="text-violet-300 flex items-center gap-1.5 uppercase tracking-wider">
-              <ZoomIn className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="text-[var(--gold)] flex items-center gap-1.5 uppercase tracking-wider font-pixel">
+              <ZoomIn className="w-3.5 h-3.5 text-[var(--sky)]" />
               <span>Thu phóng (Kích thước)</span>
             </span>
-            <span className="text-white font-mono font-pixel text-sm px-2 py-0.5 rounded bg-violet-950/60 border border-violet-500/30">
+            <span className="text-[var(--gold)] font-num text-xs px-2 py-0.5 rounded-[2px] bg-[var(--panel-2)] border border-[var(--gold)]">
               {Math.round(scale * 100)}%
             </span>
           </div>
@@ -77,7 +77,7 @@ export const CharacterAdjustModal: React.FC<CharacterAdjustModalProps> = ({
               type="button"
               onClick={() => updateTransform(scale - 0.1)}
               disabled={scale <= 0.5}
-              className="p-2 rounded-xl bg-[#161B40] hover:bg-[#1F2656] text-slate-200 border border-slate-700/60 disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
+              className="p-2 rounded-[2px] bg-[var(--panel)] hover:bg-[var(--panel-2)] text-[var(--text)] border-2 border-[#3B4474] disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
               title="Thu nhỏ 10%"
             >
               <ZoomOut className="w-4 h-4" />
@@ -90,14 +90,14 @@ export const CharacterAdjustModal: React.FC<CharacterAdjustModalProps> = ({
               step="0.05"
               value={scale}
               onChange={e => updateTransform(parseFloat(e.target.value))}
-              className="flex-1 accent-violet-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
+              className="flex-1 cursor-pointer"
             />
 
             <button
               type="button"
               onClick={() => updateTransform(scale + 0.1)}
               disabled={scale >= 2.0}
-              className="p-2 rounded-xl bg-[#161B40] hover:bg-[#1F2656] text-slate-200 border border-slate-700/60 disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
+              className="p-2 rounded-[2px] bg-[var(--panel)] hover:bg-[var(--panel-2)] text-[var(--text)] border-2 border-[#3B4474] disabled:opacity-40 disabled:pointer-events-none transition-colors cursor-pointer"
               title="Phóng to 10%"
             >
               <ZoomIn className="w-4 h-4" />
@@ -106,14 +106,14 @@ export const CharacterAdjustModal: React.FC<CharacterAdjustModalProps> = ({
         </div>
 
         {/* Alignment / Directional Section */}
-        <div className="p-3.5 rounded-xl bg-[#0F132E]/80 border border-slate-800 space-y-3">
-          <div className="flex items-center justify-between text-xs font-bold">
-            <span className="text-violet-300 flex items-center gap-1.5 uppercase tracking-wider">
-              <Move className="w-3.5 h-3.5 text-cyan-400" />
+        <div className="p-3.5 rounded-[2px] bg-[var(--bg)] border-2 border-[#3B4474] space-y-3">
+          <div className="flex items-center justify-between text-xs font-bold flex-wrap gap-2">
+            <span className="text-[var(--gold)] flex items-center gap-1.5 uppercase tracking-wider font-pixel">
+              <Move className="w-3.5 h-3.5 text-[var(--sky)]" />
               <span>Căn chỉnh vị trí (Dời hình)</span>
             </span>
-            <span className="text-slate-400 font-mono text-[11px]">
-              X: <strong className="text-slate-200">{offsetX > 0 ? `+${offsetX}` : offsetX}px</strong> | Y: <strong className="text-slate-200">{offsetY > 0 ? `+${offsetY}` : offsetY}px</strong>
+            <span className="text-[var(--muted)] font-num text-[10px]">
+              X: <strong className="text-[var(--text)]">{offsetX > 0 ? `+${offsetX}` : offsetX}px</strong> | Y: <strong className="text-[var(--text)]">{offsetY > 0 ? `+${offsetY}` : offsetY}px</strong>
             </span>
           </div>
 
@@ -122,7 +122,7 @@ export const CharacterAdjustModal: React.FC<CharacterAdjustModalProps> = ({
             <button
               type="button"
               onClick={() => updateTransform(undefined, undefined, offsetY - 5)}
-              className="p-2 rounded-xl bg-[#161B40] hover:bg-[#1F2656] text-slate-200 border border-slate-700/60 transition-colors shadow-sm cursor-pointer"
+              className="p-2 rounded-[2px] bg-[var(--panel)] hover:bg-[var(--panel-2)] text-[var(--text)] border-2 border-[#3B4474] transition-colors shadow-[2px_2px_0_0_var(--ink)] cursor-pointer"
               title="Dời lên trên"
             >
               <ArrowUp className="w-4 h-4" />
@@ -132,7 +132,7 @@ export const CharacterAdjustModal: React.FC<CharacterAdjustModalProps> = ({
               <button
                 type="button"
                 onClick={() => updateTransform(undefined, offsetX - 5, undefined)}
-                className="p-2 rounded-xl bg-[#161B40] hover:bg-[#1F2656] text-slate-200 border border-slate-700/60 transition-colors shadow-sm cursor-pointer"
+                className="p-2 rounded-[2px] bg-[var(--panel)] hover:bg-[var(--panel-2)] text-[var(--text)] border-2 border-[#3B4474] transition-colors shadow-[2px_2px_0_0_var(--ink)] cursor-pointer"
                 title="Dời sang trái"
               >
                 <ArrowLeft className="w-4 h-4" />
@@ -141,7 +141,7 @@ export const CharacterAdjustModal: React.FC<CharacterAdjustModalProps> = ({
               <button
                 type="button"
                 onClick={handleReset}
-                className="p-2 rounded-xl bg-violet-950/70 hover:bg-violet-900 border border-violet-500/40 text-violet-300 text-xs font-bold transition-colors cursor-pointer"
+                className="p-2 rounded-[2px] bg-[var(--panel-2)] hover:border-[var(--gold)] border-2 border-[var(--gold)] text-[var(--gold)] text-xs font-bold transition-colors cursor-pointer"
                 title="Đặt lại chính giữa và kích thước gốc"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -150,7 +150,7 @@ export const CharacterAdjustModal: React.FC<CharacterAdjustModalProps> = ({
               <button
                 type="button"
                 onClick={() => updateTransform(undefined, offsetX + 5, undefined)}
-                className="p-2 rounded-xl bg-[#161B40] hover:bg-[#1F2656] text-slate-200 border border-slate-700/60 transition-colors shadow-sm cursor-pointer"
+                className="p-2 rounded-[2px] bg-[var(--panel)] hover:bg-[var(--panel-2)] text-[var(--text)] border-2 border-[#3B4474] transition-colors shadow-[2px_2px_0_0_var(--ink)] cursor-pointer"
                 title="Dời sang phải"
               >
                 <ArrowRight className="w-4 h-4" />
@@ -160,7 +160,7 @@ export const CharacterAdjustModal: React.FC<CharacterAdjustModalProps> = ({
             <button
               type="button"
               onClick={() => updateTransform(undefined, undefined, offsetY + 5)}
-              className="p-2 rounded-xl bg-[#161B40] hover:bg-[#1F2656] text-slate-200 border border-slate-700/60 transition-colors shadow-sm cursor-pointer"
+              className="p-2 rounded-[2px] bg-[var(--panel)] hover:bg-[var(--panel-2)] text-[var(--text)] border-2 border-[#3B4474] transition-colors shadow-[2px_2px_0_0_var(--ink)] cursor-pointer"
               title="Dời xuống dưới"
             >
               <ArrowDown className="w-4 h-4" />
@@ -169,13 +169,13 @@ export const CharacterAdjustModal: React.FC<CharacterAdjustModalProps> = ({
         </div>
 
         {/* Footer actions */}
-        <div className="flex items-center justify-between pt-2 border-t border-slate-800">
+        <div className="flex items-center justify-between pt-3 border-t-2 border-[var(--ink)]">
           <Button
             variant="ghost"
             size="sm"
             icon={<RotateCcw className="w-3.5 h-3.5" />}
             onClick={handleReset}
-            className="text-xs text-slate-400 hover:text-white"
+            className="text-xs text-[var(--muted)] hover:text-[var(--text)]"
           >
             Mặc định
           </Button>

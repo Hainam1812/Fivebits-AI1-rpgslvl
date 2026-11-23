@@ -40,41 +40,43 @@ export const AchievementsPage: React.FC = () => {
       {/* Header Banner */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black font-heading text-slate-100 flex items-center gap-2">
-            <Trophy className="w-6 h-6 text-amber-400" />
+          <h1 className="text-2xl sm:text-3xl font-black font-heading text-[var(--text)] flex items-center gap-2">
+            <Trophy className="w-6 h-6 text-[var(--gold)]" />
             <span>Thành Tựu (Achievements)</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-[var(--muted)] mt-1">
             Chinh phục 17 mốc son học thuật để mở khóa ngoại trang danh giá
           </p>
         </div>
 
         {/* Global Progress Badge */}
-        <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#161B40] border border-amber-500/40 shadow-lg">
-          <Award className="w-5 h-5 text-amber-400" />
+        <div className="flex items-center gap-2.5 px-4 py-2 pixel-frame pixel-frame-gold">
+          <Award className="w-5 h-5 text-[var(--gold)]" />
           <div className="text-left font-pixel">
-            <div className="text-[10px] uppercase text-slate-400">Đã mở khóa</div>
-            <div className="text-sm font-bold text-amber-300">
-              {unlockedCount} / {achievements.length} ({Math.round((unlockedCount / achievements.length) * 100)}%)
+            <div className="text-xs uppercase text-[var(--muted)]">Đã mở khóa</div>
+            <div className="text-sm font-bold text-[var(--gold)] font-num">
+              {unlockedCount}/{achievements.length} ({Math.round((unlockedCount / achievements.length) * 100)}%)
             </div>
           </div>
         </div>
       </div>
 
       {/* Thanh chuyển mục (Tabs lớn): [Thành Tựu] | [Thưởng Cấp] */}
-      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-[#161B40] border border-slate-700/80 shadow-md max-w-fit">
+      <div className="pixel-tab-list flex items-center gap-1.5 p-1.5 max-w-fit">
         <button
           type="button"
           onClick={() => setActiveTab('achievements')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-heading font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-[2px] font-heading font-bold text-xs sm:text-sm transition-colors cursor-pointer min-h-[40px] ${
             activeTab === 'achievements'
-              ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-900/40 border border-violet-400/40'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+              ? 'bg-[var(--gold)] text-[var(--ink)] border-2 border-[var(--ink)]'
+              : 'text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--panel-2)] border-2 border-transparent'
           }`}
         >
-          <Trophy className="w-4 h-4 text-amber-400" />
+          <Trophy className={`w-4 h-4 ${activeTab === 'achievements' ? 'text-[var(--ink)]' : 'text-[var(--gold)]'}`} />
           <span>Thành Tựu</span>
-          <span className="px-2 py-0.5 rounded-md bg-black/40 text-[10px] font-pixel text-amber-300">
+          <span className={`px-2 py-0.5 rounded-[2px] text-[10px] font-num ${
+            activeTab === 'achievements' ? 'bg-[var(--ink)] text-[var(--gold)]' : 'bg-[var(--panel-2)] text-[var(--gold)] border border-[var(--ink)]'
+          }`}>
             {unlockedCount}/{achievements.length}
           </span>
         </button>
@@ -82,16 +84,16 @@ export const AchievementsPage: React.FC = () => {
         <button
           type="button"
           onClick={() => setActiveTab('rewards')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-heading font-bold text-xs sm:text-sm transition-all cursor-pointer ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-[2px] font-heading font-bold text-xs sm:text-sm transition-colors cursor-pointer min-h-[40px] ${
             activeTab === 'rewards'
-              ? 'bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-950 shadow-lg shadow-amber-900/40 border border-amber-300 font-extrabold'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+              ? 'bg-[var(--gold)] text-[var(--ink)] border-2 border-[var(--ink)]'
+              : 'text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--panel-2)] border-2 border-transparent'
           }`}
         >
-          <Gift className={`w-4 h-4 ${activeTab === 'rewards' ? 'text-slate-950' : 'text-amber-400'}`} />
+          <Gift className={`w-4 h-4 ${activeTab === 'rewards' ? 'text-[var(--ink)]' : 'text-[var(--gold)]'}`} />
           <span>Thưởng Cấp</span>
-          <span className={`px-2 py-0.5 rounded-md text-[10px] font-pixel ${
-            activeTab === 'rewards' ? 'bg-amber-900/30 text-slate-950 font-bold' : 'bg-black/40 text-amber-300'
+          <span className={`px-2 py-0.5 rounded-[2px] text-[10px] font-num ${
+            activeTab === 'rewards' ? 'bg-[var(--ink)] text-[var(--gold)]' : 'bg-[var(--panel-2)] text-[var(--gold)] border border-[var(--ink)]'
           }`}>
             LV.{currentLevel}
           </span>
@@ -103,12 +105,12 @@ export const AchievementsPage: React.FC = () => {
         <>
           {/* Filter Row */}
           <div className="flex flex-wrap items-center gap-2">
-            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#161B40] border border-slate-700/60 text-xs">
+            <div className="pixel-tab-list flex items-center gap-1 p-1 text-xs">
               <button
                 type="button"
                 onClick={() => setFilterStatus('all')}
-                className={`px-3 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
-                  filterStatus === 'all' ? 'bg-violet-600 text-white' : 'text-slate-400 hover:text-white'
+                className={`px-3 py-1.5 rounded-[2px] font-semibold transition-colors cursor-pointer min-h-[36px] ${
+                  filterStatus === 'all' ? 'bg-[var(--gold)] text-[var(--ink)] border-2 border-[var(--ink)]' : 'text-[var(--muted)] hover:text-[var(--text)] border-2 border-transparent'
                 }`}
               >
                 Tất cả
@@ -116,8 +118,8 @@ export const AchievementsPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setFilterStatus('unlocked')}
-                className={`px-3 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
-                  filterStatus === 'unlocked' ? 'bg-amber-600 text-white' : 'text-slate-400 hover:text-white'
+                className={`px-3 py-1.5 rounded-[2px] font-semibold transition-colors cursor-pointer min-h-[36px] ${
+                  filterStatus === 'unlocked' ? 'bg-[var(--gold)] text-[var(--ink)] border-2 border-[var(--ink)]' : 'text-[var(--muted)] hover:text-[var(--text)] border-2 border-transparent'
                 }`}
               >
                 Đã mở ({unlockedCount})
@@ -125,8 +127,8 @@ export const AchievementsPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setFilterStatus('locked')}
-                className={`px-3 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
-                  filterStatus === 'locked' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'
+                className={`px-3 py-1.5 rounded-[2px] font-semibold transition-colors cursor-pointer min-h-[36px] ${
+                  filterStatus === 'locked' ? 'bg-[var(--gold)] text-[var(--ink)] border-2 border-[var(--ink)]' : 'text-[var(--muted)] hover:text-[var(--text)] border-2 border-transparent'
                 }`}
               >
                 Chưa mở ({achievements.length - unlockedCount})
@@ -137,7 +139,7 @@ export const AchievementsPage: React.FC = () => {
             <select
               value={filterCategory}
               onChange={e => setFilterCategory(e.target.value)}
-              className="px-3 py-2 rounded-xl bg-[#161B40] border border-slate-700/60 text-xs text-slate-200 focus:outline-none focus:border-violet-500 cursor-pointer ml-auto"
+              className="pixel-input px-3 py-2 text-xs text-[var(--text)] cursor-pointer ml-auto min-h-[44px]"
             >
               {categories.map(c => (
                 <option key={c} value={c}>
@@ -156,24 +158,24 @@ export const AchievementsPage: React.FC = () => {
                 <Card
                   key={ach.id}
                   variant={isUnlocked ? 'gold' : 'surface'}
-                  className={`p-5 flex flex-col justify-between space-y-4 transition-all ${
-                    !isUnlocked ? 'opacity-85' : ''
-                  }`}
+                  category={isUnlocked ? undefined : ach.category}
+                  locked={!isUnlocked}
+                  className="p-5 flex flex-col justify-between space-y-4"
                 >
                   <div className="space-y-3">
                     {/* Badge SVG Icon & Category */}
                     <div className="flex items-center justify-between gap-2">
                       <div
-                        className={`w-12 h-12 rounded-2xl flex items-center justify-center border shadow-md ${
+                        className={`w-12 h-12 rounded-[2px] flex items-center justify-center border-2 ${
                           isUnlocked
-                            ? 'bg-[#1E1B4B] border-amber-400/80 text-amber-300 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]'
-                            : 'bg-slate-900 border-slate-700 text-slate-500'
+                            ? 'bg-[var(--panel-2)] border-[var(--gold)] text-[var(--gold)]'
+                            : 'bg-[var(--bg)] border-[var(--ink)] text-[var(--muted)]'
                         }`}
                       >
                         <Trophy className="w-6 h-6" />
                       </div>
 
-                      <span className="text-[10px] font-bold text-slate-400 uppercase font-pixel tracking-wider">
+                      <span className="text-xs font-bold text-[var(--muted)] uppercase font-pixel tracking-wider">
                         {ach.category}
                       </span>
                     </div>
@@ -182,34 +184,35 @@ export const AchievementsPage: React.FC = () => {
                     <div>
                       <h3
                         className={`font-bold font-heading text-base ${
-                          isUnlocked ? 'text-amber-300' : 'text-slate-200'
+                          isUnlocked ? 'text-[var(--gold)]' : 'text-[var(--text)]'
                         }`}
                       >
                         {ach.title}
                       </h3>
-                      <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                      <p className="text-xs text-[#C8CEEA] mt-1 leading-relaxed">
                         {ach.description}
                       </p>
                     </div>
                   </div>
 
                   {/* Progress Bar & Status */}
-                  <div className="space-y-1.5 pt-3 border-t border-slate-700/60">
-                    <div className="flex items-center justify-between text-[11px] font-pixel">
-                      <span className="text-slate-400">
-                        Tiến độ: <strong className={isUnlocked ? 'text-amber-300' : 'text-slate-200'}>{currentProgress}/{maxProgress}</strong>
+                  <div className="space-y-1.5 pt-3 border-t-2 border-[#2C3563]">
+                    <div className="flex items-center justify-between text-xs font-pixel">
+                      <span className="text-[var(--muted)]">
+                        Tiến độ:{' '}
+                        <strong className={`font-num text-[11px] ${isUnlocked ? 'text-[var(--gold)]' : 'text-[var(--text)]'}`}>
+                          {currentProgress}/{maxProgress}
+                        </strong>
                       </span>
-                      <span className={isUnlocked ? 'text-emerald-400 font-bold' : 'text-slate-400'}>
+                      <span className={isUnlocked ? 'text-[var(--green)] font-bold' : 'text-[var(--muted)]'}>
                         {isUnlocked ? 'HOÀN THÀNH' : `${percent}%`}
                       </span>
                     </div>
 
-                    <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                    <div className="pixel-progress h-2.5">
                       <div
-                        className={`h-full rounded-full transition-all duration-300 ${
-                          isUnlocked
-                            ? 'bg-gradient-to-r from-amber-400 to-yellow-500'
-                            : 'bg-gradient-to-r from-violet-600 to-cyan-500'
+                        className={`pixel-progress-fill ${
+                          isUnlocked ? 'bg-[var(--gold)]' : 'bg-[var(--sky)]'
                         }`}
                         style={{ width: `${percent}%` }}
                       />

@@ -21,10 +21,10 @@ export const Logo: React.FC<LogoProps> = ({ size = 'md', showSlogan = false, cla
       <img
         src={LOGO_SRC}
         alt={BRAND.name}
-        className={`${imgSizes[size]} max-w-full object-contain drop-shadow-[0_0_10px_rgba(124,58,237,0.45)] select-none`}
+        className={`${imgSizes[size]} max-w-full object-contain select-none`}
       />
       {showSlogan && (
-        <span className="text-[10px] sm:text-xs text-violet-400 font-medium tracking-widest uppercase">
+        <span className="text-xs text-[var(--gold)] font-bold tracking-widest uppercase">
           {BRAND.slogan}
         </span>
       )}

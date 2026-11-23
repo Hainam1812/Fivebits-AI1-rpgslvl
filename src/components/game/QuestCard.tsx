@@ -111,34 +111,30 @@ export const QuestCard: React.FC<QuestCardProps> = ({
 
   return (
     <Card
+      category={isBoss ? undefined : category}
+      locked={isLocked}
       variant={isBoss ? 'gold' : isCompleted ? 'surface' : 'interactive'}
-      className={`p-4 transition-all duration-200 border-l-4 ${
-        isBoss
-          ? 'border-l-amber-400'
-          : isCompleted
-          ? 'border-l-emerald-500 opacity-80'
-          : status === 'in_progress'
-          ? 'border-l-amber-500'
-          : 'border-l-violet-500'
+      className={`p-4 ${isBoss && !isCompleted && !isLocked ? 'pixel-event-frame' : ''} ${
+        isCompleted ? 'opacity-80' : ''
       }`}
     >
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 relative z-[2]">
         {/* Header row: Category & Difficulty & XP Badge */}
         <div className="flex items-center justify-between gap-2 flex-wrap">
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-semibold text-violet-300 uppercase tracking-wider">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs font-bold text-[var(--frame-color)] uppercase tracking-wider">
               {category}
             </span>
             <DifficultyBadge difficulty={difficulty} />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {activeTaskState?.isReplay ? (
-              <span className="px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-200 text-xs font-bold font-pixel">
+              <span className="px-2 py-0.5 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--sky)] text-[var(--sky)] text-xs font-bold">
                 Làm lại (0 XP)
               </span>
             ) : (
-              <span className="px-2 py-0.5 rounded-full bg-violet-950/80 border border-violet-500/40 text-violet-200 text-xs font-bold font-pixel">
+              <span className="px-2 py-1 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--gold)] text-[var(--gold)] text-[10px] font-bold font-num">
                 +{xp} XP
               </span>
             )}
@@ -154,18 +150,18 @@ export const QuestCard: React.FC<QuestCardProps> = ({
           tabIndex={0}
           onKeyDown={e => e.key === 'Enter' && onClickDetail?.()}
         >
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2">
             <h4
-              className={`font-bold font-heading text-base group-hover:text-violet-300 transition-colors flex items-center gap-1.5 ${
-                isCompleted ? 'line-through text-slate-400' : 'text-slate-100'
+              className={`font-bold font-heading text-base group-hover:text-[var(--gold)] transition-colors flex items-center gap-1.5 ${
+                isCompleted ? 'line-through text-[var(--muted)]' : 'text-[var(--text)]'
               }`}
             >
-              {isBoss && <span className="text-amber-400">👑</span>}
+              {isBoss && <span className="text-[var(--gold)]">👑</span>}
               <span>{name}</span>
             </h4>
-            <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-violet-300 transition-transform group-hover:translate-x-0.5 shrink-0" />
+            <ChevronRight className="w-4 h-4 text-[var(--muted)] group-hover:text-[var(--gold)] transition-transform group-hover:translate-x-0.5 shrink-0" />
           </div>
-          <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+          <p className="text-sm text-[var(--muted)] mt-1 line-clamp-2 leading-relaxed">
             {description}
           </p>
         </div>
@@ -173,27 +169,34 @@ export const QuestCard: React.FC<QuestCardProps> = ({
         {/* Real-time individual quest timer */}
         {status === 'in_progress' && (
           <div className="flex items-center justify-between flex-wrap gap-2 pt-1">
-            <div className={`flex items-center gap-1.5 text-xs font-pixel px-3 py-1.5 rounded-xl border transition-all ${
-              isPaused
-                ? 'bg-amber-950/60 border-amber-500/50 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
-                : 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
-            }`}>
+            <div
+              className={`flex items-center gap-2 text-xs px-3 py-1.5 rounded-[2px] border-2 ${
+                isPaused
+                  ? 'bg-[var(--panel-2)] border-[var(--gold)] text-[var(--gold)]'
+                  : 'bg-[var(--panel-2)] border-[var(--green)] text-[var(--green)]'
+              }`}
+            >
               {isPaused ? (
-                <Pause className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <Pause className="w-3.5 h-3.5 text-[var(--gold)] shrink-0" />
               ) : (
-                <Clock className="w-3.5 h-3.5 text-emerald-400 animate-spin shrink-0" />
+                <Clock className="w-3.5 h-3.5 text-[var(--green)] shrink-0" />
               )}
-              <span>
-                {isPaused ? 'Đang tạm dừng:' : 'Thời gian làm:'} <strong className="text-white font-mono text-sm tracking-wider">{formatTimer(elapsedSec)}</strong>
+              <span className="font-semibold">
+                {isPaused ? 'Đang tạm dừng:' : 'Thời gian làm:'}{' '}
+                <strong className="text-[var(--text)] font-num text-xs tracking-wider ml-1">
+                  {formatTimer(elapsedSec)}
+                </strong>
               </span>
             </div>
 
             <div className="flex items-center gap-1.5">
-              <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase font-pixel tracking-wider border ${
-                isPaused
-                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-                  : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30 animate-pulse'
-              }`}>
+              <span
+                className={`px-2 py-0.5 rounded-[2px] text-xs font-bold border-2 ${
+                  isPaused
+                    ? 'bg-[var(--panel-2)] text-[var(--gold)] border-[var(--gold)]'
+                    : 'bg-[var(--panel-2)] text-[var(--green)] border-[var(--green)]'
+                }`}
+              >
                 {isPaused ? 'Tạm dừng' : 'Đang tính giờ'}
               </span>
 
@@ -202,7 +205,7 @@ export const QuestCard: React.FC<QuestCardProps> = ({
                   type="button"
                   onClick={onResetTimer}
                   title="Đặt lại bộ đếm về 0"
-                  className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-[2px] border-2 border-[var(--ink)] bg-[var(--panel-2)] text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--gold)] transition-colors cursor-pointer"
                   aria-label="Đặt lại bộ đếm giờ về 0"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
@@ -213,20 +216,19 @@ export const QuestCard: React.FC<QuestCardProps> = ({
         )}
 
         {isLocked && lockReason && (
-          <div className="flex items-center gap-1.5 text-xs text-rose-300 bg-rose-950/40 px-2.5 py-1.5 rounded-lg border border-rose-800/60">
+          <div className="flex items-center gap-1.5 text-xs text-[var(--danger)] bg-[var(--bg)] px-2.5 py-1.5 rounded-[2px] border-2 border-[var(--lock)]">
             <Lock className="w-3.5 h-3.5 shrink-0" />
             <span>{lockReason}</span>
           </div>
         )}
 
         {/* Action Button Row */}
-        <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-700/40 flex-wrap">
+        <div className="flex items-center justify-end gap-2 pt-2.5 border-t-2 border-[var(--ink)] flex-wrap">
           {onClickDetail && (
             <Button
-              variant="ghost"
+              variant="secondary"
               size="sm"
               onClick={onClickDetail}
-              className="text-xs text-slate-400 hover:text-slate-200"
             >
               Chi tiết
             </Button>
@@ -234,9 +236,9 @@ export const QuestCard: React.FC<QuestCardProps> = ({
 
           {status === 'todo' && onStart && (
             <Button
-              variant="cyan"
+              variant="primary"
               size="sm"
-              icon={<Play className="w-3.5 h-3.5 fill-current text-white" />}
+              icon={<Play className="w-3.5 h-3.5 fill-current" />}
               onClick={onStart}
             >
               Bắt đầu
@@ -248,9 +250,9 @@ export const QuestCard: React.FC<QuestCardProps> = ({
               {isPaused ? (
                 onResume && (
                   <Button
-                    variant="cyan"
+                    variant="primary"
                     size="sm"
-                    icon={<Play className="w-3.5 h-3.5" />}
+                    icon={<Play className="w-3.5 h-3.5 fill-current" />}
                     onClick={onResume}
                   >
                     Tiếp tục
@@ -261,7 +263,7 @@ export const QuestCard: React.FC<QuestCardProps> = ({
                   <Button
                     variant="secondary"
                     size="sm"
-                    icon={<Pause className="w-3.5 h-3.5 text-amber-400" />}
+                    icon={<Pause className="w-3.5 h-3.5 text-[var(--gold)]" />}
                     onClick={() => onPause(elapsedSec)}
                   >
                     Tạm dừng
@@ -271,11 +273,10 @@ export const QuestCard: React.FC<QuestCardProps> = ({
 
               {onOpenVideo && (
                 <Button
-                  variant="secondary"
+                  variant="cyan"
                   size="sm"
-                  icon={<Headphones className="w-3.5 h-3.5 text-cyan-400" />}
+                  icon={<Headphones className="w-3.5 h-3.5" />}
                   onClick={onOpenVideo}
-                  className="border-cyan-500/40 text-cyan-300 hover:bg-cyan-950/40 hover:text-white"
                   title="Quay lại trang video Vùng Yên Tĩnh"
                 >
                   Vùng yên tĩnh
@@ -292,7 +293,6 @@ export const QuestCard: React.FC<QuestCardProps> = ({
                         setConfirmAbandon(false);
                         onAbandon();
                       }}
-                      className="px-2.5 text-xs font-bold"
                     >
                       Bỏ cuộc?
                     </Button>
@@ -300,7 +300,6 @@ export const QuestCard: React.FC<QuestCardProps> = ({
                       variant="ghost"
                       size="sm"
                       onClick={() => setConfirmAbandon(false)}
-                      className="px-2 text-xs text-slate-400"
                     >
                       Hủy
                     </Button>
@@ -309,9 +308,9 @@ export const QuestCard: React.FC<QuestCardProps> = ({
                   <Button
                     variant="secondary"
                     size="sm"
-                    icon={<Flag className="w-3.5 h-3.5 text-rose-400" />}
+                    icon={<Flag className="w-3.5 h-3.5 text-[var(--danger)]" />}
                     onClick={() => setConfirmAbandon(true)}
-                    className="text-rose-300 border-rose-500/40 hover:bg-rose-950/40 hover:text-white"
+                    className="border-[var(--danger)] text-[var(--danger)] hover:bg-[var(--panel-2)]"
                     title="Bỏ cuộc nhiệm vụ này và đặt lại từ đầu"
                   >
                     Bỏ cuộc
@@ -323,7 +322,7 @@ export const QuestCard: React.FC<QuestCardProps> = ({
 
           {status === 'in_progress' && onComplete && (
             <Button
-              variant={isBoss ? 'gold' : 'primary'}
+              variant="gold"
               size="sm"
               icon={<Check className="w-4 h-4" />}
               onClick={onComplete}
@@ -334,7 +333,7 @@ export const QuestCard: React.FC<QuestCardProps> = ({
 
           {isCompleted && (
             <div className="flex items-center gap-2 flex-wrap">
-              <div className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 py-1 px-2 rounded-lg bg-emerald-950/40">
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--green)] py-1 px-2.5 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--green)]">
                 <Check className="w-4 h-4" />
                 <span>Đã nhận +{xp} XP</span>
               </div>
@@ -342,7 +341,7 @@ export const QuestCard: React.FC<QuestCardProps> = ({
                 <Button
                   variant="secondary"
                   size="sm"
-                  icon={<RotateCcw className="w-3.5 h-3.5 text-cyan-400" />}
+                  icon={<RotateCcw className="w-3.5 h-3.5 text-[var(--sky)]" />}
                   onClick={onReplay || onStart}
                   title="Làm lại nhiệm vụ này (rèn luyện, 0 XP)"
                 >

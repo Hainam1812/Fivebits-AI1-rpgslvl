@@ -273,26 +273,27 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
   return (
     <Card
       variant="surface"
-      className="p-4 sm:p-6 space-y-5 border-2 border-cyan-500/30 rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden"
+      category="university"
+      className="p-4 sm:p-6 space-y-5 overflow-hidden"
     >
       {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-700/60">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b-2 border-[var(--ink)]">
         <div>
           <div className="flex flex-wrap items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-500/40 text-[11px] font-bold font-pixel tracking-wider flex items-center gap-1.5">
-              <ClipboardList className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="px-2.5 py-0.5 rounded-[2px] bg-[var(--bg)] text-[var(--sky)] border-2 border-[var(--sky)] text-xs font-bold font-pixel tracking-wider flex items-center gap-1.5">
+              <ClipboardList className="w-3.5 h-3.5 text-[var(--sky)]" />
               <span>MODULE QUẢN LÝ BÀI TẬP</span>
             </span>
-            <span className="text-xs text-slate-400 font-medium">
+            <span className="text-xs text-[var(--muted)] font-medium">
               Sắp xếp theo hạn chót (Deadline từ sớm đến muộn)
             </span>
           </div>
 
-          <h2 className="text-xl sm:text-2xl font-black font-heading text-slate-100 mt-1 flex items-center gap-2">
-            <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
+          <h2 className="text-xl sm:text-2xl font-black font-heading text-[var(--text)] mt-1.5 flex items-center gap-2">
+            <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-[var(--sky)]" />
             <span>Nhiệm Vụ Học Tập & Deadline Đại Học</span>
           </h2>
-          <p className="text-xs sm:text-sm text-slate-300 mt-0.5 leading-relaxed">
+          <p className="text-sm text-[var(--muted)] mt-0.5 leading-relaxed">
             Theo dõi, thêm mới, chỉnh sửa và hoàn thành từng bài tập môn học. Dữ liệu tự động lưu trữ an toàn vào máy của bạn.
           </p>
         </div>
@@ -303,7 +304,7 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
             variant="primary"
             size="sm"
             onClick={() => handleOpenCreateModal()}
-            className="flex items-center gap-1.5 shadow-lg shadow-cyan-500/20 text-xs sm:text-sm"
+            className="flex items-center gap-1.5"
           >
             <Plus className="w-4 h-4" />
             <span>Thêm Bài Tập Mới</span>
@@ -314,9 +315,9 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
               variant="secondary"
               size="sm"
               onClick={onGoToTimetable}
-              className="flex items-center gap-1.5 text-xs text-cyan-300 border-cyan-500/40 hover:bg-cyan-950/40"
+              className="flex items-center gap-1.5 text-xs text-[var(--sky)] border-[var(--sky)]"
             >
-              <CalendarDays className="w-3.5 h-3.5 text-cyan-400" />
+              <CalendarDays className="w-3.5 h-3.5 text-[var(--sky)]" />
               <span>Xem Thời Khóa Biểu</span>
             </Button>
           )}
@@ -326,9 +327,9 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
               variant="secondary"
               size="sm"
               onClick={handleLoadSamples}
-              className="flex items-center gap-1.5 text-xs text-amber-300 border-amber-500/40 hover:bg-amber-950/40"
+              className="flex items-center gap-1.5 text-xs text-[var(--gold)] border-[var(--gold)]"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <Sparkles className="w-3.5 h-3.5 text-[var(--gold)]" />
               <span>Nạp Bài Mẫu</span>
             </Button>
           )}
@@ -337,36 +338,36 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
 
       {/* KPI Stats Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
-        <div className="p-3 sm:p-3.5 rounded-xl bg-[#0F132E] border border-slate-700/60 flex items-center justify-between">
+        <div className="p-3 sm:p-3.5 rounded-[2px] bg-[var(--bg)] border-2 border-[#3B4474] flex items-center justify-between">
           <div>
-            <div className="text-[11px] text-slate-400 font-pixel">TỔNG BÀI TẬP</div>
-            <div className="text-xl sm:text-2xl font-bold font-heading text-slate-100">{totalCount}</div>
+            <div className="text-xs text-[var(--muted)] font-pixel">TỔNG BÀI TẬP</div>
+            <div className="text-lg sm:text-xl font-num text-[var(--text)] mt-1">{totalCount}</div>
           </div>
-          <BookOpen className="w-6 h-6 text-cyan-400/60" />
+          <BookOpen className="w-6 h-6 text-[var(--sky)]" />
         </div>
 
-        <div className="p-3 sm:p-3.5 rounded-xl bg-[#0F132E] border border-slate-700/60 flex items-center justify-between">
+        <div className="p-3 sm:p-3.5 rounded-[2px] bg-[var(--bg)] border-2 border-[#3B4474] flex items-center justify-between">
           <div>
-            <div className="text-[11px] text-slate-400 font-pixel">CHƯA LÀM</div>
-            <div className="text-xl sm:text-2xl font-bold font-heading text-amber-300">{pendingCount}</div>
+            <div className="text-xs text-[var(--muted)] font-pixel">CHƯA LÀM</div>
+            <div className="text-lg sm:text-xl font-num text-[var(--gold)] mt-1">{pendingCount}</div>
           </div>
-          <Clock className="w-6 h-6 text-amber-400/60" />
+          <Clock className="w-6 h-6 text-[var(--gold)]" />
         </div>
 
-        <div className="p-3 sm:p-3.5 rounded-xl bg-[#0F132E] border border-slate-700/60 flex items-center justify-between">
+        <div className="p-3 sm:p-3.5 rounded-[2px] bg-[var(--bg)] border-2 border-[#3B4474] flex items-center justify-between">
           <div>
-            <div className="text-[11px] text-slate-400 font-pixel">GẤP / HÔM NAY</div>
-            <div className="text-xl sm:text-2xl font-bold font-heading text-rose-400">{urgentCount}</div>
+            <div className="text-xs text-[var(--muted)] font-pixel">GẤP / HÔM NAY</div>
+            <div className="text-lg sm:text-xl font-num text-[var(--danger)] mt-1">{urgentCount}</div>
           </div>
-          <Flame className="w-6 h-6 text-rose-400/60 animate-pulse" />
+          <Flame className="w-6 h-6 text-[var(--danger)]" />
         </div>
 
-        <div className="p-3 sm:p-3.5 rounded-xl bg-[#0F132E] border border-slate-700/60 flex items-center justify-between">
+        <div className="p-3 sm:p-3.5 rounded-[2px] bg-[var(--bg)] border-2 border-[#3B4474] flex items-center justify-between">
           <div>
-            <div className="text-[11px] text-slate-400 font-pixel">ĐÃ HOÀN THÀNH</div>
-            <div className="text-xl sm:text-2xl font-bold font-heading text-emerald-400">{completedCount}</div>
+            <div className="text-xs text-[var(--muted)] font-pixel">ĐÃ HOÀN THÀNH</div>
+            <div className="text-lg sm:text-xl font-num text-[var(--green)] mt-1">{completedCount}</div>
           </div>
-          <CheckCircle2 className="w-6 h-6 text-emerald-400/60" />
+          <CheckCircle2 className="w-6 h-6 text-[var(--green)]" />
         </div>
       </div>
 
@@ -374,27 +375,27 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
       <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5 pt-1">
         {/* Search input */}
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[var(--muted)] absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Tìm theo tên bài tập, môn học, mã môn..."
-            className="w-full pl-9 pr-3.5 py-2 rounded-xl bg-[#0F132E] border border-slate-700 text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-cyan-400 transition-colors"
+            className="pixel-input w-full pl-9 pr-3.5 py-2 text-xs sm:text-sm text-[var(--text)] placeholder:text-[var(--muted)]"
           />
         </div>
 
         {/* Filter buttons & Subject dropdown for mobile & tablet */}
         <div className="flex flex-wrap sm:flex-nowrap items-center gap-2">
           {/* Status filter tabs */}
-          <div className="flex items-center gap-1 bg-[#0F132E] p-1 rounded-xl border border-slate-700/80 overflow-x-auto w-full sm:w-auto shrink-0">
+          <div className="pixel-tab-list flex items-center gap-1 p-1 overflow-x-auto w-full sm:w-auto shrink-0">
             <button
               type="button"
               onClick={() => setStatusFilter('all')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+              className={`px-3 py-1.5 rounded-[2px] text-xs font-bold transition-colors cursor-pointer whitespace-nowrap ${
                 statusFilter === 'all'
-                  ? 'bg-cyan-600 text-white shadow'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-[var(--gold)] text-[var(--ink)] border border-[var(--ink)]'
+                  : 'text-[var(--muted)] hover:text-[var(--text)]'
               }`}
             >
               Tất cả ({totalCount})
@@ -402,10 +403,10 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
             <button
               type="button"
               onClick={() => setStatusFilter('pending')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+              className={`px-3 py-1.5 rounded-[2px] text-xs font-bold transition-colors cursor-pointer whitespace-nowrap ${
                 statusFilter === 'pending'
-                  ? 'bg-cyan-600 text-white shadow'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-[var(--sky)] text-[var(--ink)] border border-[var(--ink)]'
+                  : 'text-[var(--muted)] hover:text-[var(--text)]'
               }`}
             >
               Chưa làm ({pendingCount})
@@ -413,10 +414,10 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
             <button
               type="button"
               onClick={() => setStatusFilter('due_soon')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1 ${
+              className={`px-3 py-1.5 rounded-[2px] text-xs font-bold transition-colors cursor-pointer whitespace-nowrap flex items-center gap-1 ${
                 statusFilter === 'due_soon'
-                  ? 'bg-rose-600 text-white shadow'
-                  : 'text-rose-400 hover:text-rose-200'
+                  ? 'bg-[var(--danger)] text-[var(--ink)] border border-[var(--ink)]'
+                  : 'text-[var(--danger)] hover:text-[var(--text)]'
               }`}
             >
               <Flame className="w-3 h-3" />
@@ -425,10 +426,10 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
             <button
               type="button"
               onClick={() => setStatusFilter('completed')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+              className={`px-3 py-1.5 rounded-[2px] text-xs font-bold transition-colors cursor-pointer whitespace-nowrap ${
                 statusFilter === 'completed'
-                  ? 'bg-emerald-600 text-white shadow'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-[var(--green)] text-[var(--ink)] border border-[var(--ink)]'
+                  : 'text-[var(--muted)] hover:text-[var(--text)]'
               }`}
             >
               Đã xong ({completedCount})
@@ -440,7 +441,7 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
             <select
               value={selectedSubjectFilter}
               onChange={e => setSelectedSubjectFilter(e.target.value)}
-              className="w-full sm:w-auto px-3 py-2 rounded-xl bg-[#0F132E] border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-400 cursor-pointer shrink-0 max-w-full sm:max-w-[200px] truncate"
+              className="pixel-input w-full sm:w-auto px-3 py-2 text-xs text-[var(--text)] cursor-pointer shrink-0 max-w-full sm:max-w-[200px] truncate"
             >
               <option value="all">Tất cả môn học</option>
               {availableSubjects.map(subj => (
@@ -456,15 +457,15 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
       {/* Assignment List - Sorted by Deadline from Earliest to Latest */}
       <div className="space-y-3 pt-1">
         {filteredAssignments.length === 0 ? (
-          <div className="text-center py-10 px-4 rounded-2xl bg-[#0F132E]/60 border border-dashed border-slate-700/80 space-y-3">
-            <ClipboardList className="w-10 h-10 mx-auto text-slate-600" />
+          <div className="text-center py-10 px-4 rounded-[2px] bg-[var(--bg)] border-2 border-dashed border-[#3B4474] space-y-3">
+            <ClipboardList className="w-10 h-10 mx-auto text-[var(--muted)]" />
             <div className="space-y-1">
-              <h4 className="font-bold text-slate-300 text-sm">
+              <h4 className="font-bold text-[var(--text)] text-sm">
                 {searchQuery || statusFilter !== 'all' || selectedSubjectFilter !== 'all'
                   ? 'Không tìm thấy bài tập nào khớp với bộ lọc'
                   : 'Chưa có bài tập nào trong danh sách'}
               </h4>
-              <p className="text-xs text-slate-500 max-w-sm mx-auto">
+              <p className="text-xs text-[var(--muted)] max-w-sm mx-auto">
                 {searchQuery || statusFilter !== 'all' || selectedSubjectFilter !== 'all'
                   ? 'Hãy thử xóa từ khóa tìm kiếm hoặc đổi tab bộ lọc để xem các bài tập khác.'
                   : 'Bấm "Thêm Bài Tập Mới" hoặc "Nạp Bài Mẫu" để bắt đầu theo dõi các deadline môn học của bạn!'}
@@ -490,30 +491,26 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
               const { name: subjectName, code: subjectCode } = parseSubjectInfo(assignment.subject);
 
               // Status badge styling
-              let badgeColor = 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40';
+              let badgeColor = 'bg-[var(--bg)] text-[var(--sky)] border-[var(--sky)]';
               if (assignment.completed) {
-                badgeColor = 'bg-emerald-950/80 text-emerald-300 border-emerald-500/40';
-              } else if (deadlineInfo.status === 'overdue') {
-                badgeColor = 'bg-rose-950/90 text-rose-300 border-rose-500/50';
-              } else if (deadlineInfo.status === 'today') {
-                badgeColor = 'bg-rose-900/80 text-rose-200 border-rose-400/50';
+                badgeColor = 'bg-[var(--bg)] text-[var(--green)] border-[var(--green)]';
+              } else if (deadlineInfo.status === 'overdue' || deadlineInfo.status === 'today') {
+                badgeColor = 'bg-[var(--bg)] text-[var(--danger)] border-[var(--danger)]';
               } else if (deadlineInfo.status === 'soon') {
-                badgeColor = 'bg-amber-950/80 text-amber-300 border-amber-500/40';
+                badgeColor = 'bg-[var(--bg)] text-[var(--gold)] border-[var(--gold)]';
               }
 
               return (
                 <div
                   key={assignment.id}
-                  className={`p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col gap-2.5 ${
+                  className={`p-3.5 sm:p-4 rounded-[2px] border-2 transition-colors flex flex-col gap-2.5 shadow-[4px_5px_0_0_var(--ink)] ${
                     assignment.completed
-                      ? 'bg-[#0E122B]/80 border-slate-800 opacity-80'
-                      : isUrgent
-                      ? 'bg-gradient-to-r from-rose-950/35 via-[#14183E] to-[#0F132E] border-rose-500/60 hover:border-rose-400 shadow-lg shadow-rose-950/30'
-                      : deadlineInfo.status === 'overdue'
-                      ? 'bg-gradient-to-r from-rose-950/20 via-[#121638] to-[#0F132E] border-rose-900/60 hover:border-rose-700/80 shadow-md'
+                      ? 'bg-[var(--bg)] border-[#3B4474] opacity-75'
+                      : isUrgent || deadlineInfo.status === 'overdue'
+                      ? 'bg-[var(--panel-2)] border-[var(--danger)]'
                       : deadlineInfo.status === 'today'
-                      ? 'bg-gradient-to-r from-amber-950/20 via-[#121638] to-[#0F132E] border-amber-900/60 hover:border-amber-600/80 shadow-md'
-                      : 'bg-[#101435] border-slate-700/70 hover:border-cyan-500/50 hover:shadow-lg'
+                      ? 'bg-[var(--panel-2)] border-[var(--gold)]'
+                      : 'bg-[var(--bg)] border-[#3B4474] hover:border-[var(--sky)]'
                   }`}
                 >
                   {/* Top Row: Checkbox, Course Code, Subject Name, Urgent Badge, Index, and Actions */}
@@ -523,10 +520,10 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                       <button
                         type="button"
                         onClick={() => handleToggle(assignment.id)}
-                        className={`mt-0.5 w-6 h-6 rounded-lg flex items-center justify-center shrink-0 transition-colors cursor-pointer border ${
+                        className={`mt-0.5 w-6 h-6 rounded-[2px] flex items-center justify-center shrink-0 transition-colors cursor-pointer border-2 ${
                           assignment.completed
-                            ? 'bg-emerald-500 border-emerald-400 text-slate-950 shadow-sm shadow-emerald-500/30'
-                            : 'bg-[#0B0E24] border-slate-600 hover:border-cyan-400 text-transparent hover:text-cyan-400/40'
+                            ? 'bg-[var(--green)] border-[var(--ink)] text-[var(--ink)]'
+                            : 'bg-[var(--panel)] border-[#3B4474] hover:border-[var(--gold)] text-transparent hover:text-[var(--gold)]'
                         }`}
                         title={assignment.completed ? 'Đánh dấu chưa hoàn thành' : 'Đánh dấu đã hoàn thành'}
                         aria-label={`Trạng thái bài tập: ${assignment.completed ? 'Đã xong' : 'Chưa xong'}`}
@@ -537,20 +534,20 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                       {/* Badges Flow: Course code badge + Subject badge + Urgent badge + Index */}
                       <div className="flex flex-wrap items-center gap-1.5 min-w-0 flex-1">
                         {subjectCode && (
-                          <span className="font-pixel text-[10px] font-bold px-2 py-0.5 rounded-md bg-cyan-900/70 text-cyan-200 border border-cyan-400/50 shrink-0 shadow-xs">
+                          <span className="font-num text-[10px] font-bold px-2 py-0.5 rounded-[2px] bg-[var(--panel)] text-[var(--sky)] border border-[var(--sky)] shrink-0">
                             {subjectCode}
                           </span>
                         )}
-                        <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-md bg-cyan-950/90 text-cyan-300 border border-cyan-500/30 break-words leading-normal max-w-full">
+                        <span className="text-xs font-semibold px-2.5 py-0.5 rounded-[2px] bg-[var(--panel)] text-[var(--text)] border border-[#3B4474] break-words leading-normal max-w-full">
                           {subjectName}
                         </span>
                         {isUrgent && (
-                          <span className="px-2 py-0.5 rounded-md bg-rose-950/90 border border-rose-500/70 text-rose-300 text-[10px] font-bold font-pixel flex items-center gap-1 shadow-sm shrink-0">
-                            <Flame className="w-3 h-3 text-rose-400 fill-rose-500 animate-pulse" />
+                          <span className="px-2 py-0.5 rounded-[2px] bg-[var(--bg)] border border-[var(--danger)] text-[var(--danger)] text-xs font-bold font-pixel flex items-center gap-1 shrink-0">
+                            <Flame className="w-3 h-3 text-[var(--danger)]" />
                             <span>GẤP</span>
                           </span>
                         )}
-                        <span className="text-[10px] font-pixel text-slate-500 shrink-0">
+                        <span className="text-[10px] font-num text-[var(--muted)] shrink-0">
                           #{index + 1}
                         </span>
                       </div>
@@ -561,7 +558,7 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                       <button
                         type="button"
                         onClick={() => handleOpenEditModal(assignment)}
-                        className="p-1.5 rounded-lg bg-[#0F132E] hover:bg-cyan-600/30 text-slate-300 hover:text-cyan-200 border border-slate-700/60 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-[2px] bg-[var(--panel)] hover:bg-[var(--panel-2)] text-[var(--muted)] hover:text-[var(--sky)] border-2 border-[#3B4474] transition-colors cursor-pointer"
                         title="Sửa bài tập"
                         aria-label="Sửa bài tập"
                       >
@@ -570,7 +567,7 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                       <button
                         type="button"
                         onClick={() => setAssignmentToDelete(assignment)}
-                        className="p-1.5 rounded-lg bg-[#0F132E] hover:bg-rose-600/30 text-slate-300 hover:text-rose-300 border border-slate-700/60 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-[2px] bg-[var(--panel)] hover:bg-[var(--panel-2)] text-[var(--muted)] hover:text-[var(--danger)] border-2 border-[#3B4474] transition-colors cursor-pointer"
                         title="Xóa bài tập"
                         aria-label="Xóa bài tập"
                       >
@@ -582,8 +579,8 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                   {/* Assignment Title: Clean and prominent, full width under badges */}
                   <div className="pl-8.5 sm:pl-9">
                     <h3
-                      className={`font-bold font-heading text-sm sm:text-base text-slate-100 leading-snug break-words ${
-                        assignment.completed ? 'line-through text-slate-400' : ''
+                      className={`font-bold font-heading text-sm sm:text-base text-[var(--text)] leading-snug break-words ${
+                        assignment.completed ? 'line-through text-[var(--muted)]' : ''
                       }`}
                     >
                       {assignment.title}
@@ -591,18 +588,18 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                   </div>
 
                   {/* Meta Bar: Deadline Pill, Exact Date/Time, and Expandable Toggle */}
-                  <div className="pl-8.5 sm:pl-9 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80">
+                  <div className="pl-8.5 sm:pl-9 flex flex-wrap items-center justify-between gap-2 pt-2 border-t-2 border-[var(--ink)]">
                     <div className="flex flex-wrap items-center gap-2">
                       {/* Deadline relative badge */}
-                      <div className={`px-2.5 py-1 rounded-xl border text-[11px] font-medium flex items-center gap-1.5 ${badgeColor}`}>
+                      <div className={`px-2.5 py-1 rounded-[2px] border text-xs font-medium flex items-center gap-1.5 ${badgeColor}`}>
                         <Clock className="w-3.5 h-3.5 shrink-0" />
                         <span className="font-pixel font-bold">{deadlineInfo.relative}</span>
                       </div>
 
                       {/* Formatted full date & time */}
-                      <div className="text-[11px] text-slate-300 flex items-center gap-1.5 bg-[#0B0E24]/70 px-2.5 py-1 rounded-xl border border-slate-700/60 font-sans">
-                        <Calendar className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                        <span>Hạn nộp: <strong className="text-slate-100 font-semibold">{deadlineInfo.formatted}</strong></span>
+                      <div className="text-xs text-[var(--muted)] flex items-center gap-1.5 bg-[var(--panel)] px-2.5 py-1 rounded-[2px] border border-[#3B4474]">
+                        <Calendar className="w-3.5 h-3.5 text-[var(--sky)] shrink-0" />
+                        <span>Hạn nộp: <strong className="text-[var(--text)] font-semibold">{deadlineInfo.formatted}</strong></span>
                       </div>
                     </div>
 
@@ -611,7 +608,7 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                       <button
                         type="button"
                         onClick={() => toggleExpand(assignment.id)}
-                        className="text-[11px] text-cyan-400 hover:text-cyan-300 font-medium inline-flex items-center gap-0.5 cursor-pointer ml-auto"
+                        className="text-xs text-[var(--gold)] hover:text-[var(--text)] font-medium inline-flex items-center gap-0.5 cursor-pointer ml-auto"
                       >
                         <span>{isExpanded ? 'Thu gọn' : 'Xem mô tả'}</span>
                         {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
@@ -623,7 +620,7 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                   {assignment.description && (
                     <div className="pl-8.5 sm:pl-9">
                       <p
-                        className={`text-xs text-slate-300 leading-relaxed bg-[#0B0E24]/50 p-2.5 rounded-xl border border-slate-800/80 break-words ${
+                        className={`text-xs text-[var(--muted)] leading-relaxed bg-[var(--panel)] p-2.5 rounded-[2px] border border-[#3B4474] break-words ${
                           isExpanded || assignment.description.length <= 70 ? '' : 'line-clamp-2'
                         }`}
                       >
@@ -649,8 +646,8 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
           <div className="space-y-3.5">
             {/* Tên bài tập */}
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-200">
-                Tên bài tập <span className="text-rose-400">*</span>
+              <label className="text-xs font-bold text-[var(--muted)]">
+                Tên bài tập <span className="text-[var(--danger)]">*</span>
               </label>
               <input
                 type="text"
@@ -658,14 +655,14 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                 onChange={e => setFormTitle(e.target.value)}
                 placeholder="Tên bài tập..."
                 maxLength={100}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#0F132E] border border-slate-700 text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-cyan-400 transition-colors"
+                className="pixel-input w-full px-3.5 py-2.5 text-xs sm:text-sm text-[var(--text)] placeholder:text-[var(--muted)]"
               />
             </div>
 
             {/* Môn học */}
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-200">
-                Môn học <span className="text-rose-400">*</span>
+              <label className="text-xs font-bold text-[var(--muted)]">
+                Môn học <span className="text-[var(--danger)]">*</span>
               </label>
               <div className="space-y-1.5">
                 <input
@@ -674,7 +671,7 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                   onChange={e => setFormSubject(e.target.value)}
                   placeholder="Môn học..."
                   maxLength={60}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#0F132E] border border-slate-700 text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-cyan-400 transition-colors"
+                  className="pixel-input w-full px-3.5 py-2.5 text-xs sm:text-sm text-[var(--text)] placeholder:text-[var(--muted)]"
                 />
 
                 {/* Quick suggestions from timetable */}
@@ -685,10 +682,10 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                         key={subj}
                         type="button"
                         onClick={() => setFormSubject(subj)}
-                        className={`text-xs font-sans font-medium px-2.5 py-1 rounded-lg border transition-colors cursor-pointer max-w-[220px] truncate ${
+                        className={`text-xs font-medium px-2.5 py-1 rounded-[2px] border-2 transition-colors cursor-pointer max-w-[220px] truncate ${
                           formSubject === subj
-                            ? 'bg-cyan-600 text-white border-cyan-400 shadow-xs'
-                            : 'bg-[#161B40] text-slate-300 border-slate-700 hover:border-cyan-500/50'
+                            ? 'bg-[var(--gold)] text-[var(--ink)] border-[var(--ink)] font-bold'
+                            : 'bg-[var(--bg)] text-[var(--muted)] border-[#3B4474] hover:border-[var(--gold)]'
                         }`}
                         title={subj}
                       >
@@ -702,20 +699,20 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
 
             {/* Thời gian / Deadline */}
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-200">
-                Hạn chót (Deadline) <span className="text-rose-400">*</span>
+              <label className="text-xs font-bold text-[var(--muted)]">
+                Hạn chót (Deadline) <span className="text-[var(--danger)]">*</span>
               </label>
               <input
                 type="datetime-local"
                 value={formDeadline}
                 onChange={e => setFormDeadline(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#0F132E] border border-slate-700 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-cyan-400 transition-colors cursor-pointer"
+                className="pixel-input w-full px-3.5 py-2.5 text-xs sm:text-sm text-[var(--text)] cursor-pointer"
               />
             </div>
 
             {/* Mô tả bài tập */}
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-200">
+              <label className="text-xs font-bold text-[var(--muted)]">
                 Mô tả bài tập
               </label>
               <textarea
@@ -723,7 +720,7 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                 onChange={e => setFormDescription(e.target.value)}
                 placeholder="Ghi chú thêm về yêu cầu nộp bài (tùy chọn)..."
                 rows={3}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#0F132E] border border-slate-700 text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-cyan-400 resize-none transition-colors"
+                className="pixel-input w-full px-3.5 py-2.5 text-xs sm:text-sm text-[var(--text)] placeholder:text-[var(--muted)] resize-none"
               />
             </div>
 
@@ -733,10 +730,10 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                 type="checkbox"
                 checked={formIsUrgent}
                 onChange={e => setFormIsUrgent(e.target.checked)}
-                className="w-4 h-4 rounded text-rose-500 bg-[#0F132E] border-slate-700 focus:ring-rose-500 focus:ring-offset-0 cursor-pointer"
+                className="w-4 h-4 rounded-[2px] accent-[var(--danger)] bg-[var(--bg)] border-[#3B4474] cursor-pointer"
               />
-              <span className="text-xs text-rose-300 font-semibold flex items-center gap-1.5">
-                <Flame className="w-3.5 h-3.5 text-rose-400" />
+              <span className="text-xs text-[var(--danger)] font-semibold flex items-center gap-1.5">
+                <Flame className="w-3.5 h-3.5 text-[var(--danger)]" />
                 <span>Quan trọng / Gấp</span>
               </span>
             </label>
@@ -747,22 +744,22 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
                 type="checkbox"
                 checked={formCompleted}
                 onChange={e => setFormCompleted(e.target.checked)}
-                className="w-4 h-4 rounded text-cyan-600 bg-[#0F132E] border-slate-700 focus:ring-cyan-500 focus:ring-offset-0 cursor-pointer"
+                className="w-4 h-4 rounded-[2px] accent-[var(--green)] bg-[var(--bg)] border-[#3B4474] cursor-pointer"
               />
-              <span className="text-xs text-slate-300">
+              <span className="text-xs text-[var(--muted)]">
                 Đã hoàn thành
               </span>
             </label>
           </div>
 
           {formError && (
-            <div className="p-3 rounded-xl bg-rose-950/50 border border-rose-800 text-rose-300 text-xs flex items-center gap-2">
+            <div className="p-3 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--danger)] text-[var(--danger)] text-xs flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 shrink-0" />
               <span>{formError}</span>
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-700/60">
+          <div className="flex items-center justify-end gap-2.5 pt-3 border-t-2 border-[var(--ink)]">
             <Button
               variant="secondary"
               size="sm"
@@ -786,24 +783,24 @@ export const AssignmentManager: React.FC<AssignmentManagerProps> = ({
         maxWidth="sm"
       >
         <div className="space-y-4">
-          <p className="text-sm text-slate-200 leading-relaxed">
+          <p className="text-sm text-[var(--text)] leading-relaxed">
             Bạn có chắc chắn muốn xóa bài tập{' '}
-            <strong className="text-rose-400">{assignmentToDelete?.title}</strong> khỏi danh sách?
+            <strong className="text-[var(--danger)]">{assignmentToDelete?.title}</strong> khỏi danh sách?
           </p>
 
-          <div className="p-3 rounded-xl bg-[#0F132E] border border-slate-700/80 text-xs text-slate-300 space-y-1">
+          <div className="p-3 rounded-[2px] bg-[var(--bg)] border-2 border-[#3B4474] text-xs text-[var(--muted)] space-y-1">
             <div>
-              Môn học: <strong className="text-cyan-300">{assignmentToDelete?.subject}</strong>
+              Môn học: <strong className="text-[var(--sky)]">{assignmentToDelete?.subject}</strong>
             </div>
             <div>
-              Hạn chót: <strong className="text-amber-300">{assignmentToDelete?.deadline}</strong>
+              Hạn chót: <strong className="text-[var(--gold)]">{assignmentToDelete?.deadline}</strong>
             </div>
-            <div className="text-[11px] text-rose-400 pt-1">
+            <div className="text-xs text-[var(--danger)] pt-1">
               * Dữ liệu bài tập sẽ được xóa vĩnh viễn khỏi thiết bị của bạn.
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-slate-700/60">
+          <div className="flex items-center justify-end gap-2.5 pt-3 border-t-2 border-[var(--ink)]">
             <Button variant="secondary" size="sm" onClick={() => setAssignmentToDelete(null)}>
               Hủy
             </Button>

@@ -98,11 +98,11 @@ export const LazyCharacterGif: React.FC<LazyCharacterGifProps> = ({
     >
       {hasError ? (
         <div
-          className="flex flex-col items-center justify-center gap-1 text-slate-500 p-2 text-center"
+          className="flex flex-col items-center justify-center gap-1 text-[var(--muted)] p-2 text-center"
           aria-label={`Không thể hiển thị GIF của ${name}`}
         >
-          <ImageOff className="w-6 h-6 text-slate-500" />
-          <span className="text-[10px] font-pixel">Lỗi GIF</span>
+          <ImageOff className="w-6 h-6 text-[var(--muted)]" />
+          <span className="text-xs font-pixel">Lỗi GIF</span>
         </div>
       ) : objectUrl ? (
         <img
@@ -115,7 +115,7 @@ export const LazyCharacterGif: React.FC<LazyCharacterGifProps> = ({
           className={`${imgClassName} pointer-events-none select-none transition-transform duration-150`}
         />
       ) : (
-        <div className="w-6 h-6 border-2 border-violet-500/30 border-t-violet-400 rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-[#3B4474] border-t-[var(--gold)] rounded-full animate-spin" />
       )}
     </div>
   );

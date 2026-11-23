@@ -2,11 +2,6 @@ import React from 'react';
 import { DifficultyLevel } from '../../config/progression.js';
 import { CosmeticRarity } from '../../data/cosmetics.js';
 
-interface BadgeProps {
-  children?: React.ReactNode;
-  className?: string;
-}
-
 export const DifficultyBadge: React.FC<{ difficulty: DifficultyLevel; className?: string }> = ({
   difficulty,
   className = '',
@@ -14,22 +9,22 @@ export const DifficultyBadge: React.FC<{ difficulty: DifficultyLevel; className?
   const configs = {
     Easy: {
       label: 'Easy',
-      bg: 'bg-emerald-950/70 border-emerald-500/50 text-emerald-300',
+      bg: 'bg-[#161B33] border-[#34D3A0] text-[#34D3A0]',
       gem: '◆',
     },
     Normal: {
       label: 'Normal',
-      bg: 'bg-blue-950/70 border-blue-500/50 text-blue-300',
+      bg: 'bg-[#161B33] border-[#62B6F7] text-[#62B6F7]',
       gem: '◆◆',
     },
     Hard: {
       label: 'Hard',
-      bg: 'bg-orange-950/70 border-orange-500/50 text-orange-300',
+      bg: 'bg-[#161B33] border-[#FF8C6B] text-[#FF8C6B]',
       gem: '◆◆◆',
     },
     Boss: {
       label: 'Boss Dungeon',
-      bg: 'bg-amber-950/80 border-amber-400 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.4)]',
+      bg: 'bg-[#1F2650] border-[#E8C27A] text-[#E8C27A]',
       gem: '★ BOSS ★',
     },
   };
@@ -38,9 +33,9 @@ export const DifficultyBadge: React.FC<{ difficulty: DifficultyLevel; className?
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md border text-xs font-semibold ${c.bg} ${className}`}
+      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-[2px] border-2 text-xs font-bold whitespace-nowrap ${c.bg} ${className}`}
     >
-      <span className="text-[10px] opacity-80">{c.gem}</span>
+      <span className="text-[11px] leading-none">{c.gem}</span>
       <span>{c.label}</span>
     </span>
   );
@@ -54,22 +49,22 @@ export const RarityBadge: React.FC<{ rarity: CosmeticRarity; className?: string 
     Common: {
       label: 'Phổ biến',
       gems: '◆',
-      bg: 'bg-slate-800/80 border-slate-600 text-slate-300',
+      bg: 'bg-[#161B33] border-[#9AA0BD] text-[#F3EFE6]',
     },
     Rare: {
       label: 'Hiếm',
       gems: '◆◆',
-      bg: 'bg-cyan-950/70 border-cyan-500/50 text-cyan-300',
+      bg: 'bg-[#161B33] border-[#62B6F7] text-[#62B6F7]',
     },
     Epic: {
       label: 'Sử thi',
       gems: '◆◆◆',
-      bg: 'bg-purple-950/80 border-purple-500/60 text-purple-300 shadow-[0_0_8px_rgba(168,85,247,0.3)]',
+      bg: 'bg-[#161B33] border-[#A99BFF] text-[#A99BFF]',
     },
     Legendary: {
       label: 'Huyền thoại',
       gems: '◆◆◆◆',
-      bg: 'bg-amber-950/90 border-amber-400 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.5)]',
+      bg: 'bg-[#1F2650] border-[#E8C27A] text-[#E8C27A]',
     },
   };
 
@@ -77,9 +72,9 @@ export const RarityBadge: React.FC<{ rarity: CosmeticRarity; className?: string 
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-semibold border ${c.bg} ${className}`}
+      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[2px] text-xs font-bold border-2 whitespace-nowrap ${c.bg} ${className}`}
     >
-      <span className="text-amber-400 tracking-tighter">{c.gems}</span>
+      <span className="text-[var(--gold)] tracking-tighter">{c.gems}</span>
       <span>{c.label}</span>
     </span>
   );
@@ -90,17 +85,17 @@ export const StatusBadge: React.FC<{
   className?: string;
 }> = ({ status, className = '' }) => {
   const configs = {
-    todo: { label: 'Chưa làm', style: 'bg-slate-800/60 border-slate-700 text-slate-400' },
-    in_progress: { label: 'Đang làm', style: 'bg-amber-950/60 border-amber-500/50 text-amber-300 animate-pulse' },
-    completed: { label: 'Đã xong', style: 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300' },
-    locked: { label: 'Đang khóa', style: 'bg-rose-950/60 border-rose-800 text-rose-400' },
-    overdue: { label: 'Quá hạn', style: 'bg-red-950/80 border-red-500 text-red-300 font-bold' },
+    todo: { label: 'Chưa làm', style: 'bg-[#161B33] border-[#4A558A] text-[#C8CEEA]' },
+    in_progress: { label: 'Đang làm', style: 'bg-[#1F2650] border-[#E8C27A] text-[#E8C27A]' },
+    completed: { label: 'Đã xong', style: 'bg-[#161B33] border-[#34D3A0] text-[#34D3A0]' },
+    locked: { label: 'Đang khóa', style: 'bg-[#161B33] border-[#8E93AD] text-[#8E93AD]' },
+    overdue: { label: 'Quá hạn', style: 'bg-[#1F2650] border-[#FF6B81] text-[#FF6B81] font-bold' },
   };
 
   const c = configs[status] || configs.todo;
 
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium border ${c.style} ${className}`}>
+    <span className={`inline-flex items-center px-2 py-0.5 rounded-[2px] text-xs font-semibold border-2 whitespace-nowrap ${c.style} ${className}`}>
       {c.label}
     </span>
   );

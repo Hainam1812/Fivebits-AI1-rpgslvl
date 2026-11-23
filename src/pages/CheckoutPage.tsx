@@ -70,13 +70,13 @@ export const CheckoutPage: React.FC = () => {
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
       {/* Top Banner: Mandatory Demo Notice */}
-      <div className="p-4 rounded-2xl bg-amber-950/40 border border-amber-500/50 text-xs sm:text-sm text-amber-200 flex items-start gap-3 shadow-lg">
-        <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+      <div className="p-4 pixel-frame pixel-frame-gold text-xs sm:text-sm text-[var(--text)] flex items-start gap-3">
+        <AlertCircle className="w-5 h-5 text-[var(--gold)] shrink-0 mt-0.5" />
         <div className="space-y-1">
-          <strong className="block text-amber-300 font-bold uppercase tracking-wider text-xs font-pixel">
+          <strong className="block text-[var(--gold)] font-bold uppercase tracking-wider text-xs font-pixel-latin">
             Demo checkout — no real payment will be collected.
           </strong>
-          <p className="text-xs text-amber-100/90 leading-relaxed">
+          <p className="text-xs text-[#D5DAE8] leading-relaxed">
             Đây là giao diện thanh toán mô phỏng DEMO. Ứng dụng không thu tiền, không yêu cầu thẻ tín dụng, OTP hay bất kỳ thông tin tài chính nhạy cảm nào. Bấm xác nhận để mở khóa ngay các gói nhiệm vụ!
           </p>
         </div>
@@ -88,10 +88,10 @@ export const CheckoutPage: React.FC = () => {
           {/* Character Name Input */}
           <Card variant="surface" className="p-5 space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="font-bold font-heading text-base text-slate-100">
+              <h3 className="font-bold font-heading text-base text-[var(--text)]">
                 1. Tên Thợ Săn Nhận Gói (Bắt buộc)
               </h3>
-              <span className="text-[10px] text-slate-400 font-pixel">
+              <span className="text-xs text-[var(--muted)] font-num">
                 {characterName.trim().length}/20
               </span>
             </div>
@@ -105,16 +105,16 @@ export const CheckoutPage: React.FC = () => {
               onBlur={() => setCharacterName(prev => prev.trim())}
               placeholder="Nhập tên thợ săn (2 - 20 ký tự)..."
               maxLength={20}
-              className={`w-full px-3.5 py-2.5 rounded-xl bg-[#0F132E] border text-xs sm:text-sm text-slate-100 focus:outline-none transition-colors ${
+              className={`w-full px-3.5 py-2.5 pixel-input text-xs sm:text-sm transition-colors ${
                 nameError
-                  ? 'border-rose-500 focus:border-rose-400'
-                  : 'border-slate-700 focus:border-violet-500'
+                  ? '!border-[var(--danger)] focus:!border-[var(--danger)]'
+                  : ''
               }`}
             />
             {nameError ? (
-              <p className="text-xs text-rose-400 font-medium">⚠️ {nameError}</p>
+              <p className="text-xs text-[var(--danger)] font-medium">⚠️ {nameError}</p>
             ) : (
-              <p className="text-[11px] text-slate-400">
+              <p className="text-xs text-[var(--muted)]">
                 * Tên không được để trống, khoảng trắng dư ở đầu & cuối sẽ tự động bị bỏ.
               </p>
             )}
@@ -122,7 +122,7 @@ export const CheckoutPage: React.FC = () => {
 
           {/* Simulated Payment Methods */}
           <Card variant="surface" className="p-5 space-y-3">
-            <h3 className="font-bold font-heading text-base text-slate-100">
+            <h3 className="font-bold font-heading text-base text-[var(--text)]">
               2. Chọn Phương Thức Mô Phỏng
             </h3>
 
@@ -153,10 +153,10 @@ export const CheckoutPage: React.FC = () => {
                 return (
                   <label
                     key={method.id}
-                    className={`p-3.5 rounded-xl border flex items-start gap-3 cursor-pointer transition-all ${
+                    className={`p-3.5 rounded-[2px] border-2 flex items-start gap-3 cursor-pointer transition-colors ${
                       isSelected
-                        ? 'bg-violet-950/40 border-violet-400 shadow-md'
-                        : 'bg-[#0F132E] border-slate-700/60 hover:border-slate-500'
+                        ? 'bg-[var(--panel-2)] border-[var(--gold)] shadow-[2px_3px_0_0_var(--ink)]'
+                        : 'bg-[var(--bg)] border-[#3B4474] hover:border-[var(--muted)]'
                     }`}
                   >
                     <input
@@ -165,12 +165,12 @@ export const CheckoutPage: React.FC = () => {
                       value={method.id}
                       checked={isSelected}
                       onChange={() => setPaymentMethod(method.id as any)}
-                      className="mt-1 accent-violet-500"
+                      className="mt-1 accent-[var(--gold)]"
                     />
-                    <Icon className={`w-5 h-5 shrink-0 mt-0.5 ${isSelected ? 'text-violet-400' : 'text-slate-400'}`} />
+                    <Icon className={`w-5 h-5 shrink-0 mt-0.5 ${isSelected ? 'text-[var(--gold)]' : 'text-[var(--muted)]'}`} />
                     <div className="flex-1 text-xs">
-                      <div className="font-bold text-slate-100">{method.title}</div>
-                      <div className="text-slate-400 text-[11px] mt-0.5">{method.desc}</div>
+                      <div className="font-bold text-[var(--text)]">{method.title}</div>
+                      <div className="text-[var(--muted)] text-xs mt-0.5">{method.desc}</div>
                     </div>
                   </label>
                 );
@@ -181,34 +181,34 @@ export const CheckoutPage: React.FC = () => {
 
         {/* Right 1 Col: Order Summary & Confirm */}
         <div className="space-y-4">
-          <Card variant="surface" className="p-5 space-y-4 border-violet-500/40">
-            <h3 className="font-bold font-heading text-base text-slate-100 pb-2 border-b border-slate-700/60">
+          <Card variant="gold" className="p-5 space-y-4">
+            <h3 className="font-bold font-heading text-base text-[var(--text)] pb-2 border-b border-[#2C3563]">
               Đơn Hàng Demo
             </h3>
 
-            <div className="space-y-2 text-xs text-slate-300">
+            <div className="space-y-2 text-xs text-[#D5DAE8]">
               {cartCalc.items.map(i => (
                 <div key={i.id} className="flex justify-between">
                   <span className="truncate pr-2">{i.title}</span>
-                  <span className="font-pixel text-slate-100 shrink-0">{formatVnd(i.price)}</span>
+                  <span className="font-pixel text-[var(--text)] shrink-0">{formatVnd(i.price)}</span>
                 </div>
               ))}
 
-              <div className="pt-2 border-t border-slate-700/60 flex justify-between">
+              <div className="pt-2 border-t border-[#2C3563] flex justify-between">
                 <span>Tạm tính:</span>
-                <span className="font-pixel">{formatVnd(cartCalc.subtotal)}</span>
+                <span className="font-pixel text-[var(--text)]">{formatVnd(cartCalc.subtotal)}</span>
               </div>
 
               {cartCalc.discount > 0 && (
-                <div className="flex justify-between text-emerald-400">
+                <div className="flex justify-between text-[var(--green)]">
                   <span>Giảm giá:</span>
                   <span className="font-pixel">-{formatVnd(cartCalc.discount)}</span>
                 </div>
               )}
 
-              <div className="pt-3 border-t border-slate-700 flex justify-between text-base font-bold text-slate-100">
+              <div className="pt-3 border-t border-[#3B4474] flex justify-between text-base font-bold text-[var(--text)]">
                 <span>Tổng cộng:</span>
-                <span className="text-amber-400 font-pixel text-lg">
+                <span className="text-[var(--gold)] font-pixel text-lg">
                   {formatVnd(cartCalc.total)}
                 </span>
               </div>

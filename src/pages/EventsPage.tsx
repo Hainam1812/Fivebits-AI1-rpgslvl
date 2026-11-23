@@ -197,17 +197,17 @@ export const EventsPage: React.FC = () => {
       {/* Title & Tabs */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black font-heading text-slate-100 flex items-center gap-2">
-            <CalendarCheck2 className="w-6 h-6 text-amber-400" />
+          <h1 className="text-2xl sm:text-3xl font-black font-heading text-[var(--text)] flex items-center gap-2">
+            <CalendarCheck2 className="w-6 h-6 text-[var(--gold)]" />
             <span>Sự Kiện & Đấu Trường Thi Cử</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-[var(--muted)] mt-1">
             Nhiệm vụ theo mùa giải, boss battle ôn thi và lịch trình học thuật cá nhân
           </p>
         </div>
 
         {/* Tab switchers */}
-        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-[#161B40] border border-slate-700/60 w-full sm:w-auto overflow-x-auto">
+        <div className="pixel-tab-list flex items-center gap-1 p-1 w-full sm:w-auto overflow-x-auto">
           {[
             { id: 'events', label: 'Sự Kiện Mùa', icon: Calendar },
             { id: 'exams', label: 'Đấu Trường Thi', icon: Swords },
@@ -218,10 +218,10 @@ export const EventsPage: React.FC = () => {
               <button
                 key={t.id}
                 onClick={() => setTab(t.id)}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer select-none ${
+                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-[2px] text-xs font-bold transition-colors whitespace-nowrap cursor-pointer select-none min-h-[38px] ${
                   currentTab === t.id
-                    ? 'bg-amber-600 text-white shadow-md'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                    ? 'bg-[var(--gold)] text-[var(--ink)] border-2 border-[var(--ink)]'
+                    : 'text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--panel-2)] border-2 border-transparent'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -240,56 +240,58 @@ export const EventsPage: React.FC = () => {
               <Card
                 key={event.id}
                 variant={isActive ? 'gold' : 'surface'}
-                className="p-5 space-y-4"
+                className={`p-5 space-y-4 ${isActive ? 'pixel-event-frame' : ''}`}
               >
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span
-                        className={`text-[10px] font-bold uppercase font-pixel px-2 py-0.5 rounded-full border ${
+                        className={`text-xs font-bold uppercase font-pixel px-2 py-0.5 rounded-[2px] border-2 ${
                           isActive
-                            ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                            : 'bg-slate-800 text-slate-400 border-slate-700'
+                            ? 'bg-[var(--panel-2)] text-[var(--gold)] border-[var(--gold)]'
+                            : 'bg-[var(--bg)] text-[var(--muted)] border-[#3B4474]'
                         }`}
                       >
                         {isActive ? `Đang diễn ra • Còn ${daysRemaining} ngày` : 'Sắp diễn ra'}
                       </span>
                       {isCleared && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500/40 font-pixel">
+                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-[2px] bg-[var(--bg)] text-[var(--green)] border-2 border-[var(--green)] font-num">
                           CLEARED
                         </span>
                       )}
                     </div>
-                    <h3 className="font-bold font-heading text-lg text-slate-100 mt-2">
+                    <h3 className="font-bold font-heading text-lg text-[var(--text)] mt-2">
                       {event.title}
                     </h3>
                   </div>
-                  <span className="text-xs font-bold font-pixel text-amber-400 shrink-0">
-                    +{event.clearBonusXp} XP Bonus
+                  <span className="text-[11px] font-bold font-num text-[var(--gold)] shrink-0">
+                    +{event.clearBonusXp} XP
                   </span>
                 </div>
 
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-[#D5DAE8] leading-relaxed">
                   {event.description}
                 </p>
 
-                {/* Progress bar */}
-                <div className="space-y-1">
-                  <div className="flex justify-between text-xs text-slate-400 font-pixel">
+                {/* Segmented Progress bar */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between text-xs text-[var(--muted)] font-pixel">
                     <span>Tiến độ sự kiện</span>
-                    <span>{completedTaskIds.length}/{event.tasks.length} ({progressPercent}%)</span>
+                    <span className="font-num text-[11px] text-[var(--text)]">
+                      {completedTaskIds.length}/{event.tasks.length} ({progressPercent}%)
+                    </span>
                   </div>
-                  <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div className="pixel-progress h-2.5">
                     <div
-                      className="bg-amber-400 h-full rounded-full transition-all duration-300"
+                      className="pixel-progress-fill bg-[var(--gold)]"
                       style={{ width: `${progressPercent}%` }}
                     />
                   </div>
                 </div>
 
                 {/* Tasks inside this event */}
-                <div className="space-y-2 pt-2 border-t border-slate-700/60">
-                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                <div className="space-y-2 pt-2 border-t-2 border-[#2C3563]">
+                  <div className="text-xs font-bold text-[var(--muted)] uppercase tracking-wider">
                     Nhiệm vụ sự kiện:
                   </div>
                   {event.tasks.map(t => {
@@ -297,18 +299,18 @@ export const EventsPage: React.FC = () => {
                     return (
                       <div
                         key={t.id}
-                        className={`p-3 rounded-xl border flex items-center justify-between gap-3 text-xs ${
+                        className={`p-3 rounded-[2px] border-2 flex items-center justify-between gap-3 text-xs ${
                           isDone
-                            ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-200'
-                            : 'bg-[#0F132E] border-slate-700/60 text-slate-200'
+                            ? 'bg-[var(--bg)] border-[var(--green)] text-[var(--text)]'
+                            : 'bg-[var(--bg)] border-[#2C3563] text-[var(--text)]'
                         }`}
                       >
                         <div>
                           <div className="font-bold flex items-center gap-1.5">
-                            {isDone && <Check className="w-3.5 h-3.5 text-emerald-400" />}
+                            {isDone && <Check className="w-3.5 h-3.5 text-[var(--green)]" />}
                             <span>{t.name}</span>
                           </div>
-                          <p className="text-[11px] text-slate-400 mt-0.5">{t.condition}</p>
+                          <p className="text-xs text-[var(--muted)] mt-0.5">{t.condition}</p>
                         </div>
 
                         {isActive && !isDone && (
@@ -341,8 +343,8 @@ export const EventsPage: React.FC = () => {
           {!isExamActive ? (
             /* Exam Selection Grid */
             <div className="space-y-4">
-              <div className="p-4 rounded-2xl bg-amber-950/30 border border-amber-500/40 text-xs text-amber-200 flex items-start gap-2.5">
-                <AlertCircle className="w-4 h-4 shrink-0 text-amber-400 mt-0.5" />
+              <div className="p-4 pixel-frame pixel-frame-gold text-xs text-[var(--text)] flex items-start gap-2.5">
+                <AlertCircle className="w-4 h-4 shrink-0 text-[var(--gold)] mt-0.5" />
                 <span>
                   <strong>Lưu ý:</strong> Đề ôn tập trắc nghiệm mô phỏng mang tính tham khảo tự học, không phải đề thi chính thức của trường. Mỗi kỳ thi gồm 10 câu ngẫu nhiên, đạt 70% để vượt qua và nhận thưởng XP!
                 </span>
@@ -359,50 +361,50 @@ export const EventsPage: React.FC = () => {
                   const bestRun = historyForExam.reduce((best, cur) => (cur.score > (best?.score || 0) ? cur : best), historyForExam[0]);
 
                   return (
-                    <Card key={exam.id} variant="surface" className="p-5 space-y-4">
+                    <Card key={exam.id} variant="surface" category={exam.category} className="p-5 space-y-4">
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-bold text-violet-300 uppercase font-pixel">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-xs font-bold text-[var(--sky)] uppercase font-pixel">
                               {exam.category}
                             </span>
                             {isPassed && (
-                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500/40 font-pixel">
+                              <span className="text-[11px] font-bold px-2 py-0.5 rounded-[2px] bg-[var(--bg)] text-[var(--green)] border-2 border-[var(--green)] font-num">
                                 PASSED ({bestRun?.grade || 'C'})
                               </span>
                             )}
                             {isPerfect && (
-                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-500/40 font-pixel">
+                              <span className="text-[11px] font-bold px-2 py-0.5 rounded-[2px] bg-[var(--panel-2)] text-[var(--gold)] border-2 border-[var(--gold)] font-num">
                                 PERFECT S
                               </span>
                             )}
                           </div>
-                          <h3 className="font-bold font-heading text-lg text-slate-100 mt-1">
+                          <h3 className="font-bold font-heading text-lg text-[var(--text)] mt-1">
                             {exam.title}
                           </h3>
                         </div>
 
-                        <span className="text-xs font-bold text-amber-400 font-pixel shrink-0">
+                        <span className="text-[11px] font-bold text-[var(--gold)] font-num shrink-0">
                           +50 XP
                         </span>
                       </div>
 
-                      <p className="text-xs text-slate-300 leading-relaxed">
+                      <p className="text-xs text-[#D5DAE8] leading-relaxed">
                         {exam.shortDesc}
                       </p>
 
-                      <div className="p-3 rounded-xl bg-[#0F132E] border border-slate-800 text-xs text-slate-300 flex items-center justify-between">
+                      <div className="p-3 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--ink)] text-xs text-[#D5DAE8] flex items-center justify-between gap-2 flex-wrap">
                         <div>
-                          <span className="text-slate-400">Trùm bảo vệ:</span> <strong>{exam.bossName}</strong>
+                          <span className="text-[var(--muted)]">Trùm bảo vệ:</span> <strong>{exam.bossName}</strong>
                         </div>
-                        <div className="text-[11px] text-slate-400 font-pixel">
+                        <div className="text-xs text-[var(--muted)] font-pixel">
                           10 câu • 30s/câu • Đạt 70%
                         </div>
                       </div>
 
                       <div className="flex items-center justify-between pt-1">
-                        <span className="text-xs text-slate-400">
-                          Đã thi: <strong className="text-slate-200">{historyForExam.length} lần</strong>
+                        <span className="text-xs text-[var(--muted)]">
+                          Đã thi: <strong className="text-[var(--text)]">{historyForExam.length} lần</strong>
                         </span>
                         <Button
                           variant={isPassed ? 'secondary' : 'gold'}
@@ -421,38 +423,38 @@ export const EventsPage: React.FC = () => {
             /* Results Screen */
             <Card variant="gold" className="p-6 text-center space-y-6 max-w-lg mx-auto">
               <div className="space-y-2">
-                <div className="w-16 h-16 mx-auto rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-3xl font-black font-pixel text-amber-400">
+                <div className="w-16 h-16 mx-auto rounded-[2px] bg-[var(--panel-2)] border-[3px] border-[var(--gold)] shadow-[inset_0_0_0_2px_var(--ink)] flex items-center justify-center text-2xl font-bold font-num text-[var(--gold)]">
                   {examResult.historyEntry.grade}
                 </div>
-                <h2 className="text-2xl font-black font-heading text-slate-100">
+                <h2 className="text-2xl font-black font-heading text-[var(--text)]">
                   {examResult.historyEntry.passed ? 'CHIẾN THẮNG TRÙM CUỐI!' : 'THẤT BẠI TRONG ĐẤU TRƯỜNG'}
                 </h2>
-                <p className="text-sm text-slate-300">
-                  Điểm số: <strong className="text-amber-400">{examResult.historyEntry.score}/{examResult.historyEntry.totalQuestions} ({examResult.historyEntry.percentage}%)</strong>
+                <p className="text-sm text-[#D5DAE8]">
+                  Điểm số: <strong className="text-[var(--gold)] font-num text-xs">{examResult.historyEntry.score}/{examResult.historyEntry.totalQuestions} ({examResult.historyEntry.percentage}%)</strong>
                 </p>
               </div>
 
               {examResult.addedCompletions.length > 0 && (
-                <div className="p-3 bg-emerald-950/50 border border-emerald-500/50 rounded-xl text-xs text-emerald-300 font-pixel">
+                <div className="p-3 bg-[var(--bg)] border-2 border-[var(--green)] rounded-[2px] text-xs text-[var(--green)] font-pixel">
                   Thưởng lần đầu: +{examResult.addedCompletions.reduce((s: any, c: any) => s + c.xp, 0)} XP đã ghi vào sổ cái!
                 </div>
               )}
 
               {/* Review wrong answers */}
               {examResult.historyEntry.wrongQuestionIds.length > 0 && (
-                <div className="text-left space-y-3 pt-3 border-t border-slate-700/60 max-h-60 overflow-y-auto">
-                  <div className="text-xs font-bold uppercase text-slate-400">
+                <div className="text-left space-y-3 pt-3 border-t-2 border-[#2C3563] max-h-60 overflow-y-auto">
+                  <div className="text-xs font-bold uppercase text-[var(--muted)]">
                     Xem lại câu trả lời chưa đúng:
                   </div>
                   {examQuestions
                     .filter(q => examResult.historyEntry.wrongQuestionIds.includes(q.id))
                     .map(q => (
-                      <div key={q.id} className="p-3 rounded-xl bg-[#0F132E] border border-slate-800 text-xs space-y-1">
-                        <div className="font-bold text-slate-200">{q.question}</div>
-                        <div className="text-emerald-400 font-semibold">
+                      <div key={q.id} className="p-3 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--ink)] text-xs space-y-1">
+                        <div className="font-bold text-[var(--text)]">{q.question}</div>
+                        <div className="text-[var(--green)] font-semibold">
                           Đáp án đúng: {q.options[q.correctIndex]}
                         </div>
-                        <div className="text-slate-400 text-[11px]">{q.explanation}</div>
+                        <div className="text-[var(--muted)] text-xs">{q.explanation}</div>
                       </div>
                     ))}
                 </div>
@@ -474,17 +476,17 @@ export const EventsPage: React.FC = () => {
             selectedExam && (
               <div className="space-y-5 max-w-2xl mx-auto">
                 {/* Boss Battle HUD */}
-                <div className="p-4 rounded-2xl bg-[#161B40] border border-slate-700 flex items-center justify-between gap-4">
+                <div className="p-4 pixel-frame pixel-frame-gold flex items-center justify-between gap-4">
                   {/* Player HP / Hearts */}
                   <div className="flex items-center gap-2">
-                    <div className="w-12 h-12 rounded-xl bg-violet-950/80 border border-violet-500/50 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--ink)] flex items-center justify-center">
                       <CharacterSprite characterId={state.profile.characterId} scale={0.7} />
                     </div>
                     <div>
-                      <div className="text-[10px] text-slate-400 font-pixel">Người Chơi</div>
-                      <div className="flex gap-1 text-rose-500 text-sm">
+                      <div className="text-xs text-[var(--muted)] font-pixel">Người Chơi</div>
+                      <div className="flex gap-1 text-[var(--danger)] text-sm">
                         {Array.from({ length: Math.max(0, hearts) }).map((_, i) => (
-                          <Heart key={i} className="w-4 h-4 fill-rose-500 text-rose-500 animate-pulse" />
+                          <Heart key={i} className="w-4 h-4 fill-[var(--danger)] text-[var(--danger)]" />
                         ))}
                       </div>
                     </div>
@@ -492,19 +494,19 @@ export const EventsPage: React.FC = () => {
 
                   {/* 30-sec Timer */}
                   <div className="flex flex-col items-center">
-                    <div className="w-10 h-10 rounded-full bg-[#0F132E] border-2 border-amber-400 flex items-center justify-center font-pixel text-sm font-bold text-amber-300">
+                    <div className="w-11 h-11 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--gold)] flex items-center justify-center font-num text-sm font-bold text-[var(--gold)]">
                       {timerSec}
                     </div>
-                    <span className="text-[9px] text-slate-400 mt-0.5">Giây</span>
+                    <span className="text-xs text-[var(--muted)] mt-0.5 font-pixel">Giây</span>
                   </div>
 
                   {/* Boss Info & HP */}
                   <div className="text-right flex items-center gap-2">
                     <div>
-                      <div className="text-[10px] text-amber-400 font-pixel">{selectedExam.bossName}</div>
-                      <div className="text-xs font-bold text-slate-200">Máu: {bossHp} HP</div>
+                      <div className="text-xs text-[var(--gold)] font-pixel">{selectedExam.bossName}</div>
+                      <div className="text-xs font-bold text-[var(--text)]">Máu: <span className="font-num text-[11px]">{bossHp} HP</span></div>
                     </div>
-                    <div className="w-12 h-12 rounded-xl bg-amber-950/80 border border-amber-500/50 flex items-center justify-center text-xl">
+                    <div className="w-12 h-12 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--ink)] flex items-center justify-center text-xl">
                       👹
                     </div>
                   </div>
@@ -513,12 +515,12 @@ export const EventsPage: React.FC = () => {
                 {/* Question Card */}
                 {examQuestions[currentQIndex] && (
                   <Card variant="surface" className="p-6 space-y-4">
-                    <div className="flex items-center justify-between text-xs text-slate-400 font-pixel">
+                    <div className="flex items-center justify-between text-xs text-[var(--muted)] font-pixel">
                       <span>CÂU {currentQIndex + 1} / {examQuestions.length}</span>
                       <span>Chủ đề: {examQuestions[currentQIndex].topic}</span>
                     </div>
 
-                    <h3 className="text-base sm:text-lg font-bold text-slate-100 font-heading leading-relaxed">
+                    <h3 className="text-base sm:text-lg font-bold text-[var(--text)] font-heading leading-relaxed">
                       {examQuestions[currentQIndex].question}
                     </h3>
 
@@ -528,14 +530,14 @@ export const EventsPage: React.FC = () => {
                         const isChosen = userAnswers[examQuestions[currentQIndex].id] === idx;
                         const isCorrectOption = idx === examQuestions[currentQIndex].correctIndex;
 
-                        let btnStyle = 'bg-[#0F132E] border-slate-700/80 text-slate-200 hover:border-violet-500';
+                        let btnStyle = 'bg-[var(--bg)] border-[#3B4474] text-[var(--text)] hover:border-[var(--gold)]';
                         if (isQuestionAnswered) {
                           if (isCorrectOption) {
-                            btnStyle = 'bg-emerald-950/80 border-emerald-400 text-emerald-200 font-bold';
+                            btnStyle = 'bg-[var(--panel-2)] border-[var(--green)] text-[var(--green)] font-bold';
                           } else if (isChosen) {
-                            btnStyle = 'bg-rose-950/80 border-rose-500 text-rose-200';
+                            btnStyle = 'bg-[var(--panel-2)] border-[var(--danger)] text-[var(--danger)]';
                           } else {
-                            btnStyle = 'bg-[#0F132E] border-slate-800 text-slate-500';
+                            btnStyle = 'bg-[var(--bg)] border-[var(--ink)] text-[var(--muted)]';
                           }
                         }
 
@@ -545,9 +547,9 @@ export const EventsPage: React.FC = () => {
                             type="button"
                             onClick={() => handleAnswer(idx)}
                             disabled={isQuestionAnswered}
-                            className={`p-3.5 rounded-xl border text-left text-xs sm:text-sm transition-all flex items-center gap-3 cursor-pointer ${btnStyle}`}
+                            className={`p-3.5 rounded-[2px] border-2 text-left text-xs sm:text-sm transition-colors flex items-center gap-3 cursor-pointer min-h-[44px] ${btnStyle}`}
                           >
-                            <span className="w-6 h-6 rounded-lg bg-black/40 border border-slate-600 flex items-center justify-center font-pixel text-xs shrink-0">
+                            <span className="w-7 h-7 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--ink)] flex items-center justify-center font-num text-xs shrink-0">
                               {idx + 1}
                             </span>
                             <span className="flex-1">{option}</span>
@@ -558,8 +560,8 @@ export const EventsPage: React.FC = () => {
 
                     {/* Explanation feedback */}
                     {isQuestionAnswered && (
-                      <div className="p-3.5 rounded-xl bg-violet-950/30 border border-violet-500/40 text-xs text-slate-200 space-y-1 animate-fade-in">
-                        <div className="font-bold text-amber-300">Giải thích:</div>
+                      <div className="p-3.5 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--gold)] text-xs text-[var(--text)] space-y-1 animate-fade-in">
+                        <div className="font-bold text-[var(--gold)]">Giải thích:</div>
                         <div>{examQuestions[currentQIndex].explanation}</div>
                       </div>
                     )}
@@ -585,8 +587,8 @@ export const EventsPage: React.FC = () => {
         <div className="space-y-6 max-w-2xl mx-auto">
           {/* Add Goal Form */}
           <Card variant="surface" className="p-5 space-y-4">
-            <h3 className="font-bold font-heading text-base text-slate-100 flex items-center gap-2">
-              <Plus className="w-4 h-4 text-amber-400" />
+            <h3 className="font-bold font-heading text-base text-[var(--text)] flex items-center gap-2">
+              <Plus className="w-4 h-4 text-[var(--gold)]" />
               <span>Thêm Môn Thi Sắp Tới</span>
             </h3>
 
@@ -598,17 +600,17 @@ export const EventsPage: React.FC = () => {
                   onChange={e => setNewGoalTitle(e.target.value)}
                   placeholder="Tên môn thi (VD: Vi Tích Phân 1, Python...)"
                   maxLength={40}
-                  className="px-3.5 py-2.5 rounded-xl bg-[#0F132E] border border-slate-700 text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-amber-400"
+                  className="pixel-input px-3.5 py-2.5 text-xs sm:text-sm text-[var(--text)] placeholder:text-[var(--muted)] min-h-[44px]"
                 />
                 <input
                   type="date"
                   value={newGoalDate}
                   onChange={e => setNewGoalDate(e.target.value)}
-                  className="px-3.5 py-2.5 rounded-xl bg-[#0F132E] border border-slate-700 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-amber-400"
+                  className="pixel-input px-3.5 py-2.5 text-xs sm:text-sm text-[var(--text)] min-h-[44px]"
                 />
               </div>
 
-              {goalError && <p className="text-xs text-rose-400 font-medium">{goalError}</p>}
+              {goalError && <p className="text-xs text-[var(--danger)] font-medium">{goalError}</p>}
 
               <Button variant="gold" size="sm" type="submit" fullWidth>
                 Lưu Lịch Thi (Đếm Ngược)
@@ -618,12 +620,12 @@ export const EventsPage: React.FC = () => {
 
           {/* List of goals */}
           <div className="space-y-3">
-            <h3 className="font-bold font-heading text-sm text-slate-300">
+            <h3 className="font-bold font-heading text-sm text-[var(--text)]">
               Danh Sách Lịch Thi Của Bạn ({state.personalExams.length}/10)
             </h3>
 
             {state.personalExams.length === 0 ? (
-              <p className="text-xs text-slate-500 italic p-4 text-center rounded-xl bg-[#161B40]/40 border border-slate-800">
+              <p className="text-xs text-[var(--muted)] italic p-4 text-center pixel-frame pixel-frame-muted">
                 Chưa có lịch thi nào được lưu. Hãy thêm môn thi sắp tới để nhận nhắc nhở ôn luyện!
               </p>
             ) : (
@@ -640,21 +642,21 @@ export const EventsPage: React.FC = () => {
                     className="p-4 flex items-center justify-between gap-3"
                   >
                     <div>
-                      <div className="font-bold text-sm text-slate-100">{goal.title}</div>
-                      <div className="text-xs text-slate-400 mt-0.5">
+                      <div className="font-bold text-sm text-[var(--text)]">{goal.title}</div>
+                      <div className="text-xs text-[var(--muted)] mt-0.5">
                         Ngày thi: {goal.examDate} •{' '}
                         {daysLeft > 0 ? (
-                          <strong className={isUrgent ? 'text-amber-400 font-pixel' : 'text-slate-300 font-pixel'}>
+                          <strong className={isUrgent ? 'text-[var(--gold)] font-pixel' : 'text-[var(--text)] font-pixel'}>
                             Còn {daysLeft} ngày
                           </strong>
                         ) : daysLeft === 0 ? (
-                          <strong className="text-rose-400 font-pixel">HÔM NAY!</strong>
+                          <strong className="text-[var(--danger)] font-pixel">HÔM NAY!</strong>
                         ) : (
-                          <span className="text-slate-500">Đã qua</span>
+                          <span className="text-[var(--muted)]">Đã qua</span>
                         )}
                       </div>
                       {isUrgent && (
-                        <p className="text-[11px] text-amber-300 mt-1">
+                        <p className="text-xs text-[var(--gold)] mt-1">
                           ⚡ Còn dưới 7 ngày! Đừng quên ghé Đấu trường thi để luyện đề giữ phong độ nhé!
                         </p>
                       )}
@@ -673,7 +675,7 @@ export const EventsPage: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setExamToDelete(goal)}
-                        className="p-2 text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors cursor-pointer"
+                        className="p-2 text-[var(--muted)] hover:text-[var(--danger)] hover:bg-[var(--panel-2)] rounded-[2px] border border-transparent hover:border-[var(--danger)] transition-colors cursor-pointer min-h-[40px] min-w-[40px] flex items-center justify-center"
                         title={`Xóa lịch thi ${goal.title}`}
                         aria-label={`Xóa lịch thi ${goal.title}`}
                       >
@@ -696,21 +698,21 @@ export const EventsPage: React.FC = () => {
         maxWidth="sm"
       >
         <div className="space-y-4">
-          <p className="text-sm text-slate-200 leading-relaxed">
+          <p className="text-sm text-[var(--text)] leading-relaxed">
             Bạn có chắc chắn muốn xóa lịch thi môn{' '}
-            <strong className="text-amber-300 font-bold">{examToDelete?.title}</strong>?
+            <strong className="text-[var(--gold)] font-bold">{examToDelete?.title}</strong>?
           </p>
-          <div className="p-3 rounded-xl bg-[#0F132E] border border-slate-700/80 text-xs text-slate-300 space-y-1.5">
+          <div className="p-3 rounded-[2px] bg-[var(--bg)] border-2 border-[#2C3563] text-xs text-[#D5DAE8] space-y-1.5">
             <div>
-              <span className="text-slate-400">Ngày thi: </span>
-              <strong className="text-slate-100 font-pixel">{examToDelete?.examDate}</strong>
+              <span className="text-[var(--muted)]">Ngày thi: </span>
+              <strong className="text-[var(--text)] font-pixel">{examToDelete?.examDate}</strong>
             </div>
-            <div className="text-[11px] text-rose-400 flex items-center gap-1.5">
+            <div className="text-xs text-[var(--danger)] flex items-center gap-1.5">
               <span>⚠️</span>
               <span>Dữ liệu lịch thi này sẽ được xóa hoàn toàn khỏi hệ thống lưu trữ ngay lập tức.</span>
             </div>
           </div>
-          <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-slate-700/60">
+          <div className="flex items-center justify-end gap-2.5 pt-2 border-t-2 border-[#2C3563]">
             <Button
               variant="secondary"
               size="sm"

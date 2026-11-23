@@ -30,8 +30,8 @@ export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose }) => {
         width: 260,
         margin: 2,
         color: {
-          dark: '#7C3AED',
-          light: '#0F132E',
+          dark: '#E8C27A',
+          light: '#0C1020',
         },
       })
         .then(url => setQrDataUrl(url))
@@ -67,23 +67,23 @@ export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose} title="Mời Bạn Bè & Chia Sẻ" maxWidth="sm">
       <div className="flex flex-col items-center text-center space-y-4">
         {/* QR Code Canvas */}
-        <div className="p-3 bg-[#0F132E] border-2 border-violet-500/40 rounded-2xl shadow-xl flex items-center justify-center">
+        <div className="p-3 bg-[var(--bg)] pixel-frame pixel-frame-gold flex items-center justify-center">
           {qrDataUrl ? (
-            <img src={qrDataUrl} alt="QR Code ứng dụng SOLO LEVELLING" className="w-48 h-48 rounded-lg" />
+            <img src={qrDataUrl} alt="QR Code ứng dụng SOLO LEVELLING" className="w-48 h-48 rounded-[2px]" />
           ) : (
-            <div className="w-48 h-48 flex items-center justify-center text-xs text-slate-500 font-pixel">
+            <div className="w-48 h-48 flex items-center justify-center text-xs text-[var(--muted)] font-heading">
               Đang tạo mã QR...
             </div>
           )}
         </div>
 
         {/* Share Status Snippet */}
-        <div className="p-3 bg-[#0F132E]/80 border border-slate-700/60 rounded-xl text-xs text-slate-300 text-left w-full space-y-1">
-          <div className="font-bold text-violet-300 flex items-center gap-1">
+        <div className="p-3 bg-[var(--bg)] border-2 border-[var(--ink)] rounded-[2px] text-xs text-[var(--muted)] text-left w-full space-y-1">
+          <div className="font-bold text-[var(--gold)] flex items-center gap-1">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Thành tích của bạn:</span>
           </div>
-          <p className="italic text-slate-200 text-xs">
+          <p className="italic text-[var(--text)] text-xs sm:text-sm">
             "{shareText}"
           </p>
         </div>
@@ -105,7 +105,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose }) => {
             <Button
               variant="secondary"
               className="flex-1 text-xs"
-              icon={copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              icon={copiedLink ? <Check className="w-3.5 h-3.5 text-[var(--green)]" /> : <Copy className="w-3.5 h-3.5" />}
               onClick={handleCopyLink}
             >
               {copiedLink ? 'Đã sao chép Link' : 'Sao chép Link'}
@@ -114,7 +114,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose }) => {
             <Button
               variant="secondary"
               className="flex-1 text-xs"
-              icon={copiedText ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              icon={copiedText ? <Check className="w-3.5 h-3.5 text-[var(--green)]" /> : <Copy className="w-3.5 h-3.5" />}
               onClick={handleCopyText}
             >
               {copiedText ? 'Đã sao chép Lời mời' : 'Sao chép Lời mời'}

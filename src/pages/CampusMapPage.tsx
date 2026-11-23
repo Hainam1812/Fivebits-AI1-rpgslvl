@@ -427,25 +427,25 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
       {/* Top Header & Toggle */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black font-heading text-slate-100 flex items-center gap-2">
+          <h1 className="text-2xl sm:text-3xl font-black font-heading text-[var(--text)] flex items-center gap-2">
             {viewMode === 'timetable' ? (
               <>
-                <Calendar className="w-6 h-6 text-cyan-400" />
+                <Calendar className="w-6 h-6 text-[var(--sky)]" />
                 <span>Thời Khóa Biểu Campus (TimeTable Builder)</span>
               </>
             ) : viewMode === 'assignments' ? (
               <>
-                <ClipboardList className="w-6 h-6 text-cyan-400" />
+                <ClipboardList className="w-6 h-6 text-[var(--sky)]" />
                 <span>Quản Lý Bài Tập & Deadline (Assignments)</span>
               </>
             ) : (
               <>
-                <MapIcon className="w-6 h-6 text-cyan-400" />
+                <MapIcon className="w-6 h-6 text-[var(--sky)]" />
                 <span>Bản Đồ Campus (Campus Map)</span>
               </>
             )}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-[var(--muted)] mt-1">
             {viewMode === 'timetable'
               ? 'Lập kế hoạch lịch học 12 tiết trong tuần, tự động gộp khối tiết và lưu trữ an toàn'
               : viewMode === 'assignments'
@@ -455,12 +455,12 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
         </div>
 
         {/* View Mode Toggle: Map / List / Quản Lý Bài Tập / Timetable */}
-        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#161B40] border border-slate-700/60 self-stretch sm:self-auto overflow-x-auto">
+        <div className="pixel-tab-list flex items-center gap-1 p-1 self-stretch sm:self-auto overflow-x-auto">
           <button
             type="button"
             onClick={() => handleSetViewMode('map')}
-            className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-              viewMode === 'map' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+            className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[2px] text-xs font-bold transition-colors cursor-pointer whitespace-nowrap min-h-[38px] ${
+              viewMode === 'map' ? 'bg-[var(--sky)] text-[var(--ink)] border-2 border-[var(--ink)]' : 'text-[var(--muted)] hover:text-[var(--text)] border-2 border-transparent'
             }`}
           >
             <MapIcon className="w-3.5 h-3.5" />
@@ -469,8 +469,8 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
           <button
             type="button"
             onClick={() => handleSetViewMode('list')}
-            className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-              viewMode === 'list' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+            className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[2px] text-xs font-bold transition-colors cursor-pointer whitespace-nowrap min-h-[38px] ${
+              viewMode === 'list' ? 'bg-[var(--sky)] text-[var(--ink)] border-2 border-[var(--ink)]' : 'text-[var(--muted)] hover:text-[var(--text)] border-2 border-transparent'
             }`}
           >
             <List className="w-3.5 h-3.5" />
@@ -479,8 +479,8 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
           <button
             type="button"
             onClick={() => handleSetViewMode('assignments')}
-            className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-              viewMode === 'assignments' ? 'bg-cyan-600 text-white shadow' : 'text-cyan-400 hover:text-cyan-200 hover:bg-cyan-950/30'
+            className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-[2px] text-xs font-bold transition-colors cursor-pointer whitespace-nowrap min-h-[38px] ${
+              viewMode === 'assignments' ? 'bg-[var(--sky)] text-[var(--ink)] border-2 border-[var(--ink)]' : 'text-[var(--sky)] hover:text-[var(--text)] hover:bg-[var(--panel-2)] border-2 border-transparent'
             }`}
           >
             <ClipboardList className="w-3.5 h-3.5" />
@@ -489,8 +489,8 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
           <button
             type="button"
             onClick={() => handleSetViewMode('timetable')}
-            className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-              viewMode === 'timetable' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+            className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-[2px] text-xs font-bold transition-colors cursor-pointer whitespace-nowrap min-h-[38px] ${
+              viewMode === 'timetable' ? 'bg-[var(--sky)] text-[var(--ink)] border-2 border-[var(--ink)]' : 'text-[var(--muted)] hover:text-[var(--text)] border-2 border-transparent'
             }`}
           >
             <Calendar className="w-3.5 h-3.5" />
@@ -520,25 +520,25 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
-          className={`relative rounded-3xl bg-[#0A0D22] border border-slate-700/80 shadow-2xl overflow-hidden p-2 sm:p-4 select-none touch-none ${
+          className={`relative pixel-frame pixel-frame-muted bg-[var(--bg)] overflow-hidden p-2 sm:p-4 select-none touch-none ${
             isDragging ? 'cursor-grabbing' : 'cursor-grab'
           }`}
           style={{ touchAction: 'none' }}
         >
           {/* Floating Map Controls Widget */}
-          <div className="absolute top-4 right-4 z-30 flex flex-col items-center gap-1.5 bg-[#161B40]/90 backdrop-blur-md p-1.5 rounded-2xl border border-slate-700/80 shadow-xl">
+          <div className="absolute top-4 right-4 z-30 flex flex-col items-center gap-1.5 pixel-frame pixel-frame-muted p-1.5">
             <button
               type="button"
               onClick={handleZoomIn}
               disabled={zoom >= MAX_ZOOM}
-              className="p-2 rounded-xl bg-[#0F132E] hover:bg-violet-600/50 active:bg-violet-600 text-slate-200 hover:text-white disabled:opacity-40 disabled:hover:bg-[#0F132E] transition-colors cursor-pointer"
+              className="p-2 rounded-[2px] bg-[var(--panel-2)] hover:bg-[var(--gold)] hover:text-[var(--ink)] border-2 border-[var(--ink)] text-[var(--text)] disabled:opacity-40 disabled:hover:bg-[var(--panel-2)] disabled:hover:text-[var(--text)] transition-colors cursor-pointer"
               title="Phóng to (+)"
               aria-label="Phóng to bản đồ"
             >
               <ZoomIn className="w-4 h-4" />
             </button>
 
-            <div className="text-[10px] font-pixel font-bold text-cyan-300 px-1 select-none">
+            <div className="text-[10px] font-num font-bold text-[var(--gold)] px-1 select-none">
               {Math.round(zoom * 100)}%
             </div>
 
@@ -546,19 +546,19 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
               type="button"
               onClick={handleZoomOut}
               disabled={zoom <= MIN_ZOOM}
-              className="p-2 rounded-xl bg-[#0F132E] hover:bg-violet-600/50 active:bg-violet-600 text-slate-200 hover:text-white disabled:opacity-40 disabled:hover:bg-[#0F132E] transition-colors cursor-pointer"
+              className="p-2 rounded-[2px] bg-[var(--panel-2)] hover:bg-[var(--gold)] hover:text-[var(--ink)] border-2 border-[var(--ink)] text-[var(--text)] disabled:opacity-40 disabled:hover:bg-[var(--panel-2)] disabled:hover:text-[var(--text)] transition-colors cursor-pointer"
               title="Thu nhỏ (-)"
               aria-label="Thu nhỏ bản đồ"
             >
               <ZoomOut className="w-4 h-4" />
             </button>
 
-            <div className="w-full h-px bg-slate-700/60 my-0.5" />
+            <div className="w-full h-[2px] bg-[var(--ink)] my-0.5" />
 
             <button
               type="button"
               onClick={handleFocusCharacter}
-              className="p-2 rounded-xl bg-[#0F132E] hover:bg-cyan-600/50 active:bg-cyan-600 text-cyan-300 hover:text-white transition-colors cursor-pointer"
+              className="p-2 rounded-[2px] bg-[var(--panel-2)] hover:bg-[var(--sky)] hover:text-[var(--ink)] border-2 border-[var(--ink)] text-[var(--sky)] transition-colors cursor-pointer"
               title="Định vị nhân vật"
               aria-label="Định vị nhân vật"
             >
@@ -568,7 +568,7 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
             <button
               type="button"
               onClick={handleResetMap}
-              className="p-2 rounded-xl bg-[#0F132E] hover:bg-slate-700 active:bg-slate-600 text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
+              className="p-2 rounded-[2px] bg-[var(--panel-2)] hover:bg-[var(--gold)] hover:text-[var(--ink)] border-2 border-[var(--ink)] text-[var(--muted)] transition-colors cursor-pointer"
               title="Đặt lại góc nhìn"
               aria-label="Đặt lại góc nhìn"
             >
@@ -578,8 +578,8 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
 
           {/* Bottom Hint (Desktop only; deleted on mobile) */}
           <div className="hidden sm:block absolute bottom-4 left-4 z-30 pointer-events-none">
-            <div className="px-3 py-1.5 rounded-xl bg-[#0F132E]/85 backdrop-blur-md border border-slate-700/60 text-[11px] font-medium text-slate-400 flex items-center gap-1.5 shadow-lg">
-              <Compass className="w-3.5 h-3.5 text-cyan-400" />
+            <div className="px-3 py-1.5 pixel-frame pixel-frame-muted text-xs font-medium text-[var(--muted)] flex items-center gap-1.5">
+              <Compass className="w-3.5 h-3.5 text-[var(--sky)]" />
               <span>Kéo chuột để di chuyển • Cuộn để thu phóng</span>
             </div>
           </div>
@@ -601,18 +601,18 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
               <defs>
                 {/* Grass Background Pattern */}
                 <pattern id="campusGrass" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <rect width="40" height="40" fill="#0A0E27" />
-                  <circle cx="10" cy="10" r="1.5" fill="#14244D" />
-                  <circle cx="30" cy="30" r="1.5" fill="#14244D" />
+                  <rect width="40" height="40" fill="#0C1020" />
+                  <circle cx="10" cy="10" r="1.5" fill="#1F2650" />
+                  <circle cx="30" cy="30" r="1.5" fill="#1F2650" />
                 </pattern>
                 {/* Pathway texture */}
                 <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#1E2656" />
-                  <stop offset="100%" stopColor="#161B40" />
+                  <stop offset="0%" stopColor="#1F2650" />
+                  <stop offset="100%" stopColor="#161B33" />
                 </linearGradient>
-                {/* Clip path for building pin avatar - fills frame with subtle rounded corners */}
+                {/* Clip path for building pin avatar - crisp pixel corners */}
                 <clipPath id="buildingPinClip">
-                  <rect x="-26" y="-26" width="52" height="52" rx="15" />
+                  <rect x="-26" y="-26" width="52" height="52" rx="2" />
                 </clipPath>
               </defs>
 
@@ -630,17 +630,17 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
               />
               <path
                 d="M 400 45 L 400 180 L 230 130 L 150 320 L 280 400 L 390 310 L 510 400 L 650 300 L 580 140 L 400 180 L 390 310"
-                stroke="#334155"
+                stroke="#3B4474"
                 strokeWidth="2"
                 strokeDasharray="6 6"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 fill="none"
-                opacity="0.6"
+                opacity="0.7"
               />
 
               {/* Campus Trees and Decorations */}
-              <g opacity="0.4" fill="#065F46">
+              <g opacity="0.45" fill="#1C6E58">
                 <circle cx="320" cy="220" r="14" />
                 <circle cx="480" cy="240" r="16" />
                 <circle cx="180" cy="220" r="12" />
@@ -673,7 +673,7 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
                         cy="0"
                         r="34"
                         fill="none"
-                        stroke="#06B6D4"
+                        stroke="#62B6F7"
                         strokeWidth="2"
                         className="animate-ping opacity-60"
                       />
@@ -685,8 +685,8 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
                       y="-26"
                       width="52"
                       height="52"
-                      rx="16"
-                      fill={isSelected ? '#1E1B4B' : '#0F132E'}
+                      rx="2"
+                      fill={isSelected ? '#1F2650' : '#0C1020'}
                     />
 
                     {/* Building Inner Avatar - Zoomed in to bleed completely and fill entire pin frame */}
@@ -706,7 +706,7 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
                           x="0"
                           y="6"
                           textAnchor="middle"
-                          fill="#FFFFFF"
+                          fill="#F3EFE6"
                           fontSize="14"
                           fontWeight="bold"
                           className="font-pixel pointer-events-none select-none"
@@ -716,31 +716,31 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
                       )}
                     </g>
 
-                    {/* Building Frame Outline (layered on top for crisp edge) */}
+                    {/* Building Frame Outline (layered on top for crisp pixel edge) */}
                     <rect
                       x="-26"
                       y="-26"
                       width="52"
                       height="52"
-                      rx="16"
+                      rx="2"
                       fill="none"
-                      stroke={isSelected ? '#06B6D4' : loc.accentColor}
-                      strokeWidth={isSelected ? '3.5' : '2'}
-                      className="transition-all duration-200 drop-shadow-lg pointer-events-none"
+                      stroke={isSelected ? '#E8C27A' : loc.accentColor}
+                      strokeWidth={isSelected ? '3.5' : '2.5'}
+                      className="transition-colors duration-150 pointer-events-none"
                     />
 
                     {/* Quest Badge on top right */}
                     {unfinished > 0 && (
                       <g transform="translate(18, -18)">
-                        <circle cx="0" cy="0" r="10" fill="#EF4444" stroke="#0A0E27" strokeWidth="2" />
+                        <circle cx="0" cy="0" r="10" fill="#FF6B81" stroke="#070A15" strokeWidth="2" />
                         <text
                           x="0"
                           y="3.5"
                           textAnchor="middle"
-                          fill="#FFFFFF"
-                          fontSize="10"
+                          fill="#070A15"
+                          fontSize="9"
                           fontWeight="bold"
-                          className="font-pixel pointer-events-none"
+                          className="font-num pointer-events-none"
                         >
                           {unfinished}
                         </text>
@@ -753,17 +753,17 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
                       y="32"
                       width="120"
                       height="20"
-                      rx="6"
-                      fill="#0F132E"
-                      opacity="0.9"
-                      stroke="#334155"
-                      strokeWidth="1"
+                      rx="2"
+                      fill="#0C1020"
+                      opacity="0.95"
+                      stroke={isSelected ? '#E8C27A' : '#3B4474'}
+                      strokeWidth="1.5"
                     />
                     <text
                       x="0"
                       y="46"
                       textAnchor="middle"
-                      fill={isSelected ? '#38BDF8' : '#E2E8F0'}
+                      fill={isSelected ? '#E8C27A' : '#F3EFE6'}
                       fontSize="10"
                       fontWeight="600"
                       className="pointer-events-none select-none"
@@ -816,15 +816,15 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
             return (
               <Card
                 key={loc.id}
-                variant={isSelected ? 'glow' : 'interactive'}
+                variant={isSelected ? 'gold' : 'interactive'}
+                category={loc.category}
                 onClick={() => selectLocation(loc.id)}
-                className={`p-4 border-l-4 cursor-pointer`}
-                style={{ borderLeftColor: loc.accentColor }}
+                className={`p-4 cursor-pointer ${isSelected ? 'ring-2 ring-[var(--gold)]' : ''}`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2.5 min-w-0">
                     {loc.avatarFile && (
-                      <div className="w-10 h-10 rounded-lg bg-[#0F132E] border border-slate-700/80 overflow-hidden shrink-0 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--ink)] overflow-hidden shrink-0 flex items-center justify-center">
                         <img
                           src={getAvatarUrl(loc.avatarFile)}
                           alt={loc.name}
@@ -832,23 +832,23 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
                         />
                       </div>
                     )}
-                    <h3 className="font-bold font-heading text-sm text-slate-100 flex items-center gap-1.5 truncate">
+                    <h3 className="font-bold font-heading text-sm text-[var(--text)] flex items-center gap-1.5 truncate">
                       <MapPin className="w-4 h-4 shrink-0" style={{ color: loc.accentColor }} />
                       <span className="truncate">{loc.name}</span>
                     </h3>
                   </div>
-                  <span className="text-xs font-bold text-cyan-400 font-pixel shrink-0">
+                  <span className="text-xs font-bold text-[var(--gold)] font-pixel shrink-0">
                     Cấp {level}
                   </span>
                 </div>
 
-                <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-[var(--muted)] line-clamp-2 leading-relaxed">
                   {loc.lore}
                 </p>
 
-                <div className="flex items-center justify-between text-[11px] text-slate-400 pt-3 border-t border-slate-700/60 mt-2">
+                <div className="flex items-center justify-between text-xs text-[var(--muted)] pt-3 border-t-2 border-[#2C3563] mt-2">
                   <span>{loc.recommendedTime}</span>
-                  <span className="font-semibold text-violet-300">
+                  <span className="font-semibold text-[var(--sky)]">
                     {unfinished > 0 ? `${unfinished} nhiệm vụ chưa làm` : 'Đã xong hôm nay'}
                   </span>
                 </div>
@@ -859,11 +859,11 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
       )}
 
       {/* Location Details Sheet / Card */}
-      <Card variant="surface" className="p-5 sm:p-6 space-y-4 border-t-4 border-t-cyan-500">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-3 border-b border-slate-700/60">
+      <Card variant="surface" category={selectedLocation.category} className="p-5 sm:p-6 space-y-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-3 border-b-2 border-[#2C3563]">
           <div className="flex items-start gap-3.5">
             {selectedLocation.avatarFile && (
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-[#0F132E] border-2 border-slate-700/80 overflow-hidden shrink-0 shadow-lg flex items-center justify-center">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--ink)] overflow-hidden shrink-0 flex items-center justify-center">
                 <img
                   src={getAvatarUrl(selectedLocation.avatarFile)}
                   alt={selectedLocation.name}
@@ -873,39 +873,39 @@ export const CampusMapPage: React.FC<CampusMapPageProps> = ({ defaultView }) => 
             )}
             <div>
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-[11px] font-bold text-cyan-400 uppercase font-pixel tracking-wider">
+                <span className="text-xs font-bold text-[var(--sky)] uppercase font-pixel tracking-wider">
                   {selectedLocation.category}
                 </span>
-                <span className="px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-bold font-pixel">
+                <span className="px-2 py-0.5 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--ink)] text-[var(--gold)] text-xs font-bold font-pixel">
                   Độ Thân Quen: Cấp {selectedMastery?.level || 1}/5 ({selectedMastery?.xpEarned || 0} XP)
                 </span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-black font-heading text-slate-100 mt-1">
+              <h2 className="text-xl sm:text-2xl font-black font-heading text-[var(--text)] mt-1">
                 {selectedLocation.name}
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#D5DAE8] mt-1 leading-relaxed">
                 {selectedLocation.lore}
               </p>
             </div>
           </div>
 
           <div className="text-right shrink-0">
-            <span className="text-xs text-slate-400 flex items-center gap-1">
-              <Clock className="w-3.5 h-3.5 text-slate-500" />
-              <span>Khung giờ gợi ý: <strong>{selectedLocation.recommendedTime}</strong></span>
+            <span className="text-xs text-[var(--muted)] flex items-center gap-1">
+              <Clock className="w-3.5 h-3.5 text-[var(--muted)]" />
+              <span>Khung giờ gợi ý: <strong className="text-[var(--text)]">{selectedLocation.recommendedTime}</strong></span>
             </span>
           </div>
         </div>
 
         {/* Quests Available at this Location */}
         <div className="space-y-3">
-          <h3 className="text-sm font-bold font-heading text-slate-200 flex items-center gap-2">
-            <Compass className="w-4 h-4 text-violet-400" />
+          <h3 className="text-sm font-bold font-heading text-[var(--text)] flex items-center gap-2">
+            <Compass className="w-4 h-4 text-[var(--gold)]" />
             <span>Nhiệm Vụ Có Mặt Tại Địa Điểm Này ({allLocationQuests.length})</span>
           </h3>
 
           {allLocationQuests.length === 0 ? (
-            <p className="text-xs text-slate-400 italic">
+            <p className="text-xs text-[var(--muted)] italic">
               Hiện chưa có nhiệm vụ nào gắn riêng với khu vực này.
             </p>
           ) : (

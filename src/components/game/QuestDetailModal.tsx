@@ -99,16 +99,16 @@ export const QuestDetailModal: React.FC<QuestDetailModalProps> = ({
     <Modal isOpen={isOpen} onClose={onClose} title={quest.name} maxWidth="md">
       <div className="space-y-5">
         {/* Badges & Meta */}
-        <div className="flex items-center justify-between gap-2 flex-wrap pb-3 border-b border-slate-700/60">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-violet-300 uppercase tracking-wider">
+        <div className="flex items-center justify-between gap-2 flex-wrap pb-3 border-b-2 border-[var(--ink)]">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs font-bold text-[var(--gold)] uppercase tracking-wider">
               {quest.category}
             </span>
             <DifficultyBadge difficulty={quest.difficulty} />
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="px-2.5 py-1 rounded-full bg-violet-950 border border-violet-500/50 text-violet-200 text-xs font-bold font-pixel">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="px-2.5 py-1 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--gold)] text-[var(--gold)] text-[10px] font-bold font-num">
               +{quest.xp} XP
             </span>
             <StatusBadge status={quest.status} />
@@ -117,61 +117,65 @@ export const QuestDetailModal: React.FC<QuestDetailModalProps> = ({
 
         {/* Quest Description */}
         <div className="space-y-1.5">
-          <h5 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          <h5 className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
             Nội dung nhiệm vụ:
           </h5>
-          <p className="text-sm text-slate-200 leading-relaxed bg-[#0F132E]/70 p-3 rounded-xl border border-slate-800">
+          <p className="text-sm text-[var(--text)] leading-relaxed bg-[var(--bg)] p-3.5 rounded-[2px] border-2 border-[var(--ink)]">
             {quest.description}
           </p>
         </div>
 
         {/* Specific Completion Condition */}
         <div className="space-y-1.5">
-          <h5 className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+          <h5 className="text-xs font-bold uppercase tracking-wider text-[var(--gold)] flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Điều kiện hoàn thành xác thực:</span>
           </h5>
-          <div className="p-3.5 rounded-xl bg-amber-950/30 border border-amber-500/40 text-xs sm:text-sm text-amber-200 leading-relaxed font-medium">
+          <div className="p-3.5 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--gold)] text-sm text-[var(--text)] leading-relaxed font-medium">
             {quest.condition}
           </div>
         </div>
 
         {/* Location Lore info */}
         {loc && (
-          <div className="flex items-start gap-2.5 p-3 rounded-xl bg-[#161B40] border border-slate-700/60 text-xs text-slate-300">
-            <MapPin className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2.5 p-3 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--ink)] text-xs sm:text-sm text-[var(--muted)]">
+            <MapPin className="w-4 h-4 text-[var(--sky)] shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold text-slate-100">{loc.name}</span>: {loc.lore}
+              <span className="font-bold text-[var(--text)]">{loc.name}</span>: {loc.lore}
             </div>
           </div>
         )}
 
         {/* In-progress timer status */}
         {quest.status === 'in_progress' && (
-          <div className={`p-3.5 rounded-xl border flex items-center justify-between flex-wrap gap-2 ${
-            isPaused
-              ? 'bg-amber-950/40 border-amber-500/50 text-amber-200'
-              : 'bg-emerald-950/40 border-emerald-500/50 text-emerald-200'
-          }`}>
+          <div
+            className={`p-3.5 rounded-[2px] border-2 flex items-center justify-between flex-wrap gap-2 ${
+              isPaused
+                ? 'bg-[var(--panel-2)] border-[var(--gold)] text-[var(--gold)]'
+                : 'bg-[var(--panel-2)] border-[var(--green)] text-[var(--green)]'
+            }`}
+          >
             <div className="flex items-center gap-2">
               {isPaused ? (
-                <Pause className="w-4 h-4 text-amber-400" />
+                <Pause className="w-4 h-4 text-[var(--gold)]" />
               ) : (
-                <Clock className="w-4 h-4 text-emerald-400 animate-spin" />
+                <Clock className="w-4 h-4 text-[var(--green)]" />
               )}
-              <span className="text-xs font-semibold">
+              <span className="text-xs font-bold">
                 {isPaused ? 'Nhiệm vụ đang tạm dừng:' : 'Nhiệm vụ đang đếm giờ:'}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-mono text-sm font-bold text-white px-2 py-0.5 rounded bg-black/40">
+              <span className="font-num text-xs font-bold text-[var(--text)] px-2.5 py-1 rounded-[2px] bg-[var(--bg)] border border-[var(--ink)]">
                 {formatTimer(elapsedSec)}
               </span>
-              <span className={`text-[10px] font-pixel px-2 py-0.5 rounded border uppercase ${
-                isPaused
-                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                  : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 animate-pulse'
-              }`}>
+              <span
+                className={`text-xs font-bold px-2 py-0.5 rounded-[2px] border-2 ${
+                  isPaused
+                    ? 'bg-[var(--bg)] text-[var(--gold)] border-[var(--gold)]'
+                    : 'bg-[var(--bg)] text-[var(--green)] border-[var(--green)]'
+                }`}
+              >
                 {isPaused ? 'Tạm dừng' : 'Đang làm'}
               </span>
             </div>
@@ -180,22 +184,22 @@ export const QuestDetailModal: React.FC<QuestDetailModalProps> = ({
 
         {/* Lock warning */}
         {isLocked && quest.lockReason && (
-          <div className="flex items-center gap-2 p-3 rounded-xl bg-rose-950/40 border border-rose-800/80 text-xs text-rose-300">
+          <div className="flex items-center gap-2 p-3 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--lock)] text-xs text-[var(--danger)]">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{quest.lockReason}</span>
           </div>
         )}
 
         {/* Footer Actions */}
-        <div className="pt-2 flex items-center justify-end gap-2.5 border-t border-slate-700/60 flex-wrap">
+        <div className="pt-3 flex items-center justify-end gap-2.5 border-t-2 border-[var(--ink)] flex-wrap">
           <Button variant="secondary" onClick={onClose}>
             Đóng
           </Button>
 
           {quest.status === 'todo' && onStart && (
             <Button
-              variant="cyan"
-              icon={<Play className="w-4 h-4 fill-current text-white" />}
+              variant="primary"
+              icon={<Play className="w-4 h-4 fill-current" />}
               onClick={() => {
                 onStart();
                 onClose();
@@ -210,8 +214,8 @@ export const QuestDetailModal: React.FC<QuestDetailModalProps> = ({
               {isPaused ? (
                 onResume && (
                   <Button
-                    variant="cyan"
-                    icon={<Play className="w-4 h-4" />}
+                    variant="primary"
+                    icon={<Play className="w-4 h-4 fill-current" />}
                     onClick={onResume}
                   >
                     Tiếp tục làm
@@ -221,7 +225,7 @@ export const QuestDetailModal: React.FC<QuestDetailModalProps> = ({
                 onPause && (
                   <Button
                     variant="secondary"
-                    icon={<Pause className="w-4 h-4 text-amber-400" />}
+                    icon={<Pause className="w-4 h-4 text-[var(--gold)]" />}
                     onClick={() => onPause(elapsedSec)}
                   >
                     Tạm dừng
@@ -245,7 +249,6 @@ export const QuestDetailModal: React.FC<QuestDetailModalProps> = ({
                     <Button
                       variant="ghost"
                       onClick={() => setConfirmAbandon(false)}
-                      className="text-xs text-slate-400"
                     >
                       Hủy
                     </Button>
@@ -253,9 +256,9 @@ export const QuestDetailModal: React.FC<QuestDetailModalProps> = ({
                 ) : (
                   <Button
                     variant="secondary"
-                    icon={<Flag className="w-4 h-4 text-rose-400" />}
+                    icon={<Flag className="w-4 h-4 text-[var(--danger)]" />}
                     onClick={() => setConfirmAbandon(true)}
-                    className="text-rose-300 border-rose-500/40 hover:bg-rose-950/40 hover:text-white"
+                    className="border-[var(--danger)] text-[var(--danger)] hover:bg-[var(--panel-2)]"
                   >
                     Bỏ cuộc
                   </Button>
@@ -263,13 +266,12 @@ export const QuestDetailModal: React.FC<QuestDetailModalProps> = ({
               )}
               {onOpenVideo && (
                 <Button
-                  variant="secondary"
-                  icon={<Headphones className="w-4 h-4 text-cyan-400" />}
+                  variant="cyan"
+                  icon={<Headphones className="w-4 h-4" />}
                   onClick={() => {
                     onClose();
                     onOpenVideo();
                   }}
-                  className="border-cyan-500/40 text-cyan-300 hover:bg-cyan-950/40"
                   title="Quay lại trang video Vùng Yên Tĩnh"
                 >
                   Vùng yên tĩnh
@@ -280,7 +282,7 @@ export const QuestDetailModal: React.FC<QuestDetailModalProps> = ({
 
           {quest.status === 'in_progress' && onComplete && (
             <Button
-              variant={quest.isBoss ? 'gold' : 'primary'}
+              variant="gold"
               icon={<Check className="w-4 h-4" />}
               onClick={() => {
                 onComplete();
@@ -295,14 +297,14 @@ export const QuestDetailModal: React.FC<QuestDetailModalProps> = ({
 
           {isCompleted && (
             <div className="flex items-center gap-2 flex-wrap">
-              <div className="text-xs font-semibold text-emerald-400 flex items-center gap-1">
+              <div className="text-xs font-bold text-[var(--green)] flex items-center gap-1">
                 <Check className="w-4 h-4" />
                 <span>Đã hoàn thành</span>
               </div>
               {onStart && (
                 <Button
                   variant="secondary"
-                  icon={<RotateCcw className="w-4 h-4 text-cyan-400" />}
+                  icon={<RotateCcw className="w-4 h-4 text-[var(--sky)]" />}
                   onClick={() => {
                     onStart();
                     onClose();

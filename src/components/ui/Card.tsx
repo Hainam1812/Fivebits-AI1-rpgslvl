@@ -1,29 +1,47 @@
 import React from 'react';
+import { getCategoryKey } from '../../config/categoryTheme.js';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'surface' | 'elevated' | 'glow' | 'gold' | 'interactive';
+  category?: string;
+  locked?: boolean;
   children: React.ReactNode;
 }
 
 export const Card: React.FC<CardProps> = ({
   variant = 'surface',
+  category,
+  locked = false,
   children,
   className = '',
   ...props
 }) => {
-  const baseStyles = 'relative rounded-2xl border transition-all duration-200 overflow-hidden';
+  const baseStyles = 'relative overflow-hidden';
 
   const variantStyles = {
-    surface: 'bg-[#161B40]/80 border-slate-700/50 backdrop-blur-sm shadow-xl',
-    elevated: 'bg-[#1F2656] border-slate-600/60 shadow-2xl',
-    glow: 'bg-[#161B40]/90 border-violet-500/40 rpg-border-glow shadow-violet-950/40',
-    gold: 'bg-gradient-to-b from-[#2A1D0B] to-[#161B40] border-amber-400/60 rpg-border-gold shadow-amber-950/30',
-    interactive:
-      'bg-[#161B40]/80 border-slate-700/50 hover:border-violet-500/60 hover:bg-[#1A204C] cursor-pointer shadow-lg hover:shadow-violet-950/30 hover:-translate-y-0.5',
+    surface: 'pixel-frame pixel-frame-muted',
+    elevated: 'pixel-frame-elevated pixel-frame-muted',
+    glow: 'pixel-frame pixel-frame-violet',
+    gold: 'pixel-frame pixel-frame-gold',
+    interactive: 'pixel-frame pixel-frame-muted pixel-frame-interactive cursor-pointer',
   };
 
+  const categoryAttr = category ? getCategoryKey(category) : undefined;
+  const frameOverride = category ? '' : variantStyles[variant];
+  const baseFrame = category
+    ? variant === 'elevated'
+      ? 'pixel-frame-elevated'
+      : variant === 'interactive'
+      ? 'pixel-frame pixel-frame-interactive cursor-pointer'
+      : 'pixel-frame'
+    : frameOverride;
+
   return (
-    <div className={`${baseStyles} ${variantStyles[variant]} ${className}`} {...props}>
+    <div
+      data-category={categoryAttr}
+      className={`${baseStyles} ${baseFrame} ${locked ? 'pixel-locked' : ''} ${className}`}
+      {...props}
+    >
       {children}
     </div>
   );

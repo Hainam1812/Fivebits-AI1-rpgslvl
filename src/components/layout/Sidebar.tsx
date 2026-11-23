@@ -53,9 +53,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggleC
   }
 
   return (
-    <aside className="hidden md:flex flex-col w-64 lg:w-72 bg-[#0F132E] border-r border-slate-800 shrink-0 h-screen sticky top-0 overflow-y-auto transition-all duration-300">
+    <aside className="hidden md:flex flex-col w-64 lg:w-72 bg-[var(--panel)] border-r-[3px] border-[var(--ink)] shrink-0 h-screen sticky top-0 overflow-y-auto transition-all duration-200">
       {/* Brand Logo Header with Collapse Button */}
-      <div className="p-5 border-b border-slate-800 flex items-center justify-between gap-2">
+      <div className="p-5 border-b-2 border-[var(--ink)] flex items-center justify-between gap-2">
         <Link to="/" className="inline-block hover:opacity-90 transition-opacity min-w-0">
           <Logo size="md" showSlogan={true} />
         </Link>
@@ -63,19 +63,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggleC
           <button
             type="button"
             onClick={onToggleCollapse}
-            className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800/80 rounded-xl border border-slate-700/60 transition-colors cursor-pointer shrink-0"
+            className="p-1.5 text-[var(--muted)] hover:text-[var(--text)] bg-[var(--panel-2)] rounded-[2px] border-2 border-[var(--ink)] hover:border-[var(--gold)] transition-colors cursor-pointer shrink-0"
             title="Thu gọn thanh công cụ (Collapse)"
             aria-label="Thu gọn thanh công cụ"
           >
-            <PanelLeftClose className="w-4 h-4 text-slate-400 hover:text-cyan-300" />
+            <PanelLeftClose className="w-4 h-4" />
           </button>
         )}
       </div>
 
-
       {/* Main Navigation */}
       <nav className="flex-1 p-3.5 space-y-1" aria-label="Sidebar navigation">
-        <div className="px-3 py-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider font-heading">
+        <div className="px-3 py-1.5 text-xs font-bold text-[var(--muted)] uppercase tracking-wider font-heading">
           Khu Chơi Game
         </div>
         {mainLinks.map(item => {
@@ -86,29 +85,29 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggleC
               to={item.to}
               end={item.exact}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                `flex items-center gap-3 px-3.5 py-2.5 rounded-[2px] text-sm font-semibold transition-colors border-2 ${
                   isActive
-                    ? 'bg-gradient-to-r from-violet-600/30 to-indigo-600/20 text-violet-300 border border-violet-500/40 shadow-sm'
-                    : 'text-slate-300 hover:text-white hover:bg-white/5'
+                    ? 'bg-[var(--panel-2)] text-[var(--gold)] border-[var(--gold)] shadow-[0_2px_0_0_var(--ink)]'
+                    : 'text-[var(--text)]/90 border-transparent hover:text-[var(--text)] hover:bg-[var(--panel-2)]/70'
                 }`
               }
             >
               {({ isActive }) => (
                 <>
                   <Icon
-                    className={`w-4 h-4 shrink-0 transition-transform ${
-                      isActive ? 'text-violet-400 scale-110 drop-shadow-[0_0_8px_rgba(167,139,250,0.5)]' : 'text-slate-400'
+                    className={`w-4 h-4 shrink-0 ${
+                      isActive ? 'text-[var(--gold)]' : 'text-[var(--muted)]'
                     }`}
                   />
                   <span className="flex-1 truncate">{item.label}</span>
-                  {isActive && <ChevronRight className="w-3.5 h-3.5 text-violet-400" />}
+                  {isActive && <ChevronRight className="w-3.5 h-3.5 text-[var(--gold)]" />}
                 </>
               )}
             </NavLink>
           );
         })}
 
-        <div className="pt-4 px-3 py-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider font-heading">
+        <div className="pt-4 px-3 py-1.5 text-xs font-bold text-[var(--muted)] uppercase tracking-wider font-heading">
           Thông Tin
         </div>
         {secondaryLinks.map(item => {
@@ -118,12 +117,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggleC
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-medium transition-colors ${
-                  isActive ? 'text-violet-300 bg-white/10' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                `flex items-center gap-3 px-3.5 py-2 rounded-[2px] text-xs font-semibold transition-colors border-2 ${
+                  isActive
+                    ? 'text-[var(--gold)] bg-[var(--panel-2)] border-[var(--gold)]'
+                    : 'text-[var(--muted)] border-transparent hover:text-[var(--text)] hover:bg-[var(--panel-2)]/60'
                 }`
               }
             >
-              <Icon className="w-4 h-4 text-slate-500" />
+              <Icon className="w-4 h-4" />
               <span>{item.label}</span>
             </NavLink>
           );
@@ -131,36 +132,36 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggleC
       </nav>
 
       {/* Mini Player Profile Card at Bottom */}
-      <div className="p-3 border-t border-slate-800 bg-[#0A0E27]/60">
+      <div className="p-3 border-t-2 border-[var(--ink)] bg-[var(--bg)]">
         <Link
           to="/play/profile"
-          className="flex items-center gap-2.5 p-2 rounded-xl bg-[#161B40]/70 border border-slate-700/60 hover:border-violet-500/50 transition-all group overflow-hidden"
+          className="flex items-center gap-2.5 p-2.5 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--ink)] hover:border-[var(--gold)] transition-colors group overflow-hidden shadow-[0_3px_0_0_var(--ink)]"
         >
           <div className="shrink-0 flex items-center justify-center">
             <CharacterStage size="xs" />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between gap-1">
-              <span className="text-xs font-bold text-slate-100 truncate group-hover:text-violet-300 transition-colors">
+              <span className="text-xs font-bold text-[var(--text)] truncate group-hover:text-[var(--gold)] transition-colors">
                 {state.profile.nickname || 'Tân Binh'}
               </span>
-              <span className="text-[10px] font-bold text-violet-400 font-pixel shrink-0">
+              <span className="text-[10px] font-bold text-[var(--gold)] font-num shrink-0">
                 LV.{levelProg.level}
               </span>
             </div>
 
-            {/* Progress Bar */}
-            <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-1.5">
+            {/* Segmented XP Progress Bar */}
+            <div className="pixel-progress h-2.5 mt-1.5">
               <div
-                className="bg-gradient-to-r from-violet-500 to-cyan-400 h-full rounded-full transition-all duration-300"
+                className="pixel-progress-fill"
                 style={{ width: `${levelProg.progressPercent}%` }}
               />
             </div>
 
-            <div className="flex items-center justify-between text-[10px] text-slate-400 mt-1 font-pixel">
-              <span className="truncate">{levelProg.xpInCurrentLevel}/{levelProg.xpRequiredForNextLevel} XP</span>
-              <span className="flex items-center text-amber-400 shrink-0 ml-1">
-                <Flame className="w-2.5 h-2.5 mr-0.5 fill-amber-400" />
+            <div className="flex items-center justify-between text-[9px] text-[var(--muted)] mt-1.5 font-num">
+              <span className="truncate">{levelProg.xpInCurrentLevel}/{levelProg.xpRequiredForNextLevel}</span>
+              <span className="flex items-center text-[var(--gold)] shrink-0 ml-1">
+                <Flame className="w-3 h-3 mr-0.5 fill-[var(--gold)]" />
                 {streak.currentStreak}d
               </span>
             </div>

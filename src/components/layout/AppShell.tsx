@@ -48,12 +48,15 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0E27] text-slate-100 flex flex-col md:flex-row">
+    <div
+      data-motion={state.profile.motionPreference === 'reduced' ? 'reduced' : 'normal'}
+      className="min-h-screen bg-transparent text-[var(--text)] flex flex-col md:flex-row"
+    >
       {/* Desktop Sidebar (Collapsible) */}
       <Sidebar isCollapsed={isSidebarCollapsed} onToggleCollapse={toggleSidebar} />
 
       {/* Main Content Column */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-screen pb-20 md:pb-6 transition-all duration-300">
+      <div className="flex-1 flex flex-col min-w-0 min-h-screen pb-20 md:pb-6 transition-all duration-200">
         <Header isSidebarCollapsed={isSidebarCollapsed} onToggleSidebar={toggleSidebar} />
 
         <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">

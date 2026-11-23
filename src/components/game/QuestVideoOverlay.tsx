@@ -375,27 +375,27 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
     >
       {/* UNDER LAYER: Video & Quest Briefing Panel */}
       <div
-        className={`relative z-10 w-full h-full flex flex-col transition-opacity duration-300 ${
+        className={`relative z-10 w-full h-full flex flex-col transition-opacity duration-200 ${
           phase === 'exit_mosaic_out_active' ? 'opacity-0' : 'opacity-100'
         }`}
       >
         {/* Header Bar */}
-        <header className="h-14 sm:h-16 px-4 sm:px-6 bg-[#0B0F2A]/90 backdrop-blur-md border-b border-violet-900/40 flex items-center justify-between shrink-0">
+        <header className="h-14 sm:h-16 px-4 sm:px-6 bg-[var(--panel)] border-b-[3px] border-[var(--ink)] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5 sm:gap-3">
-            <div className="w-8 h-8 rounded-xl bg-violet-600/20 border border-violet-500/40 flex items-center justify-center text-violet-400">
-              <Compass className="w-4 h-4 animate-spin text-cyan-400" />
+            <div className="w-8 h-8 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--sky)] flex items-center justify-center text-[var(--sky)]">
+              <Compass className="w-4 h-4" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-pixel text-cyan-300 tracking-wider uppercase flex items-center gap-1">
-                  <Headphones className="w-3.5 h-3.5 text-cyan-400" />
+                <span className="text-xs font-heading font-bold text-[var(--sky)] tracking-wider uppercase flex items-center gap-1">
+                  <Headphones className="w-3.5 h-3.5 text-[var(--sky)]" />
                   <span>Vùng Yên Tĩnh</span>
                 </span>
-                <span className="px-1.5 py-0.5 rounded text-[10px] font-pixel bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                <span className="px-1.5 py-0.5 rounded-[2px] text-[10px] font-heading font-bold bg-[var(--panel-2)] text-[var(--green)] border border-[var(--green)]">
                   Focus Zone
                 </span>
               </div>
-              <h2 className="text-xs sm:text-sm font-bold font-heading text-slate-200 line-clamp-1">
+              <h2 className="text-xs sm:text-sm font-bold font-heading text-[var(--text)] line-clamp-1">
                 {quest.name}
               </h2>
             </div>
@@ -403,14 +403,14 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
 
           {/* Exit Button */}
           <div className="flex items-center gap-2">
-            <span className="hidden sm:inline-block text-[11px] font-pixel text-slate-400">
+            <span className="hidden sm:inline-block text-xs font-heading text-[var(--muted)]">
               ESC để thoát
             </span>
             <button
               type="button"
               onClick={handleExit}
               aria-label="Thoát xem video nhiệm vụ"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-950/60 hover:bg-rose-900/80 border border-rose-500/50 text-rose-200 hover:text-white transition-all shadow-lg hover:shadow-rose-900/40 cursor-pointer text-xs font-bold font-pixel"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-[2px] bg-[var(--danger)] hover:bg-[#FF8598] border-2 border-[var(--ink)] text-[var(--ink)] shadow-[0_3px_0_0_var(--ink)] active:translate-y-[3px] active:shadow-none transition-transform cursor-pointer text-xs font-bold font-heading"
             >
               <X className="w-4 h-4" />
               <span>Thoát</span>
@@ -419,26 +419,26 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
         </header>
 
         {/* Content Area: Video (65%) + Quest Info Panel (35%) */}
-        <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden bg-[#050714]">
+        <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden bg-[var(--bg)]">
           {/* Video Section (~65% desktop, or Fullscreen Mode) */}
           <section
             ref={videoSectionRef}
             className={
               isFullscreen
                 ? 'fixed inset-0 z-[25] w-full h-full flex items-center justify-center bg-black overflow-hidden'
-                : 'w-full lg:w-[65%] h-[40vh] sm:h-[48vh] lg:h-full relative flex items-center justify-center bg-black overflow-hidden border-b lg:border-b-0 lg:border-r border-violet-900/30'
+                : 'w-full lg:w-[65%] h-[40vh] sm:h-[48vh] lg:h-full relative flex items-center justify-center bg-black overflow-hidden border-b-2 lg:border-b-0 lg:border-r-2 border-[var(--ink)]'
             }
           >
             {isFullscreen && (
               <div className="absolute top-3 left-4 right-4 z-20 flex items-center justify-between gap-3 pointer-events-none">
-                <div className="px-3 py-1.5 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 text-xs font-bold font-heading text-slate-200 line-clamp-1 max-w-[65%]">
+                <div className="px-3 py-1.5 rounded-[2px] bg-[var(--panel)] border-2 border-[var(--ink)] text-xs font-bold font-heading text-[var(--text)] line-clamp-1 max-w-[65%]">
                   {quest.name}
                 </div>
                 <button
                   type="button"
                   onClick={toggleFullscreen}
                   aria-label="Thu nhỏ toàn màn hình"
-                  className="pointer-events-auto flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/70 hover:bg-black/90 backdrop-blur-md border border-cyan-500/40 text-cyan-300 hover:text-white text-[11px] font-bold font-pixel transition-colors cursor-pointer"
+                  className="pointer-events-auto flex items-center gap-1.5 px-3 py-1.5 rounded-[2px] bg-[var(--panel)] hover:bg-[var(--panel-2)] border-2 border-[var(--sky)] text-[var(--sky)] hover:text-[var(--text)] text-xs font-bold font-heading transition-colors cursor-pointer"
                 >
                   <Minimize className="w-3.5 h-3.5" />
                   <span>Thu nhỏ</span>
@@ -469,15 +469,15 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
 
             {/* Autoplay Muted Notification Banner */}
             {showAutoplayHint && isMuted && (
-              <div className={`absolute ${isFullscreen ? 'top-14' : 'top-4'} left-4 right-4 sm:left-auto sm:right-4 z-20 flex items-center justify-between gap-3 px-3.5 py-2 rounded-xl bg-[#161B40]/90 backdrop-blur-md border border-cyan-500/50 shadow-xl text-xs text-cyan-200`}>
+              <div className={`absolute ${isFullscreen ? 'top-14' : 'top-4'} left-4 right-4 sm:left-auto sm:right-4 z-20 flex items-center justify-between gap-3 px-3.5 py-2 rounded-[2px] bg-[var(--panel)] border-2 border-[var(--gold)] shadow-[4px_4px_0_0_var(--ink)] text-xs text-[var(--text)]`}>
                 <span className="flex items-center gap-1.5">
-                  <VolumeX className="w-4 h-4 text-amber-400 shrink-0" />
+                  <VolumeX className="w-4 h-4 text-[var(--gold)] shrink-0" />
                   <span>Trình duyệt đang tắt tiếng video & nhạc</span>
                 </span>
                 <button
                   type="button"
                   onClick={toggleMute}
-                  className="px-2.5 py-1 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-bold font-pixel text-[11px] transition-colors cursor-pointer"
+                  className="px-2.5 py-1 rounded-[2px] bg-[var(--gold)] hover:bg-[#F3D392] text-[var(--ink)] border-2 border-[var(--ink)] font-bold font-heading text-xs transition-colors cursor-pointer"
                 >
                   Bật Tiếng
                 </button>
@@ -485,13 +485,13 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
             )}
 
             {/* Video Floating Controls */}
-            <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between px-3 py-2 rounded-xl bg-black/70 backdrop-blur-md border border-white/10 gap-2">
+            <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between px-3 py-2 rounded-[2px] bg-[var(--panel)] border-2 border-[var(--ink)] shadow-[4px_4px_0_0_var(--ink)] gap-2">
               <div className="flex items-center gap-2 shrink-0">
                 <button
                   type="button"
                   onClick={togglePlay}
                   aria-label={isPlaying ? 'Tạm dừng video và nhạc' : 'Tiếp tục phát'}
-                  className="p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-[2px] border border-transparent text-[var(--text)] hover:bg-[var(--panel-2)] hover:border-[var(--gold)] transition-colors cursor-pointer"
                 >
                   {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current" />}
                 </button>
@@ -500,9 +500,9 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
                   type="button"
                   onClick={toggleMute}
                   aria-label={isMuted ? 'Bật âm thanh (Video & Nhạc)' : 'Tắt âm thanh'}
-                  className="p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-[2px] border border-transparent text-[var(--text)] hover:bg-[var(--panel-2)] hover:border-[var(--gold)] transition-colors cursor-pointer"
                 >
-                  {isMuted ? <VolumeX className="w-4 h-4 text-amber-400" /> : <Volume2 className="w-4 h-4 text-cyan-400" />}
+                  {isMuted ? <VolumeX className="w-4 h-4 text-[var(--gold)]" /> : <Volume2 className="w-4 h-4 text-[var(--sky)]" />}
                 </button>
 
                 <button
@@ -510,78 +510,78 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
                   onClick={toggleFullscreen}
                   aria-label={isFullscreen ? 'Thoát toàn màn hình' : 'Phát toàn màn hình'}
                   title={isFullscreen ? 'Thoát toàn màn hình' : 'Toàn màn hình'}
-                  className={`p-1.5 rounded-lg transition-colors cursor-pointer flex items-center gap-1 ${
+                  className={`p-1.5 rounded-[2px] transition-colors cursor-pointer flex items-center gap-1 border ${
                     isFullscreen
-                      ? 'text-cyan-300 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40'
-                      : 'text-slate-300 hover:text-white hover:bg-white/10'
+                      ? 'text-[var(--sky)] bg-[var(--panel-2)] border-[var(--sky)]'
+                      : 'text-[var(--text)] border-transparent hover:bg-[var(--panel-2)] hover:border-[var(--gold)]'
                   }`}
                 >
                   {isFullscreen ? (
                     <Minimize className="w-4 h-4" />
                   ) : (
-                    <Maximize className="w-4 h-4 text-cyan-400" />
+                    <Maximize className="w-4 h-4 text-[var(--sky)]" />
                   )}
                 </button>
               </div>
 
               {/* Music Indicator */}
-              <div className="flex items-center gap-2 text-[11px] font-pixel text-slate-300 overflow-hidden">
-                <Music className={`w-3.5 h-3.5 text-cyan-400 shrink-0 ${isPlaying && !isMuted ? 'animate-bounce' : ''}`} />
-                <span className="line-clamp-1 text-slate-200">
+              <div className="flex items-center gap-2 text-xs font-heading font-bold text-[var(--text)] overflow-hidden">
+                <Music className="w-3.5 h-3.5 text-[var(--sky)] shrink-0" />
+                <span className="line-clamp-1">
                   Legends Never Die
                 </span>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                <span className="w-2 h-2 rounded-[1px] bg-[var(--green)] shrink-0" />
               </div>
             </div>
           </section>
 
           {/* Quest Info Panel (~35% desktop) */}
-          <aside className="w-full lg:w-[35%] h-auto lg:h-full p-4 sm:p-6 flex flex-col justify-between overflow-y-auto bg-[#0A0E27]/90 space-y-5">
+          <aside className="w-full lg:w-[35%] h-auto lg:h-full p-4 sm:p-6 flex flex-col justify-between overflow-y-auto bg-[var(--bg)] space-y-5">
             <div className="space-y-4">
               {/* Category, Difficulty & XP Header */}
               <div className="flex items-center justify-between gap-2 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-violet-400 uppercase tracking-wider font-pixel">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs font-bold text-[var(--gold)] uppercase tracking-wider font-heading">
                     {quest.category}
                   </span>
                   <DifficultyBadge difficulty={quest.difficulty} />
                 </div>
-                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-violet-950/80 border border-violet-500/50 text-violet-200 text-xs font-bold font-pixel shadow-[0_0_12px_rgba(124,58,237,0.3)]">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--gold)] text-[var(--gold)] text-[10px] font-bold font-num">
+                  <Sparkles className="w-3.5 h-3.5" />
                   <span>+{quest.xp} XP</span>
                 </div>
               </div>
 
               {/* Soundtrack Badge */}
-              <div className="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-cyan-300 text-xs font-pixel">
+              <div className="flex items-center justify-between gap-2 px-3 py-2 rounded-[2px] bg-[var(--panel)] border-2 border-[var(--sky)] text-[var(--sky)] text-xs font-heading font-bold">
                 <div className="flex items-center gap-2 overflow-hidden">
-                  <Music className={`w-3.5 h-3.5 text-cyan-400 shrink-0 ${isPlaying && !isMuted ? 'animate-bounce' : ''}`} />
+                  <Music className="w-3.5 h-3.5 text-[var(--sky)] shrink-0" />
                   <span className="line-clamp-1">Nhạc nền: Legends Never Die</span>
                 </div>
-                <span className="text-[10px] text-cyan-400/80 font-mono">
+                <span className="text-xs text-[var(--muted)] shrink-0">
                   {isMuted ? 'Tắt tiếng' : 'Đang phát'}
                 </span>
               </div>
 
               {/* Quest Title */}
               <div>
-                <h1 className="text-xl sm:text-2xl font-black font-heading text-white tracking-wide">
-                  {quest.isBoss && <span className="text-amber-400 mr-1.5">👑</span>}
+                <h1 className="text-xl sm:text-2xl font-bold font-heading text-[var(--text)] tracking-wide">
+                  {quest.isBoss && <span className="text-[var(--gold)] mr-1.5">👑</span>}
                   {quest.name}
                 </h1>
-                <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
+                <p className="text-sm text-[var(--muted)] mt-2 leading-relaxed">
                   {quest.description}
                 </p>
               </div>
 
               {/* Condition / Clear Criteria Box */}
               {quest.condition && (
-                <div className="p-3.5 rounded-2xl bg-[#161B40] border border-cyan-500/30 space-y-1.5">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-cyan-300 font-pixel">
-                    <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
+                <div className="p-3.5 rounded-[2px] bg-[var(--panel)] border-2 border-[var(--gold)] space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--gold)] font-heading">
+                    <ShieldCheck className="w-3.5 h-3.5" />
                     <span>Điều Kiện Hoàn Thành</span>
                   </div>
-                  <p className="text-xs text-slate-200 leading-relaxed font-sans">
+                  <p className="text-sm text-[var(--text)] leading-relaxed">
                     {quest.condition}
                   </p>
                 </div>
@@ -589,31 +589,31 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
 
               {/* Location Badge (if applicable) */}
               {location && (
-                <div className="flex items-center gap-2 text-xs text-slate-400 bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
-                  <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0" />
-                  <span>Khu vực gợi ý: <strong className="text-slate-200">{location.name}</strong></span>
+                <div className="flex items-center gap-2 text-xs text-[var(--muted)] bg-[var(--panel)] p-2.5 rounded-[2px] border-2 border-[var(--ink)]">
+                  <MapPin className="w-3.5 h-3.5 text-[var(--coral)] shrink-0" />
+                  <span>Khu vực gợi ý: <strong className="text-[var(--text)]">{location.name}</strong></span>
                 </div>
               )}
 
               {/* Active Timer Status */}
-              <div className="p-3.5 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 flex items-center justify-between">
+              <div className="p-3.5 rounded-[2px] bg-[var(--panel)] border-2 border-[var(--green)] flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-emerald-400 animate-spin" />
+                  <Clock className="w-4 h-4 text-[var(--green)]" />
                   <div>
-                    <div className="text-[10px] font-pixel uppercase tracking-wider text-emerald-400">
+                    <div className="text-xs font-heading font-bold uppercase tracking-wider text-[var(--green)]">
                       Nhiệm vụ đang chạy
                     </div>
-                    <div className="text-xs text-slate-300">
+                    <div className="text-xs text-[var(--muted)]">
                       Thời gian phiên hiện tại
                     </div>
                   </div>
                 </div>
-                <div className="text-lg font-mono font-bold text-white tracking-wider">
+                <div className="text-sm font-num font-bold text-[var(--text)] px-2 py-1 rounded-[2px] bg-[var(--bg)] border border-[var(--ink)]">
                   {formatTimer(elapsedSeconds)}
                 </div>
               </div>
 
-              {/* Nút Hoàn Thành trong Vùng Yên Tĩnh nằm dưới chỗ Nhiệm vụ đang chạy, thời gian phiên hiện tại */}
+              {/* Complete CTA inside Quiet Zone */}
               {onComplete && !completedState && (
                 <button
                   type="button"
@@ -621,7 +621,7 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
                     setCompletedState(true);
                     onComplete();
                   }}
-                  className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-500 hover:from-emerald-500 hover:to-teal-500 active:scale-[0.98] text-white font-bold font-pixel text-xs transition-all shadow-[0_0_20px_rgba(16,185,129,0.35)] hover:shadow-[0_0_25px_rgba(16,185,129,0.5)] flex items-center justify-center gap-2 cursor-pointer border border-emerald-400/50"
+                  className="w-full py-3.5 px-4 rounded-[2px] bg-[var(--green)] hover:bg-[#52E0B2] text-[var(--ink)] border-[3px] border-[var(--ink)] shadow-[0_4px_0_0_var(--ink)] active:translate-y-[4px] active:shadow-none font-bold font-heading text-sm transition-transform flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Check className="w-4 h-4 stroke-[3]" />
                   <span>Xác Nhận Hoàn Thành (+{quest.xp} XP)</span>
@@ -629,23 +629,23 @@ export const QuestVideoOverlay: React.FC<QuestVideoOverlayProps> = ({
               )}
 
               {completedState && (
-                <div className="w-full py-3 px-4 rounded-xl bg-emerald-950/70 border border-emerald-500/60 text-emerald-300 font-pixel text-xs flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
-                  <Check className="w-4 h-4 text-emerald-400 stroke-[3]" />
+                <div className="w-full py-3 px-4 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--green)] text-[var(--green)] font-heading font-bold text-xs flex items-center justify-center gap-2">
+                  <Check className="w-4 h-4 stroke-[3]" />
                   <span>Đã Hoàn Thành Nhiệm Vụ (+{quest.xp} XP)</span>
                 </div>
               )}
             </div>
 
             {/* Motivational Footer & Quick Return Button */}
-            <div className="pt-4 border-t border-slate-800/80 space-y-3">
-              <div className="text-[11px] text-slate-400 italic bg-white/5 p-3 rounded-xl border border-white/5">
-                💡 <span className="font-semibold text-slate-300">Lưu ý:</span> Bạn có thể quay lại trang Quests bất kỳ lúc nào bằng nút Thoát hoặc phím ESC mà không làm mất tiến độ nhiệm vụ.
+            <div className="pt-4 border-t-2 border-[var(--ink)] space-y-3">
+              <div className="text-xs text-[var(--muted)] italic bg-[var(--panel)] p-3 rounded-[2px] border-2 border-[var(--ink)]">
+                💡 <span className="font-bold text-[var(--text)]">Lưu ý:</span> Bạn có thể quay lại trang Quests bất kỳ lúc nào bằng nút Thoát hoặc phím ESC mà không làm mất tiến độ nhiệm vụ.
               </div>
 
               <button
                 type="button"
                 onClick={handleExit}
-                className="w-full py-3 rounded-xl bg-violet-600 hover:bg-violet-500 active:bg-violet-700 text-white font-bold font-pixel text-xs transition-all shadow-lg shadow-violet-900/30 flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3 rounded-[2px] bg-[var(--gold)] hover:bg-[#F3D392] text-[var(--ink)] border-[3px] border-[var(--ink)] shadow-[0_4px_0_0_var(--ink)] active:translate-y-[4px] active:shadow-none font-bold font-heading text-xs transition-transform flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Quay Lại Danh Sách Quests (ESC)</span>
               </button>

@@ -47,7 +47,7 @@ export const CharacterSprite: React.FC<CharacterSpriteProps> = ({
         }}
       >
         {gifError ? (
-          <div className="flex flex-col items-center justify-center text-slate-400">
+          <div className="flex flex-col items-center justify-center text-[var(--muted)]">
             <ImageOff className="w-6 h-6" aria-hidden="true" />
           </div>
         ) : (

@@ -60,21 +60,21 @@ export const DashboardPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Player Profile RPG Banner */}
-      <Card variant="surface" className="p-5 sm:p-6 relative overflow-hidden border border-violet-500/30">
+      <Card variant="gold" className="p-5 sm:p-6 relative overflow-hidden">
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
           {/* Character Stage with Cosmetics */}
           <div className="shrink-0 flex flex-col items-center">
             <CharacterStage size="md" showNameplate={false} />
             <div className="mt-2 flex items-center gap-2.5 text-xs font-semibold flex-wrap justify-center">
-              <Link to="/play/wardrobe" className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
+              <Link to="/play/wardrobe" className="text-[var(--sky)] hover:underline flex items-center gap-1">
                 <span>Đổi đồ</span>
                 <ChevronRight className="w-3 h-3" />
               </Link>
-              <span className="text-slate-600">•</span>
+              <span className="text-[var(--muted)]">•</span>
               <button
                 type="button"
                 onClick={() => setIsAdjustModalOpen(true)}
-                className="text-violet-300 hover:text-white flex items-center gap-1 cursor-pointer transition-colors"
+                className="text-[var(--gold)] hover:text-[var(--text)] flex items-center gap-1 cursor-pointer transition-colors"
                 title="Căn chỉnh vị trí và phóng to thu nhỏ nhân vật"
               >
                 <SlidersHorizontal className="w-3.5 h-3.5" />
@@ -88,11 +88,11 @@ export const DashboardPage: React.FC = () => {
             {/* Title & Level */}
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-violet-950/80 border border-violet-500/40 text-violet-300 text-xs font-semibold">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--ink)] text-[var(--gold)] text-xs font-pixel">
+                  <Sparkles className="w-3.5 h-3.5 text-[var(--gold)]" />
                   <span>{levelProg.title}</span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-black font-heading text-slate-100 mt-1">
+                <h1 className="text-2xl sm:text-3xl font-black font-heading text-[var(--text)] mt-1.5">
                   {state.profile.nickname || 'Tân Binh'}
                 </h1>
                 {(() => {
@@ -101,42 +101,46 @@ export const DashboardPage: React.FC = () => {
                     charactersData.find((c: any) => c.id === activeCharId);
                   const desc = charObj?.description || charObj?.tagline;
                   return (
-                    <p className="text-xs text-slate-400 mt-0.5 line-clamp-1">
-                      <span className="text-cyan-300 font-semibold">{charObj?.displayName || 'Sinh Viên'}</span>
-                      {desc && <span className="text-slate-400"> • {desc}</span>}
+                    <p className="text-xs text-[var(--muted)] mt-0.5 line-clamp-1">
+                      <span className="text-[var(--sky)] font-semibold">{charObj?.displayName || 'Sinh Viên'}</span>
+                      {desc && <span className="text-[var(--muted)]"> • {desc}</span>}
                     </p>
                   );
                 })()}
               </div>
 
               {/* Streak Badge */}
-              <div className="flex items-center gap-2 p-2 px-3 rounded-2xl bg-[#0F132E] border border-amber-500/40 shadow-lg">
-                <Flame className={`w-6 h-6 ${streak.hasCompletedToday ? 'text-amber-400 fill-amber-400 animate-pulse' : 'text-slate-400'}`} />
+              <div className="flex items-center gap-2.5 p-2 px-3 pixel-frame pixel-frame-gold">
+                <Flame className={`w-6 h-6 ${streak.hasCompletedToday ? 'text-[var(--gold)] fill-[var(--gold)]' : 'text-[var(--muted)]'}`} />
                 <div className="text-left">
-                  <div className="text-[10px] uppercase font-bold text-slate-400 font-pixel">Streak</div>
-                  <div className="text-lg font-black text-amber-300 font-pixel leading-tight">
-                    {streak.currentStreak} ngày
+                  <div className="text-[11px] uppercase font-bold text-[var(--muted)] font-pixel">Streak</div>
+                  <div className="text-sm font-bold text-[var(--gold)] leading-tight flex items-baseline gap-1.5">
+                    <span className="font-num">{streak.currentStreak}</span>
+                    <span className="font-pixel text-[var(--text)]">ngày</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Level XP Progress Bar */}
-            <div className="space-y-1.5 bg-[#0F132E]/80 p-3.5 rounded-2xl border border-slate-800">
-              <div className="flex items-center justify-between text-xs font-bold">
-                <span className="text-amber-400 font-pixel text-sm">LEVEL {levelProg.level}</span>
-                <span className="text-slate-300 font-pixel">
+            <div className="space-y-2 bg-[var(--bg)] p-3.5 rounded-[2px] border-2 border-[var(--ink)]">
+              <div className="flex items-center justify-between gap-2 flex-wrap text-xs font-bold">
+                <span className="text-[var(--gold)] font-num text-xs">LV.{levelProg.level}</span>
+                <span className="text-[var(--text)] font-num text-[11px]">
                   {levelProg.xpInCurrentLevel} / {levelProg.xpRequiredForNextLevel} XP ({levelProg.progressPercent}%)
                 </span>
               </div>
-              <div className="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden p-0.5">
+              <div className="pixel-progress h-3.5">
                 <div
-                  className="bg-gradient-to-r from-violet-500 via-cyan-400 to-amber-400 h-full rounded-full transition-all duration-500"
+                  className="pixel-progress-fill bg-[var(--gold)]"
                   style={{ width: `${levelProg.progressPercent}%` }}
                 />
               </div>
-              <div className="flex justify-between text-[11px] text-slate-400 pt-0.5">
-                <span>Tổng XP trọn đời: <strong className="text-slate-200">{totalXp.toLocaleString()} XP</strong></span>
+              <div className="flex justify-between gap-2 flex-wrap text-xs text-[var(--muted)] pt-0.5">
+                <span>
+                  Tổng XP trọn đời:{' '}
+                  <strong className="text-[var(--text)] font-num text-[11px]">{totalXp.toLocaleString()} XP</strong>
+                </span>
                 <span>{levelProg.isMaxLevel ? 'Đã đạt Max Level!' : `Còn ${levelProg.xpRequiredForNextLevel - levelProg.xpInCurrentLevel} XP để lên Level ${levelProg.level + 1}`}</span>
               </div>
             </div>
@@ -149,7 +153,7 @@ export const DashboardPage: React.FC = () => {
                 </Button>
               </Link>
               <Link to="/play/map" className="flex-1 min-w-[130px]">
-                <Button variant="secondary" size="sm" fullWidth icon={<MapPin className="w-4 h-4 text-cyan-400" />}>
+                <Button variant="secondary" size="sm" fullWidth icon={<MapPin className="w-4 h-4 text-[var(--sky)]" />}>
                   Bản Đồ Trường
                 </Button>
               </Link>
@@ -164,20 +168,20 @@ export const DashboardPage: React.FC = () => {
       </Card>
 
       {/* Hot Spot Banner: "Hôm nay nên ghé đâu?" */}
-      <Card variant="surface" className="p-4 bg-gradient-to-r from-[#161B40] via-[#1E1B4B] to-[#161B40] border-cyan-500/30">
+      <Card variant="surface" category="University" className="p-4">
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-cyan-950/80 border border-cyan-500/50 flex items-center justify-center text-cyan-400 shrink-0 animate-pulse">
+            <div className="w-10 h-10 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--ink)] flex items-center justify-center text-[var(--sky)] shrink-0">
               <MapPin className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-[11px] font-bold text-cyan-400 uppercase tracking-wider font-pixel flex items-center gap-1.5">
+              <div className="text-xs font-bold text-[var(--sky)] uppercase tracking-wider font-pixel flex items-center gap-1.5">
                 <span>Hôm Nay Nên Ghé Đâu?</span>
               </div>
-              <div className="text-sm font-bold text-slate-100">
+              <div className="text-sm font-bold text-[var(--text)]">
                 {hotspot.name} ({hotspot.recommendedTime})
               </div>
-              <p className="text-xs text-slate-400 line-clamp-1">
+              <p className="text-xs text-[var(--muted)] line-clamp-1">
                 {hotspot.lore}
               </p>
             </div>
@@ -193,20 +197,20 @@ export const DashboardPage: React.FC = () => {
 
       {/* Running Event Banner if active */}
       {runningEvent && (
-        <Card variant="glow" className="p-4 border-amber-500/40 bg-gradient-to-r from-[#20163B] to-[#161B40]">
+        <Card variant="gold" className="p-4 pixel-event-frame">
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-950/80 border border-amber-500/50 flex items-center justify-center text-amber-400 shrink-0">
+              <div className="w-10 h-10 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--ink)] flex items-center justify-center text-[var(--gold)] shrink-0">
                 <Calendar className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-[10px] font-bold text-amber-400 uppercase font-pixel tracking-wider">
+                <div className="text-xs font-bold text-[var(--gold)] uppercase font-pixel tracking-wider">
                   Sự Kiện Đang Diễn Ra (Còn {runningEvent.daysRemaining} ngày)
                 </div>
-                <div className="text-sm font-bold text-slate-100">
+                <div className="text-sm font-bold text-[var(--text)]">
                   {runningEvent.event.title}
                 </div>
-                <div className="text-xs text-slate-300">
+                <div className="text-xs text-[#D5DAE8]">
                   Tiến độ: {runningEvent.completedTaskIds.length}/{runningEvent.event.tasks.length} nhiệm vụ (+{runningEvent.event.clearBonusXp} XP bonus)
                 </div>
               </div>
@@ -227,16 +231,16 @@ export const DashboardPage: React.FC = () => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-bold font-heading text-slate-100 flex items-center gap-2">
-                <Compass className="w-5 h-5 text-violet-400" />
+              <h2 className="text-lg font-bold font-heading text-[var(--text)] flex items-center gap-2">
+                <Compass className="w-5 h-5 text-[var(--gold)]" />
                 <span>Daily Quests Hôm Nay</span>
               </h2>
-              <p className="text-xs text-slate-400">
-                Tiến độ: <strong className="text-violet-300">{dailyStatus.completedCount}/{dailyStatus.totalCount}</strong> • Còn nhận được <strong className="text-amber-300 font-pixel">+{dailyStatus.remainingXpToday} XP</strong>
+              <p className="text-xs text-[var(--muted)]">
+                Tiến độ: <strong className="text-[var(--text)]">{dailyStatus.completedCount}/{dailyStatus.totalCount}</strong> • Còn nhận được <strong className="text-[var(--gold)] font-num text-[11px]">+{dailyStatus.remainingXpToday} XP</strong>
               </p>
             </div>
 
-            <Link to="/play/quests" className="text-xs font-semibold text-violet-400 hover:text-violet-300 flex items-center">
+            <Link to="/play/quests" className="text-xs font-semibold text-[var(--gold)] hover:underline flex items-center">
               Xem toàn bộ <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
             </Link>
           </div>
@@ -338,29 +342,29 @@ export const DashboardPage: React.FC = () => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-bold font-heading text-slate-100 flex items-center gap-2">
-                <Layers className="w-5 h-5 text-cyan-400" />
+              <h2 className="text-lg font-bold font-heading text-[var(--text)] flex items-center gap-2">
+                <Layers className="w-5 h-5 text-[var(--sky)]" />
                 <span>Gói Quest Đang Chơi</span>
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-[var(--muted)]">
                 {activePackages.length} chuỗi nhiệm vụ đang kích hoạt
               </p>
             </div>
 
-            <Link to="/packages" className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center">
+            <Link to="/packages" className="text-xs font-semibold text-[var(--sky)] hover:underline flex items-center">
               Khám phá thêm <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
             </Link>
           </div>
 
           {activePackages.length === 0 ? (
-            <Card variant="surface" className="p-8 text-center space-y-3 border-dashed border-slate-700">
-              <div className="w-12 h-12 mx-auto rounded-full bg-violet-950/60 border border-violet-500/40 flex items-center justify-center text-violet-400">
+            <Card variant="surface" className="p-8 text-center space-y-3 border-dashed">
+              <div className="w-12 h-12 mx-auto rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--ink)] flex items-center justify-center text-[var(--gold)]">
                 <Layers className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-slate-200">
+              <h3 className="text-base font-bold text-[var(--text)]">
                 Bạn chưa mở khóa chuỗi nhiệm vụ nào
               </h3>
-              <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
+              <p className="text-xs text-[var(--muted)] max-w-sm mx-auto leading-relaxed">
                 Mở khóa các gói nhiệm vụ như Master Python, Gym Rat, AI HCMUS-ER để bắt đầu lộ trình thăng hạng kỹ năng!
               </p>
               <Link to="/packages" className="inline-block pt-2">
@@ -372,35 +376,35 @@ export const DashboardPage: React.FC = () => {
           ) : (
             <div className="space-y-3">
               {activePackages.map(p => (
-                <Card key={p.pkg.id} variant="surface" className="p-4 border-l-4" style={{ borderLeftColor: p.pkg.color }}>
+                <Card key={p.pkg.id} variant="surface" category={p.pkg.category} className="p-4">
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <div>
-                      <h4 className="font-bold text-sm text-slate-100 font-heading">
+                      <h4 className="font-bold text-sm text-[var(--text)] font-heading">
                         {p.pkg.title}
                       </h4>
-                      <p className="text-[11px] text-slate-400 line-clamp-1">
+                      <p className="text-xs text-[var(--muted)] line-clamp-1">
                         {p.pkg.shortDescription}
                       </p>
                     </div>
-                    <span className="text-[11px] font-bold text-slate-300 font-pixel">
+                    <span className="text-[11px] font-bold text-[var(--text)] font-num shrink-0">
                       {p.completedTasksCount}/{p.totalTasksCount}
                     </span>
                   </div>
 
-                  {/* Progress Bar */}
-                  <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden my-2">
+                  {/* Segmented Pixel Progress Bar */}
+                  <div className="pixel-progress h-2.5 my-2">
                     <div
-                      className="h-full rounded-full transition-all duration-300"
+                      className="pixel-progress-fill"
                       style={{
-                        backgroundColor: p.pkg.color,
+                        backgroundColor: 'var(--frame-color)',
                         width: `${p.progressPercent}%`,
                       }}
                     />
                   </div>
 
                   <div className="flex items-center justify-between pt-1">
-                    <span className="text-[10px] text-slate-400">
-                      Đã nhận: <strong className="text-violet-300">{p.xpEarnedSoFar} XP</strong>
+                    <span className="text-xs text-[var(--muted)]">
+                      Đã nhận: <strong className="text-[var(--gold)] font-num text-[11px]">{p.xpEarnedSoFar} XP</strong>
                     </span>
                     <Link to={`/packages/${p.pkg.id}`}>
                       <Button variant="secondary" size="sm">
@@ -416,11 +420,11 @@ export const DashboardPage: React.FC = () => {
           {/* Recent Achievements Teaser */}
           <div className="pt-2">
             <div className="flex items-center justify-between mb-2.5">
-              <h3 className="text-sm font-bold font-heading text-slate-200 flex items-center gap-1.5">
-                <Trophy className="w-4 h-4 text-amber-400" />
+              <h3 className="text-sm font-bold font-heading text-[var(--text)] flex items-center gap-1.5">
+                <Trophy className="w-4 h-4 text-[var(--gold)]" />
                 <span>Thành Tựu Đang Chinh Phục</span>
               </h3>
-              <Link to="/play/achievements" className="text-xs text-slate-400 hover:text-slate-200">
+              <Link to="/play/achievements" className="text-xs text-[var(--muted)] hover:text-[var(--gold)]">
                 Tất cả (17)
               </Link>
             </div>
@@ -429,19 +433,19 @@ export const DashboardPage: React.FC = () => {
               {recentAchievements.map(a => (
                 <div
                   key={a.achievement.id}
-                  className={`p-2.5 rounded-xl border flex flex-col justify-between ${
+                  className={`p-3 pixel-frame flex flex-col justify-between ${
                     a.isUnlocked
-                      ? 'bg-amber-950/20 border-amber-500/40 text-amber-200'
-                      : 'bg-[#161B40]/60 border-slate-700/60 text-slate-400'
+                      ? 'pixel-frame-gold text-[var(--text)]'
+                      : 'pixel-frame-muted text-[var(--muted)]'
                   }`}
                 >
                   <div className="text-xs font-bold line-clamp-1">{a.achievement.title}</div>
-                  <div className="text-[10px] text-slate-400 mt-1">
+                  <div className="text-xs text-[var(--muted)] mt-1">
                     Tiến độ: {a.currentProgress}/{a.maxProgress}
                   </div>
-                  <div className="w-full bg-slate-800 h-1 rounded-full overflow-hidden mt-1.5">
+                  <div className="pixel-progress h-2 mt-2">
                     <div
-                      className={`h-full rounded-full ${a.isUnlocked ? 'bg-amber-400' : 'bg-violet-500'}`}
+                      className={`pixel-progress-fill ${a.isUnlocked ? 'bg-[var(--gold)]' : 'bg-[var(--sky)]'}`}
                       style={{ width: `${Math.round((a.currentProgress / a.maxProgress) * 100)}%` }}
                     />
                   </div>

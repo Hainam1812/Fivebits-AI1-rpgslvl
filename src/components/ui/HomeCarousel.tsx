@@ -134,7 +134,7 @@ export const HomeCarousel: React.FC = () => {
   return (
     <div className="w-full max-w-4xl mx-auto">
       <div
-        className="relative overflow-hidden rounded-2xl border border-violet-500/35 bg-[#0F132E] shadow-2xl aspect-[4/5] min-[769px]:aspect-video select-none touch-pan-y"
+        className="relative overflow-hidden pixel-frame pixel-frame-gold bg-[var(--bg)] aspect-[4/5] min-[769px]:aspect-video select-none touch-pan-y"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -145,7 +145,7 @@ export const HomeCarousel: React.FC = () => {
       >
         {/* Horizontal Slides Track */}
         <div
-          className={`flex h-full w-full ${isDragging ? '' : 'transition-transform duration-500 ease-out'}`}
+          className={`flex h-full w-full ${isDragging ? '' : 'transition-transform duration-300 ease-out'}`}
           style={{
             transform: `translate3d(calc(-${activeIndex * 100}% + ${dragOffset}px), 0, 0)`,
           }}
@@ -186,7 +186,7 @@ export const HomeCarousel: React.FC = () => {
           type="button"
           onClick={goPrev}
           aria-label="Ảnh trước"
-          className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#0A0E27]/60 hover:bg-[#0A0E27]/85 border border-white/15 text-white flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer"
+          className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-[2px] bg-[var(--panel)] hover:bg-[var(--panel-2)] border-2 border-[var(--ink)] text-[var(--gold)] hover:text-[var(--text)] shadow-[0_3px_0_0_var(--ink)] flex items-center justify-center transition-colors cursor-pointer"
         >
           <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
@@ -195,7 +195,7 @@ export const HomeCarousel: React.FC = () => {
           type="button"
           onClick={goNext}
           aria-label="Ảnh tiếp theo"
-          className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#0A0E27]/60 hover:bg-[#0A0E27]/85 border border-white/15 text-white flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer"
+          className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-[2px] bg-[var(--panel)] hover:bg-[var(--panel-2)] border-2 border-[var(--ink)] text-[var(--gold)] hover:text-[var(--text)] shadow-[0_3px_0_0_var(--ink)] flex items-center justify-center transition-colors cursor-pointer"
         >
           <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
@@ -216,10 +216,10 @@ export const HomeCarousel: React.FC = () => {
               className="p-1 cursor-pointer focus:outline-none"
             >
               <span
-                className={`block h-2 rounded-full transition-all duration-300 ${
+                className={`block h-2.5 rounded-[1px] border border-[var(--ink)] transition-all duration-200 ${
                   isActive
-                    ? 'w-6 bg-violet-400 shadow-[0_0_8px_rgba(167,139,250,0.6)]'
-                    : 'w-2 bg-slate-600 hover:bg-slate-400'
+                    ? 'w-7 bg-[var(--gold)]'
+                    : 'w-2.5 bg-[var(--panel-2)] hover:bg-[var(--muted)]'
                 }`}
               />
             </button>

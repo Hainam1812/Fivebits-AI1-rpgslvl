@@ -44,13 +44,13 @@ export const PackageDetailPage: React.FC = () => {
   if (!pkg) {
     return (
       <div className="py-16 text-center space-y-4 max-w-md mx-auto">
-        <div className="w-16 h-16 mx-auto rounded-full bg-rose-950/60 border border-rose-500/50 flex items-center justify-center text-rose-400">
+        <div className="w-16 h-16 mx-auto rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--danger)] flex items-center justify-center text-[var(--danger)]">
           <Layers className="w-8 h-8" />
         </div>
-        <h2 className="text-xl font-bold font-heading text-slate-100">
+        <h2 className="text-xl font-bold font-heading text-[var(--text)]">
           Không Tìm Thấy Gói Nhiệm Vụ
         </h2>
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-[var(--muted)]">
           Đường dẫn không tồn tại hoặc gói nhiệm vụ đã bị xóa khỏi catalog.
         </p>
         <Link to="/packages">
@@ -76,25 +76,25 @@ export const PackageDetailPage: React.FC = () => {
       {/* Back button */}
       <Link
         to="/packages"
-        className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-slate-200 transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--muted)] hover:text-[var(--gold)] transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Quay lại danh mục Quest Packages</span>
       </Link>
 
       {/* Hero Overview Card */}
-      <Card variant="surface" className="p-6 sm:p-8 relative overflow-hidden border-t-4" style={{ borderTopColor: pkg.color }}>
+      <Card variant="surface" category={pkg.category} className="p-6 sm:p-8 relative overflow-hidden">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-3 flex-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-bold text-violet-300 uppercase font-pixel tracking-wider">
+              <span className="text-xs font-bold text-[var(--gold)] uppercase font-pixel tracking-wider">
                 {pkg.category}
               </span>
-              <span className="px-2.5 py-0.5 rounded-full bg-violet-950/80 border border-violet-500/40 text-violet-300 text-xs font-semibold">
+              <span className="px-2.5 py-0.5 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--ink)] text-[var(--text)] text-xs font-semibold">
                 {pkg.difficultyLevel}
               </span>
               {isOwned && (
-                <span className="px-2.5 py-0.5 rounded-full bg-emerald-950 border border-emerald-500/50 text-emerald-300 text-xs font-bold font-pixel">
+                <span className="px-2.5 py-0.5 rounded-[2px] bg-[var(--bg)] border-2 border-[var(--green)] text-[var(--green)] text-xs font-bold font-pixel">
                   ĐÃ MỞ KHÓA
                 </span>
               )}
@@ -102,38 +102,38 @@ export const PackageDetailPage: React.FC = () => {
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               {pkg.image && (
-                <div className="w-[134px] h-[134px] sm:w-[157px] sm:h-[157px] shrink-0 rounded-2xl overflow-hidden bg-[#0A0E27] border-2 border-violet-500/40 p-1 shadow-lg shadow-violet-950/40">
+                <div className="w-[134px] h-[134px] sm:w-[157px] sm:h-[157px] shrink-0 rounded-[2px] overflow-hidden bg-[var(--bg)] border-2 border-[var(--ink)] p-1">
                   <img
                     src={getPackageImageUrl(pkg)}
                     alt={pkg.title}
-                    className="w-full h-full object-cover rounded-xl bg-[#0A0E27]"
+                    className="w-full h-full object-cover rounded-[2px] bg-[var(--bg)]"
                   />
                 </div>
               )}
               <div className="space-y-1">
-                <h1 className="text-2xl sm:text-4xl font-black font-heading text-slate-100">
+                <h1 className="text-2xl sm:text-4xl font-black font-heading text-[var(--text)]">
                   {pkg.title}
                 </h1>
-                <p className="text-sm text-slate-300 leading-relaxed max-w-2xl">
+                <p className="text-sm text-[#D5DAE8] leading-relaxed max-w-2xl">
                   {pkg.fullDescription}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4 text-xs font-pixel text-slate-400 pt-2">
+            <div className="flex items-center gap-4 text-xs font-pixel text-[var(--muted)] pt-2 flex-wrap">
               <span>{pkg.tasks.length} Nhiệm vụ</span>
               <span>•</span>
-              <span className="text-amber-300 font-bold">+{totalPotentialXp} XP Tiềm năng</span>
+              <span className="text-[var(--gold)] font-bold">+{totalPotentialXp} XP Tiềm năng</span>
               <span>•</span>
-              <span className="text-cyan-300">Thưởng Boss: +{pkg.clearBonusXp} XP</span>
+              <span className="text-[var(--sky)]">Thưởng Boss: +{pkg.clearBonusXp} XP</span>
             </div>
           </div>
 
           {/* Action Price Box */}
-          <div className="p-5 rounded-2xl bg-[#0F132E] border border-slate-700/80 shrink-0 w-full md:w-auto text-center space-y-3 shadow-xl">
+          <div className="p-5 pixel-frame pixel-frame-gold bg-[var(--bg)] shrink-0 w-full md:w-auto text-center space-y-3">
             <div>
-              <div className="text-[10px] text-slate-400 uppercase font-pixel">Giá Mở Khóa Demo</div>
-              <div className="text-2xl font-black text-amber-400 font-pixel">
+              <div className="text-xs text-[var(--muted)] uppercase font-pixel">Giá Mở Khóa Demo</div>
+              <div className="text-2xl font-black text-[var(--gold)] font-pixel">
                 {formatVnd(pkg.price)}
               </div>
             </div>
@@ -161,7 +161,7 @@ export const PackageDetailPage: React.FC = () => {
               </Button>
             )}
 
-            <div className="text-[10px] text-slate-500 max-w-[200px] mx-auto">
+            <div className="text-xs text-[var(--muted)] max-w-[200px] mx-auto">
               Nhiệm vụ đầu tiên luôn được thử MIỄN PHÍ!
             </div>
           </div>
@@ -171,24 +171,24 @@ export const PackageDetailPage: React.FC = () => {
       {/* Audience & Learning Outcomes */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <Card variant="surface" className="p-5 space-y-3">
-          <h3 className="font-bold font-heading text-base text-slate-100 flex items-center gap-2">
-            <Users className="w-4 h-4 text-violet-400" />
+          <h3 className="font-bold font-heading text-base text-[var(--text)] flex items-center gap-2">
+            <Users className="w-4 h-4 text-[var(--gold)]" />
             <span>Gói Này Dành Cho Ai?</span>
           </h3>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed bg-[#0F132E]/60 p-3.5 rounded-xl border border-slate-800">
+          <p className="text-xs sm:text-sm text-[#D5DAE8] leading-relaxed bg-[var(--bg)] p-3.5 rounded-[2px] border-2 border-[var(--ink)]">
             {pkg.audience}
           </p>
         </Card>
 
         <Card variant="surface" className="p-5 space-y-3">
-          <h3 className="font-bold font-heading text-base text-slate-100 flex items-center gap-2">
-            <Target className="w-4 h-4 text-cyan-400" />
+          <h3 className="font-bold font-heading text-base text-[var(--text)] flex items-center gap-2">
+            <Target className="w-4 h-4 text-[var(--sky)]" />
             <span>Bạn Sẽ Đạt Được Gì?</span>
           </h3>
-          <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
+          <ul className="space-y-2 text-xs sm:text-sm text-[#D5DAE8]">
             {pkg.learningOutcomes.map((outcome, idx) => (
               <li key={idx} className="flex items-start gap-2">
-                <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-4 h-4 text-[var(--green)] shrink-0 mt-0.5" />
                 <span>{outcome}</span>
               </li>
             ))}
@@ -199,11 +199,11 @@ export const PackageDetailPage: React.FC = () => {
       {/* Questline Tasks Breakdown */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold font-heading text-slate-100 flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-amber-400" />
+          <h2 className="text-lg font-bold font-heading text-[var(--text)] flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-[var(--gold)]" />
             <span>Lộ Trình Các Nhiệm Vụ Trong Gói</span>
           </h2>
-          <span className="text-xs text-slate-400">
+          <span className="text-xs text-[var(--muted)]">
             {pkg.tasks.length} chặng thử thách
           </span>
         </div>
@@ -214,42 +214,42 @@ export const PackageDetailPage: React.FC = () => {
             return (
               <div
                 key={task.id}
-                className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                className={`p-4 pixel-frame flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                   task.isBoss
-                    ? 'bg-amber-950/20 border-amber-400/60 shadow-lg'
-                    : 'bg-[#161B40]/70 border-slate-700/60'
+                    ? 'pixel-frame-gold pixel-event-frame'
+                    : 'pixel-frame-muted'
                 }`}
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-bold text-slate-400 font-pixel">
+                    <span className="text-xs font-bold text-[var(--muted)] font-num">
                       #{idx + 1}
                     </span>
-                    <span className="font-bold text-sm text-slate-100">
+                    <span className="font-bold text-sm text-[var(--text)]">
                       {task.title}
                     </span>
                     <DifficultyBadge difficulty={task.difficulty} />
                     {isTrial && (
-                      <span className="px-2 py-0.2 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold font-pixel">
+                      <span className="px-2 py-0.5 rounded-[2px] bg-[var(--bg)] text-[var(--green)] border-2 border-[var(--green)] text-xs font-bold font-pixel">
                         THỬ MIỄN PHÍ
                       </span>
                     )}
                     {task.isBoss && (
-                      <span className="px-2 py-0.2 rounded bg-amber-950 text-amber-300 border border-amber-500/40 text-[10px] font-bold font-pixel">
+                      <span className="px-2 py-0.5 rounded-[2px] bg-[var(--panel-2)] text-[var(--gold)] border-2 border-[var(--gold)] text-[11px] font-bold font-num">
                         BOSS DUNGEON
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-xs text-[#D5DAE8] leading-relaxed">
                     {task.description}
                   </p>
-                  <p className="text-[11px] text-amber-300/90 font-medium">
+                  <p className="text-xs text-[var(--gold)] font-medium">
                     Điều kiện: {task.condition}
                   </p>
                 </div>
 
                 <div className="text-right shrink-0">
-                  <span className="text-xs font-bold font-pixel text-violet-300">
+                  <span className="text-xs font-bold font-num text-[var(--gold)]">
                     +{task.xp} XP
                   </span>
                 </div>
@@ -260,9 +260,9 @@ export const PackageDetailPage: React.FC = () => {
       </div>
 
       {/* Sample Student Reviews */}
-      <div className="space-y-4 pt-4 border-t border-slate-800">
-        <h2 className="text-lg font-bold font-heading text-slate-100 flex items-center gap-2">
-          <Star className="w-5 h-5 text-amber-400 fill-amber-400" />
+      <div className="space-y-4 pt-4 border-t-2 border-[#2C3563]">
+        <h2 className="text-lg font-bold font-heading text-[var(--text)] flex items-center gap-2">
+          <Star className="w-5 h-5 text-[var(--gold)] fill-[var(--gold)]" />
           <span>Cảm Nhận Từ Sinh Viên (Review Mẫu)</span>
         </h2>
 
@@ -281,34 +281,34 @@ export const PackageDetailPage: React.FC = () => {
                         })
                       }
                       aria-label={`Xem ảnh đại diện của ${rev.author}`}
-                      className="shrink-0 rounded-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-violet-400"
+                      className="shrink-0 rounded-full cursor-pointer focus:outline-none focus-visible:outline-2 focus-visible:outline-[var(--gold)]"
                     >
                       <img
                         src={resolvePackageAssetUrl(rev.avatar)}
                         alt={rev.author}
-                        className="w-9 h-9 rounded-full object-cover border border-slate-700/80 hover:opacity-90 transition-opacity"
+                        className="w-9 h-9 rounded-full object-cover border-2 border-[#3B4474] hover:opacity-90 transition-opacity"
                       />
                     </button>
                   )}
                   <div className="min-w-0">
-                    <div className="font-bold text-xs text-slate-200 truncate">{rev.author}</div>
-                    <div className="text-[11px] text-slate-400 truncate">{rev.role}</div>
+                    <div className="font-bold text-xs text-[var(--text)] truncate">{rev.author}</div>
+                    <div className="text-xs text-[var(--muted)] truncate">{rev.role}</div>
                   </div>
                 </div>
-                <div className="flex text-amber-400 text-xs items-center gap-0.5">
+                <div className="flex text-[var(--gold)] text-xs items-center gap-0.5 shrink-0">
                   {Array.from({ length: 5 }).map((_, i) => {
                     const diff = rev.rating - i;
                     if (diff >= 1) {
-                      return <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />;
+                      return <Star key={i} className="w-3.5 h-3.5 fill-[var(--gold)] text-[var(--gold)]" />;
                     }
                     if (diff >= 0.5) {
-                      return <StarHalf key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />;
+                      return <StarHalf key={i} className="w-3.5 h-3.5 fill-[var(--gold)] text-[var(--gold)]" />;
                     }
-                    return <Star key={i} className="w-3.5 h-3.5 text-slate-600/50" />;
+                    return <Star key={i} className="w-3.5 h-3.5 text-[#3B4474]" />;
                   })}
                 </div>
               </div>
-              <p className="text-xs text-slate-300 italic leading-relaxed">
+              <p className="text-xs text-[#D5DAE8] italic leading-relaxed">
                 "{rev.comment}"
               </p>
             </Card>

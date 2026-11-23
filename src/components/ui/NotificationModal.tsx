@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGame } from '../../store/GameContext.js';
 import { Button } from './Button.js';
-import { Sparkles, Trophy, Award, Shirt, ArrowUpRight } from 'lucide-react';
+import { Sparkles, Trophy, Award, Shirt } from 'lucide-react';
 import { getCosmeticById } from '../../data/cosmetics.js';
 import { ACHIEVEMENTS } from '../../data/achievements.js';
 
@@ -23,18 +23,18 @@ export const NotificationModal: React.FC = () => {
       case 'level_up':
         return (
           <div className="text-center py-4 space-y-4">
-            <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-violet-600 via-fuchsia-500 to-amber-400 p-1 flex items-center justify-center animate-bounce">
-              <div className="w-full h-full bg-[#0A0E27] rounded-full flex flex-col items-center justify-center border-2 border-amber-300">
-                <span className="text-[10px] uppercase font-bold text-amber-400 tracking-wider">Level</span>
-                <span className="text-3xl font-black text-white font-pixel">{currentNotification.level}</span>
-              </div>
+            <div className="w-24 h-24 mx-auto pixel-frame pixel-frame-gold bg-[var(--bg)] flex flex-col items-center justify-center">
+              <span className="text-xs uppercase font-bold text-[var(--gold)] tracking-wider">Level</span>
+              <span className="text-2xl font-bold text-[var(--text)] font-num mt-1">
+                {currentNotification.level}
+              </span>
             </div>
 
             <div>
-              <h2 className="text-2xl font-black font-heading text-amber-400 tracking-wider drop-shadow-md">
+              <h2 className="text-2xl font-bold font-pixel-latin text-[var(--gold)] tracking-wider">
                 LEVEL UP!
               </h2>
-              <p className="text-sm text-slate-300 mt-1">
+              <p className="text-sm text-[var(--muted)] mt-1">
                 Bạn đã nâng cấp sức mạnh và mở khóa thêm nhiều đặc quyền mới!
               </p>
             </div>
@@ -49,19 +49,19 @@ export const NotificationModal: React.FC = () => {
         const ach = ACHIEVEMENTS.find(a => a.id === currentNotification.achievementId);
         return (
           <div className="text-center py-4 space-y-4">
-            <div className="w-20 h-20 mx-auto rounded-2xl bg-[#1E1B4B] border-2 border-amber-400/80 p-2 flex items-center justify-center shadow-lg shadow-amber-900/40">
-              <Trophy className="w-10 h-10 text-amber-400" />
+            <div className="w-20 h-20 mx-auto pixel-frame pixel-frame-gold bg-[var(--panel-2)] p-2 flex items-center justify-center">
+              <Trophy className="w-10 h-10 text-[var(--gold)]" />
             </div>
 
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold mb-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--gold)] text-[var(--gold)] text-xs font-bold mb-2">
                 <Award className="w-3.5 h-3.5" />
                 <span>Thành Tựu Mới</span>
               </div>
-              <h2 className="text-xl font-bold font-heading text-slate-100">
+              <h2 className="text-xl font-bold font-heading text-[var(--text)]">
                 {ach ? ach.title : currentNotification.title}
               </h2>
-              <p className="text-sm text-slate-300 mt-2">
+              <p className="text-sm text-[var(--muted)] mt-2">
                 {ach ? ach.description : currentNotification.message}
               </p>
             </div>
@@ -77,19 +77,19 @@ export const NotificationModal: React.FC = () => {
         const cos = getCosmeticById(currentNotification.cosmeticId || '');
         return (
           <div className="text-center py-4 space-y-4">
-            <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-violet-900/80 to-indigo-950 border border-violet-400/60 p-2 flex items-center justify-center shadow-lg shadow-violet-900/50">
-              <Shirt className="w-10 h-10 text-violet-300" />
+            <div className="w-20 h-20 mx-auto pixel-frame pixel-frame-violet bg-[var(--panel-2)] p-2 flex items-center justify-center">
+              <Shirt className="w-10 h-10 text-[var(--violet)]" />
             </div>
 
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/30 text-violet-300 text-xs font-semibold mb-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--violet)] text-[var(--violet)] text-xs font-bold mb-2">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Ngoại Trang Mới</span>
               </div>
-              <h2 className="text-xl font-bold font-heading text-slate-100">
+              <h2 className="text-xl font-bold font-heading text-[var(--text)]">
                 {cos ? cos.name : currentNotification.title}
               </h2>
-              <p className="text-sm text-slate-300 mt-1">
+              <p className="text-sm text-[var(--muted)] mt-1">
                 {cos ? cos.description : currentNotification.message}
               </p>
             </div>
@@ -119,19 +119,19 @@ export const NotificationModal: React.FC = () => {
       default:
         return (
           <div className="text-center py-4 space-y-4">
-            <div className="w-16 h-16 mx-auto rounded-full bg-emerald-950/80 border border-emerald-500/60 flex items-center justify-center text-emerald-400">
+            <div className="w-16 h-16 mx-auto pixel-frame bg-[var(--panel-2)] flex items-center justify-center text-[var(--green)]" data-category="health">
               <Sparkles className="w-8 h-8" />
             </div>
 
             <div>
-              <h2 className="text-xl font-bold font-heading text-slate-100">
+              <h2 className="text-xl font-bold font-heading text-[var(--text)]">
                 {currentNotification.title}
               </h2>
-              <p className="text-sm text-slate-300 mt-1">
+              <p className="text-sm text-[var(--muted)] mt-1">
                 {currentNotification.message}
               </p>
               {currentNotification.xpEarned && (
-                <div className="inline-block mt-3 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 font-bold font-pixel text-sm">
+                <div className="inline-block mt-3 px-3 py-1.5 rounded-[2px] bg-[var(--panel-2)] border-2 border-[var(--gold)] text-[var(--gold)] font-bold font-num text-xs">
                   +{currentNotification.xpEarned} XP
                 </div>
               )}
@@ -147,13 +147,11 @@ export const NotificationModal: React.FC = () => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#070A15]/85 animate-fade-in"
       role="dialog"
       aria-modal="true"
     >
-      <div className="w-full max-w-sm bg-[#161B40] border border-violet-500/50 rounded-2xl shadow-2xl overflow-hidden p-6 relative">
-        {/* Glow corner element */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-violet-600/10 rounded-full blur-2xl pointer-events-none" />
+      <div className="w-full max-w-sm pixel-frame pixel-frame-gold bg-[var(--panel)] p-6 relative animate-scale-in">
         <div className="relative">{renderContent()}</div>
       </div>
     </div>
