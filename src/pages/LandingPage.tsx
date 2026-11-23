@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { BRAND } from '../config/brand.js';
 import { Button } from '../components/ui/Button.js';
 import { Card } from '../components/ui/Card.js';
-import { Logo } from '../components/ui/Logo.js';
+import { HomeCarousel } from '../components/ui/HomeCarousel.js';
 import { DAILY_QUESTS } from '../data/dailyQuests.js';
 import { QUEST_PACKAGES } from '../data/questPackages.js';
 import { ACHIEVEMENTS } from '../data/achievements.js';
@@ -26,11 +26,16 @@ export const LandingPage: React.FC = () => {
   const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   return (
-    <div className="space-y-16 sm:space-y-24 py-4 sm:py-8">
+    <div className="space-y-16 sm:space-y-24 py-2 sm:py-6">
       {/* Hero Section */}
-      <section className="relative text-center space-y-6 pt-6 sm:pt-12 overflow-hidden">
+      <section className="relative text-center space-y-6 pt-1 sm:pt-2 overflow-hidden">
         {/* Glow ambient circle */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-violet-600/15 rounded-full blur-3xl pointer-events-none" />
+
+        {/* Intro Carousel */}
+        <div className="relative z-10 pb-2">
+          <HomeCarousel />
+        </div>
 
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-950/70 border border-violet-500/40 text-violet-300 text-xs sm:text-sm font-semibold shadow-lg">
           <Sparkles className="w-4 h-4 text-amber-400" />

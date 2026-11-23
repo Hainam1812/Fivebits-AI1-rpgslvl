@@ -15,6 +15,7 @@
     "chars:check": "node scripts/check-characters.mjs",
     "gear:import": "node scripts/import-gear.mjs",
     "gear:check": "node scripts/check-gear.mjs",
+    "carousel:mobile": "node scripts/generate-mobile-carousel.mjs",
     "qr": "node scripts/make-qr.mjs"
   },
   "dependencies": {

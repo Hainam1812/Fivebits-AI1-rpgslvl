@@ -211,7 +211,7 @@ export const PackagesPage: React.FC = () => {
                 {/* Ảnh đại diện cho gói - Căn giữa, phía dưới đề mục và giá tiền, kích cỡ đồng nhất */}
                 {pkg.image && (
                   <div className="flex justify-center py-1">
-                    <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-[#0A0E27] border-2 border-violet-500/40 p-1 flex items-center justify-center shadow-lg shadow-violet-950/40 transition-transform duration-200 hover:scale-105">
+                    <div className="w-[157px] h-[157px] sm:w-[179px] sm:h-[179px] rounded-2xl overflow-hidden bg-[#0A0E27] border-2 border-violet-500/40 p-1 flex items-center justify-center shadow-lg shadow-violet-950/40 transition-transform duration-200 hover:scale-105">
                       <img
                         src={getPackageImageUrl(pkg)}
                         alt={pkg.title}

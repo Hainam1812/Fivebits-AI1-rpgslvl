@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useGame } from '../store/GameContext.js';
 import { getPackageById, getTotalPotentialXpForPackage, getPackageImageUrl, resolvePackageAssetUrl } from '../data/questPackages.js';
@@ -18,13 +18,28 @@ import {
   ArrowLeft,
   Sparkles,
   ChevronRight,
+  X,
 } from 'lucide-react';
 
 export const PackageDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { state, dispatch } = useGame();
+  const [previewAvatar, setPreviewAvatar] = useState<{ src: string; alt: string } | null>(null);
+
+  useEffect(() => {
+    if (!previewAvatar) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setPreviewAvatar(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [previewAvatar]);
 
   const pkg = id ? getPackageById(id) : undefined;
+
+  useEffect(() => {
+    setPreviewAvatar(null);
+  }, [id]);
 
   if (!pkg) {
     return (
@@ -56,6 +71,7 @@ export const PackageDetailPage: React.FC = () => {
   };
 
   return (
+    <>
     <div className="space-y-6 max-w-4xl mx-auto">
       {/* Back button */}
       <Link
@@ -86,7 +102,7 @@ export const PackageDetailPage: React.FC = () => {
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               {pkg.image && (
-                <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-2xl overflow-hidden bg-[#0A0E27] border-2 border-violet-500/40 p-1 shadow-lg shadow-violet-950/40">
+                <div className="w-[134px] h-[134px] sm:w-[157px] sm:h-[157px] shrink-0 rounded-2xl overflow-hidden bg-[#0A0E27] border-2 border-violet-500/40 p-1 shadow-lg shadow-violet-950/40">
                   <img
                     src={getPackageImageUrl(pkg)}
                     alt={pkg.title}
@@ -256,11 +272,23 @@ export const PackageDetailPage: React.FC = () => {
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2.5 min-w-0">
                   {rev.avatar && (
-                    <img
-                      src={resolvePackageAssetUrl(rev.avatar)}
-                      alt={rev.author}
-                      className="w-9 h-9 rounded-full object-cover border border-slate-700/80 shrink-0"
-                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setPreviewAvatar({
+                          src: resolvePackageAssetUrl(rev.avatar!),
+                          alt: rev.author,
+                        })
+                      }
+                      aria-label={`Xem ảnh đại diện của ${rev.author}`}
+                      className="shrink-0 rounded-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-violet-400"
+                    >
+                      <img
+                        src={resolvePackageAssetUrl(rev.avatar)}
+                        alt={rev.author}
+                        className="w-9 h-9 rounded-full object-cover border border-slate-700/80 hover:opacity-90 transition-opacity"
+                      />
+                    </button>
                   )}
                   <div className="min-w-0">
                     <div className="font-bold text-xs text-slate-200 truncate">{rev.author}</div>
@@ -288,5 +316,30 @@ export const PackageDetailPage: React.FC = () => {
         </div>
       </div>
     </div>
+
+    {previewAvatar && (
+      <div
+        className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+        onClick={() => setPreviewAvatar(null)}
+        role="dialog"
+        aria-modal="true"
+      >
+        <button
+          type="button"
+          onClick={() => setPreviewAvatar(null)}
+          aria-label="Đóng ảnh"
+          className="fixed top-4 right-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/75 transition-colors cursor-pointer"
+        >
+          <X className="w-6 h-6" />
+        </button>
+        <img
+          src={previewAvatar.src}
+          alt={previewAvatar.alt}
+          onClick={(e) => e.stopPropagation()}
+          className="max-w-[90vw] max-h-[85vh] object-contain rounded-lg"
+        />
+      </div>
+    )}
+    </>
   );
 };
